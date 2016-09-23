@@ -42,4 +42,12 @@ public class MeasData {
         return imageURL;
     }
 
-}
+    public String getWorkId() { return workId;}
+    public String getNormalSize() { return normalSize;}
+    public String getStatus() { return status;}
+    public String getToleranceU() { return toleranceU;}
+    public String getToleranceL() { return toleranceL;}
+    public String getFinalMeas() { return finalMeas;}
+    public String getIsKeyMeas() { return isKeyMeas;}
+    public String getValue() { return value;}
+    }

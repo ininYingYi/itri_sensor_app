@@ -14,11 +14,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.nthu.nmsl.itri_app.DatabaseHandler;
+import edu.nthu.nmsl.itri_app.MeasData;
+import edu.nthu.nmsl.itri_app.MeasDataAdapter;
 import edu.nthu.nmsl.itri_app.R;
 
 /**
@@ -29,13 +33,16 @@ public class ViewFragment extends Fragment {
     private Spinner selectPartSpinner, selectPartSerialSpinner, selectWorkSpinner;
     private Button confirm;
     private DatabaseHandler dbHandler;
+    private ListView listView;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.measure_page, null);
-        selectPartSpinner = (Spinner) view.findViewById(R.id.select_part);
-        selectPartSerialSpinner = (Spinner) view.findViewById(R.id.select_work);
-        selectWorkSpinner = (Spinner) view.findViewById(R.id.select_process);
-        confirm = (Button) view.findViewById(R.id.button);
+        View view = inflater.inflate(R.layout.view_page, null);
+        selectPartSpinner = (Spinner) view.findViewById(R.id.view_select_part);
+        selectPartSerialSpinner = (Spinner) view.findViewById(R.id.view_select_work);
+        selectWorkSpinner = (Spinner) view.findViewById(R.id.view_select_process);
+        confirm = (Button) view.findViewById(R.id.view_button);
         confirm.setOnClickListener(clickListener);
+        listView = (ListView) view.findViewById(R.id.view_data);
+
         dbHandler = new DatabaseHandler(UIHandler);
         dbHandler.requestPartId();
         return view;
@@ -63,8 +70,11 @@ public class ViewFragment extends Fragment {
                     selectWorkSpinner.setAdapter(workAdapter);
                     selectWorkSpinner.setOnItemSelectedListener(adapterListener);
                     break;
-                case DatabaseHandler.stateMeasId:
+                case DatabaseHandler.stateGetAllMeasData:
                     Log.d(TAG,"Receive:"+msg.obj.toString());
+                    ArrayList<MeasData> list = (ArrayList<MeasData>)msg.obj;
+                    MeasDataAdapter listAdapter = new MeasDataAdapter(getActivity(), list);
+                    listView.setAdapter(listAdapter);
                     break;
                 default:
                     Log.d(TAG,"Error");
@@ -94,20 +104,8 @@ public class ViewFragment extends Fragment {
             }
             else if (parent.equals(selectWorkSpinner)) {
                 workID = (String)parent.getItemAtPosition(position);
+                dbHandler.requestMeasData(partID, partSerialID, workID);
             }
-
-            new Thread(new Runnable() {
-                public void run() {
-                    while (true) {
-                        try {
-                            Thread.sleep(100);
-                        }
-                        catch(InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }).start();
         }
 
         @Override

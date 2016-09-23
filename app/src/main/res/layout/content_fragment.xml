@@ -54,13 +54,13 @@
             android:id="@+id/radioButton3"
             style="@style/icc_tab"
             android:drawableTop="@drawable/task_attention_selector"
-            android:text="Task" />
+            android:text="檢視" />
 
         <RadioButton
             android:id="@+id/radioButton4"
             style="@style/icc_tab"
             android:drawableTop="@drawable/setting_attention_selector"
-            android:text="Setting" />
+            android:text="設定" />
 
     </RadioGroup>
 
