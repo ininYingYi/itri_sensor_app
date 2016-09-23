@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.nthu.nmsl.itri_app.FragmentActivity">
+    <item
+        android:id="@+id/action_ble_scan"
+        android:title="@string/scan_btn"
+        app:showAsAction="never" />
+
+
+</menu>
