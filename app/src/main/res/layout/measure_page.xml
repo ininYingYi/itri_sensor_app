@@ -60,6 +60,8 @@
         android:text="@string/measure_select_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/success"
+        android:textColor="@color/white"
         android:id="@+id/button"
         android:layout_weight="0.1" />
 
