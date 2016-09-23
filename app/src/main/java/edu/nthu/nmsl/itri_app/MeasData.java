@@ -34,5 +34,12 @@ public class MeasData {
         this.imageURL = imageURL;
     }
 
+    public int getMeasID() {
+        return measId;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
 
 }

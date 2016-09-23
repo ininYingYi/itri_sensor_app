@@ -23,11 +23,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import android.view.Menu;
+import android.view.MenuItem;
+
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+
 import android.view.Window;
 import android.widget.RadioGroup;
 
@@ -36,6 +41,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.nthu.nmsl.itri_app.settings.Devices;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 /**
  * Created by InIn on 2016/9/19.
@@ -170,52 +177,12 @@ public class FragmentActivity extends AppCompatActivity {
                 // Show all the supported services and characteristics on the user interface.
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
 
-
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 Log.d("BluetoothLeService","ACTION_DATA_AVAILABLE");
-                displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
+                Background.getInstance().recieveData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
             }
         }
     };
-    private Double readingValue = 0.0;
-    private int angle1 = 0;
-    private int angle2 = 0;
-    private int angle3 = 0;
-    private int unit = 0;
-    private Double battery_voltage = 0.0;
-    private int time_interval = 0;
-    private int trigger_flag = 0;
-    private int version_flag = 0;
-
-    private String[] unitLabel = {"mm","inch"};
-    private String unit_label = "mm";
-
-    private void displayData(String data) {
-        if (data != null) {
-            final String[] tmp = data.split(",");
-
-            try {
-                this.readingValue = Double.parseDouble(tmp[1]);
-                this.angle1 = Integer.parseInt(tmp[4]);
-                this.angle2 = Integer.parseInt(tmp[5]);
-                this.angle3 = Integer.parseInt(tmp[6]);
-                this.battery_voltage = Double.parseDouble(tmp[7].substring(0, 2));
-                this.unit = Integer.parseInt(tmp[2]);
-                unit_label = unitLabel[unit];
-                //Log.d(TAG,"Unit:"+tmp[2]);
-                unit_label = unitLabel[unit];
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            Log.d("SensorValue", tmp[1]);
-            //mReadingField.setText( readingValue.toString() + " " + unit_label);
-            //this.mAngleField.setText(String.format("%d,%d,%d",angle1,angle2,angle3));
-            //this.mBatteryField.setText(String.format("%.1f volt",battery_voltage));
-
-
-            //mDataField.setText(data);
-        }
-    }
 
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;
