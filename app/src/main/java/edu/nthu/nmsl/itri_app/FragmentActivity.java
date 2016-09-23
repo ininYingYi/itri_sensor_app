@@ -20,6 +20,8 @@ import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.RadioGroup;
 
@@ -123,52 +125,12 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity {
                 // Show all the supported services and characteristics on the user interface.
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
 
-
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 Log.d("BluetoothLeService","ACTION_DATA_AVAILABLE");
-                displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
+                Background.getInstance().recieveData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
             }
         }
     };
-    private Double readingValue = 0.0;
-    private int angle1 = 0;
-    private int angle2 = 0;
-    private int angle3 = 0;
-    private int unit = 0;
-    private Double battery_voltage = 0.0;
-    private int time_interval = 0;
-    private int trigger_flag = 0;
-    private int version_flag = 0;
-
-    private String[] unitLabel = {"mm","inch"};
-    private String unit_label = "mm";
-
-    private void displayData(String data) {
-        if (data != null) {
-            final String[] tmp = data.split(",");
-
-            try {
-                this.readingValue = Double.parseDouble(tmp[1]);
-                this.angle1 = Integer.parseInt(tmp[4]);
-                this.angle2 = Integer.parseInt(tmp[5]);
-                this.angle3 = Integer.parseInt(tmp[6]);
-                this.battery_voltage = Double.parseDouble(tmp[7].substring(0, 2));
-                this.unit = Integer.parseInt(tmp[2]);
-                unit_label = unitLabel[unit];
-                //Log.d(TAG,"Unit:"+tmp[2]);
-                unit_label = unitLabel[unit];
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            Log.d("SensorValue", tmp[1]);
-            //mReadingField.setText( readingValue.toString() + " " + unit_label);
-            //this.mAngleField.setText(String.format("%d,%d,%d",angle1,angle2,angle3));
-            //this.mBatteryField.setText(String.format("%.1f volt",battery_voltage));
-
-
-            //mDataField.setText(data);
-        }
-    }
 
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;
@@ -212,5 +174,27 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity {
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

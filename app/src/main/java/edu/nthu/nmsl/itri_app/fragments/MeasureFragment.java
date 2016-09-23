@@ -127,7 +127,12 @@ public class MeasureFragment extends Fragment {
             if ( v.equals(confirm)) {
                 FragmentManager fragmentManager = getFragmentManager();;
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Bundle data = new Bundle();
+                data.putString("partID", partID);
+                data.putString("partSerialID", partSerialID);
+                data.putString("workID", workID);
                 Fragment fragment = new Measure2Fragment();
+                fragment.setArguments(data);
                 transaction.replace(R.id.content, fragment);
                 transaction.commit();
             }
