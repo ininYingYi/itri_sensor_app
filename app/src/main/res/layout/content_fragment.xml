@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8" >
+
+        <fragment
+            android:id="@+id/Fragment"
+            android:name="edu.nthu.nmsl.itri_app.fragments.IndexFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/abc_action_bar_title_item" />
+
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+
+
+    <RadioGroup
+        android:id="@+id/rg_tab"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#64ffffff"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_weight="0.2" >
+
+        <RadioButton
+            style="@style/icc_tab"
+            android:id="@+id/radioButton1"
+            android:drawableTop="@drawable/query_attention_selector"
+            android:text="Query" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            style="@style/icc_tab"
+            android:drawableTop="@drawable/plan_attention_selector"
+            android:text="Plan" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            style="@style/icc_tab"
+            android:drawableTop="@drawable/task_attention_selector"
+            android:text="Task" />
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            style="@style/icc_tab"
+            android:drawableTop="@drawable/setting_attention_selector"
+            android:text="Setting" />
+
+    </RadioGroup>
+</LinearLayout>
