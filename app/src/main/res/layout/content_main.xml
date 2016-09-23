@@ -28,17 +28,19 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/logo"
         android:id="@+id/imageView2"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
         android:text="@string/app_title"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="199dp"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
