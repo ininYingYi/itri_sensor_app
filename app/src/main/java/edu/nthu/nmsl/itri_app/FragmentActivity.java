@@ -18,8 +18,16 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
 
@@ -32,19 +40,19 @@ import edu.nthu.nmsl.itri_app.settings.Devices;
 /**
  * Created by InIn on 2016/9/19.
  */
-public class FragmentActivity extends android.support.v4.app.FragmentActivity {
+public class FragmentActivity extends AppCompatActivity {
     private static final String TAG = "FragmentActivity";
     private RadioGroup radioGroup;
     private FragmentManager fragmentManager;
     private BluetoothLeService mBluetoothLeService;
     private boolean mBound;
+    private static final int menu_device_group_id = 2;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Hide the window title.
 
         setContentView(R.layout.activity_fragment);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
-        toolbar.setTitle("itri sensor app");
+
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         fragmentManager = getFragmentManager();
         radioGroup.setOnCheckedChangeListener(radioGroupListener);
@@ -65,6 +73,8 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity {
 
     }
 
+
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -78,6 +88,43 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity {
             unbindService(mServiceConnection);
             mBound = false;
         }
+    }
+
+
+    //dynamical add item to menu
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.fragment_action_menu,menu);
+        SubMenu available_devics = menu.addSubMenu("更換連結裝置");
+        for (int id = 0; id < Devices.deviceName.length; id++) {
+            available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.deviceName[id]);
+        }
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_ble_scan:
+                //scan BLE
+                break;
+            default:
+                //check if device
+                if(item.getGroupId() == menu_device_group_id){
+                    Log.d(TAG,"device id " + item.getItemId() + " selected.");
+                }
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
