@@ -64,6 +64,8 @@
         android:text="上傳資料"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/success"
+        android:textColor="@color/white"
         android:id="@+id/upload"
         android:layout_weight="0.1" />
 
