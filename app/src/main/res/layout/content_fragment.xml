@@ -10,7 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.8" >
+        android:layout_weight="1" >
 
         <fragment
             android:id="@+id/Fragment"
@@ -25,10 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+
+
     </FrameLayout>
-
-
-
     <RadioGroup
         android:id="@+id/rg_tab"
         android:orientation="horizontal"
@@ -36,19 +35,20 @@
         android:layout_height="wrap_content"
         android:background="#64ffffff"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_weight="0.2" >
+        android:layout_weight="1" >
 
         <RadioButton
             style="@style/icc_tab"
             android:id="@+id/radioButton1"
             android:drawableTop="@drawable/query_attention_selector"
-            android:text="Query" />
+            android:text="首頁"
+            android:layout_height="match_parent" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             style="@style/icc_tab"
             android:drawableTop="@drawable/plan_attention_selector"
-            android:text="Plan" />
+            android:text="量測" />
 
         <RadioButton
             android:id="@+id/radioButton3"
@@ -63,4 +63,5 @@
             android:text="Setting" />
 
     </RadioGroup>
+
 </LinearLayout>

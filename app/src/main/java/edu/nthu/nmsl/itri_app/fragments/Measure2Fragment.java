@@ -64,6 +64,7 @@ public class Measure2Fragment extends Fragment {
         upload.setOnClickListener(clickListener);
         valueText = (TextView) view.findViewById(R.id.textView3);
         dbHandler = new DatabaseHandler(UIHandler);
+        dbHandler.requestMeasId(partID, workID);
         timer.schedule(updateValue, 0, 10);
 
         return view;
@@ -78,6 +79,7 @@ public class Measure2Fragment extends Fragment {
                     measID = (ArrayList<MeasData>)msg.obj;
                     measNumber = measID.size();
                     updateUI();
+                    break;
                 case DatabaseHandler.imageTask:
                     if (msg.obj != null) {
                         image.setImageBitmap((Bitmap) msg.obj);
@@ -91,19 +93,22 @@ public class Measure2Fragment extends Fragment {
     };
 
     public void updateUI() {
+        Log.d(TAG, String.valueOf(measIndex));
         MeasData meas = measID.get(measIndex);
         measIDText.setText(String.valueOf(meas.getMeasID()));
         dbHandler.imageTask(meas.getImageURL());
     }
     private Handler mHandler = new Handler();
+    private String sensorValue;
     private TimerTask updateValue = new TimerTask() {
         @Override
         public void run() {
             mHandler.post(new Runnable() {
                 public void run()
                 {
-                    if (Background.getInstance().getValue() != null)
-                        valueText.setText(Background.getInstance().getValue());
+                    sensorValue = Background.getInstance().getValue();
+                    if (sensorValue != null)
+                        valueText.setText(sensorValue);
                     else
                         valueText.setText("NO DATA");
                 }
@@ -116,15 +121,19 @@ public class Measure2Fragment extends Fragment {
         public void onClick(View v) {
             if (v.equals(left)) {
                 if (measIndex > 0) measIndex -= 1;
+                updateUI();
             }
-            else if (v.equals(left)) {
-                if (measIndex < measNumber) measIndex += 1;
+            else if (v.equals(right)) {
+                if (measIndex < measNumber - 1) measIndex += 1;
+                updateUI();
             }
             else if (v.equals(upload)) {
                 Log.d(TAG, "UPLOAD DATA");
-                dbHandler.insertMeasData(partSerialID, String.valueOf(measID.get(measIndex).getMeasID()), 0000);
+                if (sensorValue != null)
+                    dbHandler.insertMeasData(partSerialID, String.valueOf(measID.get(measIndex).getMeasID()), Double.valueOf(sensorValue));
+                else
+                    Log.e(TAG, "NO data");
             }
-
         }
     };
 }
