@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(20);
                     }
                     catch(InterruptedException e) {
                         e.printStackTrace();
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -187,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

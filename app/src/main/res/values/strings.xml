@@ -6,6 +6,7 @@
     <string name="itri_ble_device_1">Unkown </string>
     <string name="scan_btn">尋找更多設備...</string>
     <string name="switch_btn">更換測量工具</string>
+    <string name="app_title">CPS精密製造系統</string>
     
 
 
