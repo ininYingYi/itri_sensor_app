@@ -28,37 +28,47 @@
 
 
     </FrameLayout>
+
+
+
+
     <RadioGroup
         android:id="@+id/rg_tab"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#64ffffff"
+        android:background="@color/bar_bg"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_weight="1" >
+
+
 
         <RadioButton
             style="@style/icc_tab"
             android:id="@+id/radioButton1"
             android:drawableTop="@drawable/query_attention_selector"
+            android:textColor="@color/bg"
             android:text="首頁"
             android:layout_height="match_parent" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             style="@style/icc_tab"
+            android:textColor="@color/bg"
             android:drawableTop="@drawable/plan_attention_selector"
             android:text="量測" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             style="@style/icc_tab"
+            android:textColor="@color/bg"
             android:drawableTop="@drawable/task_attention_selector"
             android:text="檢視" />
 
         <RadioButton
             android:id="@+id/radioButton4"
             style="@style/icc_tab"
+            android:textColor="@color/bg"
             android:drawableTop="@drawable/setting_attention_selector"
             android:text="設定" />
 
