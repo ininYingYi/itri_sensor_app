@@ -12,6 +12,12 @@
     <string name="partserial_string">選擇工件:</string>
     <string name="work_string">選擇工單:</string>
     <string name="copyright">2016 Copyright ©, Industrial Technology Research Institute, 工業技術研究院</string>
+    <string name="txt_default">N/A</string>
+    <string name="meas_view_title">指定量測說明圖</string>
+    <string name="meas_data_title">數據量測結果</string>
+    <string name="meas_view_help">請依照量測指示量測</string>
+    <string name="device">數據來源工具:</string>
+    <string name="meas_data">量測值:</string>
     
 
 
