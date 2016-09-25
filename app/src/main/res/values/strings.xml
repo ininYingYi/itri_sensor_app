@@ -11,6 +11,7 @@
     <string name="part_string">選擇工具:</string>
     <string name="partserial_string">選擇工件:</string>
     <string name="work_string">選擇工單:</string>
+
     <string name="copyright">2016 Copyright ©, Industrial Technology Research Institute, 工業技術研究院</string>
     <string name="txt_default">N/A</string>
     <string name="meas_view_title">指定量測說明圖</string>
@@ -18,6 +19,15 @@
     <string name="meas_view_help">請依照量測指示量測</string>
     <string name="device">數據來源工具:</string>
     <string name="meas_data">量測值:</string>
+
+    <string name="show_workId">程序標號</string>
+    <string name="show_measID">量測編號</string>
+    <string name="show_normalSize">公稱尺寸</string>
+    <string name="show_toleranceU">公差上限</string>
+    <string name="show_toleranceL">公差下限</string>
+    <string name="show_finalMeas">最終尺寸</string>
+    <string name="show_isKeyMeas">關鍵尺寸</string>
+    <string name="show_value">量測值</string>
     
 
 
