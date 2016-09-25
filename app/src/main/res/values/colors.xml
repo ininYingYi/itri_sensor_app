@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="bg">#C0C0C0</color>
     <color name="bar_bg">#f6f6f6</color>
+    <color name="bar_btn_checked">#1aa3ff</color>
     <color name="white">#FFFF</color>
     <color name="success">#5cb85c</color>
 </resources>

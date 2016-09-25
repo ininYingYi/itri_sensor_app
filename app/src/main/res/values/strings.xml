@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">CPS精密製造</string>
     <string name="action_settings">Settings</string>
-    <string name="measure_select_confirm">確認選擇</string>
+    <string name="measure_select_confirm">開始測量</string>
+    <string name="measure_select_help">量測任務選擇</string>
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="itri_ble_device_1">Unkown </string>
     <string name="scan_btn">尋找更多設備...</string>
@@ -11,6 +12,12 @@
     <string name="partserial_string">選擇工件:</string>
     <string name="work_string">選擇工單:</string>
     <string name="copyright">2016 Copyright ©, Industrial Technology Research Institute, 工業技術研究院</string>
+    <string name="txt_default">N/A</string>
+    <string name="meas_view_title">指定量測說明圖</string>
+    <string name="meas_data_title">數據量測結果</string>
+    <string name="meas_view_help">請依照量測指示量測</string>
+    <string name="device">數據來源工具:</string>
+    <string name="meas_data">量測值:</string>
     
 
 
