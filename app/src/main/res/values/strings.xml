@@ -10,6 +10,15 @@
     <string name="part_string">選擇工具:</string>
     <string name="partserial_string">選擇工件:</string>
     <string name="work_string">選擇工單:</string>
+
+    <string name="show_workId">程序標號</string>
+    <string name="show_measID">量測編號</string>
+    <string name="show_normalSize">公稱尺寸</string>
+    <string name="show_toleranceU">公差上限</string>
+    <string name="show_toleranceL">公差下限</string>
+    <string name="show_finalMeas">最終尺寸</string>
+    <string name="show_isKeyMeas">關鍵尺寸</string>
+    <string name="show_value">量測值</string>
     
 
 

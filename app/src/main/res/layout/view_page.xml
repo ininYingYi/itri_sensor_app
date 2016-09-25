@@ -40,10 +40,57 @@
         android:layout_height="match_parent"
         android:layout_weight="0.7">
 
-        <ListView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/view_data"/>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1" >
+
+                <TextView
+                    android:text="@string/show_workId"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_measID"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_normalSize"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_toleranceU"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_toleranceL"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_finalMeas"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_isKeyMeas"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_value"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/view_data"
+                android:layout_weight="0.1" />
+        </LinearLayout>
+
     </FrameLayout>
 
 </LinearLayout>
