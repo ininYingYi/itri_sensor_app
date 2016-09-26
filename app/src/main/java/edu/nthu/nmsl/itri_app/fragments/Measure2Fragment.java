@@ -3,7 +3,9 @@ package edu.nthu.nmsl.itri_app.fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -99,6 +101,35 @@ public class Measure2Fragment extends Fragment {
             MeasData meas = measID.get(measIndex);
             measIDText.setText(String.valueOf(meas.getMeasID()));
             dbHandler.imageTask(meas.getImageURL());
+            Resources res=getResources();
+            Bitmap bmp = BitmapFactory.decodeResource(res, R.drawable.work0);
+            switch (measIndex) {
+                case 0:
+                    bmp = BitmapFactory.decodeResource(res, R.drawable.work0);
+                    break;
+                case 1:
+                    bmp = BitmapFactory.decodeResource(res, R.drawable.work1);
+                    break;
+                case 2:
+                    bmp = BitmapFactory.decodeResource(res, R.drawable.work2);
+                    break;
+                case 3:
+                    bmp = BitmapFactory.decodeResource(res, R.drawable.work3);
+                    break;
+                case 4:
+                    bmp = BitmapFactory.decodeResource(res, R.drawable.work4);
+                    break;
+                case 5:
+                    bmp = BitmapFactory.decodeResource(res, R.drawable.work5);
+                    break;
+                case 6:
+                    bmp = BitmapFactory.decodeResource(res, R.drawable.work6);
+                    break;
+                default:
+                    break;
+            }
+            image.setImageBitmap(bmp);
+            image.invalidate();
         }
     }
     private Handler mHandler = new Handler();

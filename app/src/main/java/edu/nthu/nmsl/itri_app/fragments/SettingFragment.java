@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.nthu.nmsl.itri_app.R;
+import edu.nthu.nmsl.itri_app.settings.Devices;
 
 /**
  * Created by InIn on 2016/9/19.
@@ -137,6 +138,7 @@ public class SettingFragment extends Fragment {
         @Override
         public void onScanResult(int callbackType, final ScanResult result) {
             super.onScanResult(callbackType, result);
+            if (getActivity() == null) return;
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -215,14 +217,14 @@ public class SettingFragment extends Fragment {
     };
 
     AdapterView.OnItemClickListener adapterListener = new AdapterView.OnItemClickListener() {
-
+        String device_name, device_mac;
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
             BluetoothDevice ble_deice = (BluetoothDevice) adapterView.getItemAtPosition(i);
 
-            String device_name = ble_deice.getName();
-            String device_mac = ble_deice.getAddress();
+            device_name = ble_deice.getName();
+            device_mac = ble_deice.getAddress();
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("新增常用裝置");
@@ -230,7 +232,7 @@ public class SettingFragment extends Fragment {
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    add_Device();
+                    Devices.getInstance().addDevice(device_name, device_mac);
                 }
             });
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -243,12 +245,6 @@ public class SettingFragment extends Fragment {
         }
 
     };
-
-
-    public void add_Device(){
-        Toast.makeText(getActivity(),"Added",Toast.LENGTH_SHORT).show();
-    }
-
 
     static class ViewHolder {
         TextView deviceName;

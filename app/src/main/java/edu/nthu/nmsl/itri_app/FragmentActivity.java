@@ -55,6 +55,7 @@ public class FragmentActivity extends AppCompatActivity {
     private BluetoothLeService mBluetoothLeService;
     private boolean mBound;
     private static final int menu_device_group_id = 2;
+    private Intent gattServiceIntent;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Hide the window title.
@@ -65,9 +66,8 @@ public class FragmentActivity extends AppCompatActivity {
         fragmentManager = getFragmentManager();
         radioGroup.setOnCheckedChangeListener(radioGroupListener);
 
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-
     }
 
     @Override
@@ -78,10 +78,7 @@ public class FragmentActivity extends AppCompatActivity {
             final boolean result = mBluetoothLeService.connect(Devices.getInstance().getDeviceAddress(Background.getInstance().getUsingSensorID()));
             Log.d(TAG, "Connect request result=" + result);
         }
-
     }
-
-
 
     @Override
     protected void onPause() {
@@ -100,16 +97,20 @@ public class FragmentActivity extends AppCompatActivity {
 
 
     //dynamical add item to menu
+    SubMenu available_devics;
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
+        available_devics.clear();
+        for (int id = 0; id < Devices.getInstance().getDeviceNumber(); id++) {
+            available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.getInstance().getDeviceName(id));
+        }
         return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.fragment_action_menu,menu);
-        SubMenu available_devics = menu.addSubMenu("更換連結裝置");
+        available_devics = menu.addSubMenu("更換連結裝置");
         for (int id = 0; id < Devices.getInstance().getDeviceNumber(); id++) {
             available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.getInstance().getDeviceName(id));
         }
@@ -132,6 +133,9 @@ public class FragmentActivity extends AppCompatActivity {
                     mBluetoothLeService.disconnect();
                     mConnected = false;
                     mBluetoothLeService.connect(Devices.getInstance().getDeviceAddress(Background.getInstance().getUsingSensorID()));
+                    unbindService(mServiceConnection);
+                    gattServiceIntent = new Intent(this, BluetoothLeService.class);
+                    bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
                 }
                 break;
         }
