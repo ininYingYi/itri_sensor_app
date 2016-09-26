@@ -35,6 +35,7 @@ import android.view.View;
 
 import android.view.Window;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,7 +75,7 @@ public class FragmentActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         if (mBluetoothLeService != null) {
-            final boolean result = mBluetoothLeService.connect(Devices.deviceAddress[0]);
+            final boolean result = mBluetoothLeService.connect(Devices.getInstance().getDeviceAddress(Background.getInstance().getUsingSensorID()));
             Log.d(TAG, "Connect request result=" + result);
         }
 
@@ -109,8 +110,8 @@ public class FragmentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.fragment_action_menu,menu);
         SubMenu available_devics = menu.addSubMenu("更換連結裝置");
-        for (int id = 0; id < Devices.deviceName.length; id++) {
-            available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.deviceName[id]);
+        for (int id = 0; id < Devices.getInstance().getDeviceNumber(); id++) {
+            available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.getInstance().getDeviceName(id));
         }
 
         return true;
@@ -127,6 +128,10 @@ public class FragmentActivity extends AppCompatActivity {
                 //check if device
                 if(item.getGroupId() == menu_device_group_id){
                     Log.d(TAG,"device id " + item.getItemId() + " selected.");
+                    Background.getInstance().selectSensor(item.getItemId());
+                    mBluetoothLeService.disconnect();
+                    mConnected = false;
+                    mBluetoothLeService.connect(Devices.getInstance().getDeviceAddress(Background.getInstance().getUsingSensorID()));
                 }
                 break;
         }
@@ -145,7 +150,7 @@ public class FragmentActivity extends AppCompatActivity {
                 finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothLeService.connect(Devices.deviceAddress[0]);
+            mBluetoothLeService.connect(Devices.getInstance().getDeviceAddress(Background.getInstance().getUsingSensorID()));
         }
 
         @Override
@@ -165,18 +170,19 @@ public class FragmentActivity extends AppCompatActivity {
                 Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
                 mConnected = true;
                 //updateConnectionState(R.string.connected);
+                Toast.makeText(context, "device connected.", Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
                 mConnected = false;
                 //updateConnectionState(R.string.disconnected);
                 invalidateOptionsMenu();
+                Toast.makeText(context, "device disconnected.", Toast.LENGTH_SHORT).show();
                 //clearUI();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 Log.d("BluetoothLeService","ACTION_GATT_SERVICES_DISCOVERED");
                 // Show all the supported services and characteristics on the user interface.
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
-
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 Log.d("BluetoothLeService","ACTION_DATA_AVAILABLE");
                 Background.getInstance().recieveData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
@@ -193,7 +199,7 @@ public class FragmentActivity extends AppCompatActivity {
             // Loops through available Characteristics.
             for (BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics) {
                 //open notification
-                if (gattCharacteristic.getUuid().toString().equals(Devices.deviceUUID[0])) {
+                if (gattCharacteristic.getUuid().toString().equals(Devices.deviceUUID)) {
                     if ((gattCharacteristic.getProperties() | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
                         mBluetoothLeService.setCharacteristicNotification(gattCharacteristic, true);
                     }

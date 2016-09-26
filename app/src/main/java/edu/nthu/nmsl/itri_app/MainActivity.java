@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 //finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothLeService.connect(Devices.deviceAddress[0]);
+            mBluetoothLeService.connect(Devices.getInstance().getDeviceAddress(0));
         }
 
         @Override
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
-        mBluetoothLeScanner.startScan(mLeScanCallback);
+        //mBluetoothLeScanner.startScan(mLeScanCallback);
     }
     private ScanCallback mLeScanCallback = new ScanCallback(){
         @Override
@@ -165,27 +165,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

@@ -97,8 +97,6 @@ public class BluetoothLeService extends Service {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 Log.w(TAG, "GATT_SUCCESS onServicesDiscovered received: " + status);
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
-
-
             } else {
                 Log.w(TAG, "onServicesDiscovered received: " + status);
             }

@@ -50,6 +50,7 @@ public class MeasureFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            if (getActivity() == null) return;
             switch (msg.what){
                 case DatabaseHandler.statePartId:
                     //Log.d(TAG,"Receive:"+msg.obj.toString());

@@ -21,7 +21,7 @@ public class Background {
     }
 
     private final int updatePeriod = 10; //ms
-    private final int dataOutOfDate = 200; //ms
+    private final int dataOutOfDate = 500; //ms
     private Timer timer = new Timer();
     public Background() {
         timer.schedule(timerTask, 0, updatePeriod);
@@ -52,7 +52,6 @@ public class Background {
     public void recieveData(String data) {
         if (data != null) {
             final String[] tmp = data.split(",");
-
             try {
                 this.readingValue = Double.parseDouble(tmp[1]);
                 this.angle1 = Integer.parseInt(tmp[4]);
@@ -63,19 +62,18 @@ public class Background {
                 unit_label = unitLabel[unit];
                 //Log.d(TAG,"Unit:"+tmp[2]);
                 unit_label = unitLabel[unit];
+                keepRecieve = true;
+                ms = 0;
             } catch (Exception e){
                 e.printStackTrace();
             }
-            Log.d("SensorValue", tmp[1]);
-            keepRecieve = true;
-            ms = 0;
         }
         else {
             keepRecieve = false;
         }
     }
 
-    public String getValue() {
+    public String getSensorValue() {
         if (keepRecieve) {
             return String.valueOf(readingValue);
         }
@@ -83,4 +81,19 @@ public class Background {
             return null;
         }
     }
+
+    private int selectSensor = 0;
+    public void selectSensor(int i) {
+        selectSensor = i;
+        ms = 0;
+    }
+
+    public int getUsingSensorID() {
+        return selectSensor;
+    }
+
+    public String getSensorName() {
+        return Devices.getInstance().getDeviceName(selectSensor);
+    }
+
 }

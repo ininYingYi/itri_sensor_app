@@ -39,8 +39,6 @@ public class ViewFragment extends Fragment {
         selectPartSpinner = (Spinner) view.findViewById(R.id.view_select_part);
         selectPartSerialSpinner = (Spinner) view.findViewById(R.id.view_select_work);
         selectWorkSpinner = (Spinner) view.findViewById(R.id.view_select_process);
-        confirm = (Button) view.findViewById(R.id.view_button);
-        confirm.setOnClickListener(clickListener);
         listView = (ListView) view.findViewById(R.id.view_data);
 
         dbHandler = new DatabaseHandler(UIHandler);
@@ -52,10 +50,12 @@ public class ViewFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            if (getActivity() == null ) return;
             switch (msg.what){
                 case DatabaseHandler.statePartId:
                     //Log.d(TAG,"Receive:"+msg.obj.toString());
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, (ArrayList<String>)msg.obj);
+
                     selectPartSpinner.setAdapter(adapter);
                     selectPartSpinner.setOnItemSelectedListener(adapterListener);
                     break;
@@ -73,6 +73,7 @@ public class ViewFragment extends Fragment {
                 case DatabaseHandler.stateGetAllMeasData:
                     Log.d(TAG,"Receive:"+msg.obj.toString());
                     ArrayList<MeasData> list = (ArrayList<MeasData>)msg.obj;
+                    listView.setAdapter(null);
                     MeasDataAdapter listAdapter = new MeasDataAdapter(getActivity(), list);
                     listView.setAdapter(listAdapter);
                     break;
@@ -114,23 +115,6 @@ public class ViewFragment extends Fragment {
         }
     };
 
-    Button.OnClickListener clickListener = new Button.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if ( v.equals(confirm)) {
-                FragmentManager fragmentManager = getFragmentManager();;
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                Bundle data = new Bundle();
-                data.putString("partID", partID);
-                data.putString("partSerialID", partSerialID);
-                data.putString("workID", workID);
-                Fragment fragment = new View2Fragment();
-                fragment.setArguments(data);
-                transaction.replace(R.id.content, fragment);
-                transaction.commit();
-            }
-        }
-    };
     @Override
     public void onPause() {
         super.onPause();

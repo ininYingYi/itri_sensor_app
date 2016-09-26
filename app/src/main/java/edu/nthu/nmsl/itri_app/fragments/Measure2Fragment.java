@@ -41,7 +41,7 @@ public class Measure2Fragment extends Fragment {
     private String partID, partSerialID, workID;
     private DatabaseHandler dbHandler;
     private ArrayList<MeasData> measID;
-    private TextView measIDText, valueText;
+    private TextView measIDText, valueText, deviceName;
     private Button left, right, upload;
     private ImageView image;
     private int measIndex = 0, measNumber = 0;
@@ -63,6 +63,7 @@ public class Measure2Fragment extends Fragment {
         upload = (Button) view.findViewById(R.id.upload);
         upload.setOnClickListener(clickListener);
         valueText = (TextView) view.findViewById(R.id.textView3);
+        deviceName = (TextView) view.findViewById(R.id.device_model);
         dbHandler = new DatabaseHandler(UIHandler);
         dbHandler.requestMeasId(partID, workID);
         timer.schedule(updateValue, 0, 10);
@@ -94,21 +95,26 @@ public class Measure2Fragment extends Fragment {
 
     public void updateUI() {
         Log.d(TAG, String.valueOf(measIndex));
-        MeasData meas = measID.get(measIndex);
-        measIDText.setText(String.valueOf(meas.getMeasID()));
-        dbHandler.imageTask(meas.getImageURL());
+        if (measIndex < measNumber) {
+            MeasData meas = measID.get(measIndex);
+            measIDText.setText(String.valueOf(meas.getMeasID()));
+            dbHandler.imageTask(meas.getImageURL());
+        }
     }
     private Handler mHandler = new Handler();
-    private String sensorValue;
+    private String sensorValue, sensorName;
     private TimerTask updateValue = new TimerTask() {
         @Override
         public void run() {
             mHandler.post(new Runnable() {
                 public void run()
                 {
-                    sensorValue = Background.getInstance().getValue();
-                    if (sensorValue != null)
+                    sensorValue = Background.getInstance().getSensorValue();
+                    sensorName = Background.getInstance().getSensorName();
+                    if (sensorValue != null) {
                         valueText.setText(sensorValue);
+                        deviceName.setText(sensorName);
+                    }
                     else
                         valueText.setText("NO DATA");
                 }
