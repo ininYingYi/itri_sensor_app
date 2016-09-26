@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Checks if Bluetooth is supported on the device.
         if (mBluetoothAdapter == null | mBluetoothLeScanner == null) {
-            Toast.makeText(this, "BLE ＮＯＴ　ＳＵＰＰＯＲＴＥＤ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "BLE not supported!", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }

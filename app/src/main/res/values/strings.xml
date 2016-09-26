@@ -6,6 +6,7 @@
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="itri_ble_device_1">Unkown </string>
     <string name="scan_btn">尋找更多設備...</string>
+    <string name="add_new_device">新增常用裝置</string>
     <string name="switch_btn">更換測量工具</string>
     <string name="app_title">CPS精密製造系統</string>
     <string name="part_string">選擇工具:</string>
@@ -29,6 +30,11 @@
     <string name="show_isKeyMeas">關鍵尺寸</string>
     <string name="show_value">量測值</string>
     <string name="show_data">檢視資料</string>
+    <string name="setting">設定</string>
+    <string name="setting_connected_device_title">目前連線裝置:</string>
+
+    <string name="setting_scan_state_connecting">尋找裝置中</string>
+    <string name="setting_scan_state_show">附近藍芽裝置</string>
     
 
 
