@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -86,7 +87,14 @@ public class Measure2Fragment extends Fragment {
                 case DatabaseHandler.imageTask:
                     if (msg.obj != null) {
                         image.setImageBitmap((Bitmap) msg.obj);
+                        image.invalidate();
                     }
+                    break;
+                case DatabaseHandler.sendData:
+                    String result = msg.obj.toString();
+                    Log.d(TAG, result);
+                    if (result.equals("Successfully"))
+                        Toast.makeText(getActivity(), "Upload succesfully", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     Log.d(TAG,"Error");
