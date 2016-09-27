@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/measure_select_help"
+                android:textSize="18dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:text="@string/part_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                android:paddingTop="5dp"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/view_select_part"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                />
+
+            <TextView
+                android:text="@string/partserial_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6"
+                android:paddingTop="5dp"
+                android:textSize="18sp" />
+            <Spinner
+                android:id="@+id/view_select_work"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="@string/work_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView7"
+                android:paddingTop="5dp"
+                android:textSize="18sp" />
+            <Spinner
+                android:id="@+id/view_select_process"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:layout_weight="0.6">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1" >
+
+                <TextView
+                    android:text="@string/show_workId"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_measID"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_normalSize"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_toleranceU"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_toleranceL"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_finalMeas"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_isKeyMeas"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="@string/show_value"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/view_data"
+                android:layout_weight="0.1" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>
