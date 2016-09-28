@@ -1,5 +1,9 @@
 package edu.nthu.nmsl.itri_app.settings;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -38,5 +42,36 @@ public class Devices {
     public void addDevice(String name, String mac) {
         deviceName.add(name);
         deviceAddress.add(mac);
+    }
+
+    public void loadDevice(String name, String address) {
+        String[] nameArray = name.split(";");
+        for (String device : nameArray) {
+            deviceName.add(device);
+        }
+        String[] addressArray = address.split(";");
+        for (String mac : addressArray) {
+            deviceAddress.add(mac);
+        }
+    }
+
+    public String getAllDeviceName() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : deviceName)
+        {
+            sb.append(s);
+            sb.append(";");
+        }
+        return sb.toString();
+    }
+
+    public String getAllDeviceAddress() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : deviceAddress)
+        {
+            sb.append(s);
+            sb.append(";");
+        }
+        return sb.toString();
     }
 }

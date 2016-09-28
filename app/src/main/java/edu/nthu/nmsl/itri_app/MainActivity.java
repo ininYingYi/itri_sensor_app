@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,8 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import edu.nthu.nmsl.itri_app.settings.Devices;
@@ -66,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
         myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        SharedPreferences settings = getSharedPreferences("devices", 0);
+        String deviceName = settings.getString("deviceName","BlueDial157;WiMER242");
+        String deviceAddress = settings.getString("deviceAddress","C4:BE:84:49:C5:3E;5C:31:3E:5C:48:BC");
+        Devices.getInstance().loadDevice(deviceName, deviceAddress);
         // Use this check to determine whether BLE is supported on the device.  Then you can
         // selectively disable BLE-related features.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {

@@ -10,6 +10,7 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -130,6 +131,11 @@ public class SettingFragment extends Fragment {
                     for (ScanResult result : results) {
                         mLeDeviceListAdapter.addDevice(result.getDevice());
                         mLeDeviceListAdapter.notifyDataSetChanged();
+                        SharedPreferences settings = getActivity().getSharedPreferences("devices", 0);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("deviceName", Devices.getInstance().getAllDeviceName());
+                        editor.putString("deviceAddress", Devices.getInstance().getAllDeviceAddress());
+                        editor.commit();
                     }
                 }
             });
