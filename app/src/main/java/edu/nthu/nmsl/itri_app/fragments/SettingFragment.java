@@ -10,8 +10,10 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.LinkAddress;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -49,14 +52,16 @@ public class SettingFragment extends Fragment {
 
     private TextView connected_device_name;
     private Button scan_new_BLE_device;
-    private ProgressBar scan_progress;
+    //private ProgressBar scan_progress;
     private ListView ble_devices_listview;
+    ViewGroup progressView;
+    //LinearLayout progressView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting_page, null);
         connected_device_name = (TextView) view.findViewById(R.id.setting_connected_device);
         scan_new_BLE_device = (Button) view.findViewById(R.id.setting_scan_new_ble);
-        scan_progress = (ProgressBar) view.findViewById(R.id.scan_BLE_ProgressBar);
+        //progressView = (LinearLayout) view.findViewById(R.id.progressBarView);
         ble_devices_listview = (ListView) view.findViewById(R.id.BLE_device_list);
 
         final BluetoothManager bluetoothManager =
@@ -75,13 +80,16 @@ public class SettingFragment extends Fragment {
         ble_devices_listview.setAdapter(mLeDeviceListAdapter);
         ble_devices_listview.setOnItemClickListener(adapterListener);
 
-        scan_progress.clearAnimation();
+        LayoutInflater lf = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        progressView = (ViewGroup) view.findViewById(R.id.progressBarView);
+        lf.inflate(R.layout.actionbar_indeterminate_progress,progressView);
+        progressView.setVisibility(View.INVISIBLE);
+
 
         scan_new_BLE_device.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!mScanning){
-                    scan_progress.animate();
                     scanLeDevice(true);
                 }
 
@@ -93,7 +101,23 @@ public class SettingFragment extends Fragment {
 
     @Override
     public void onStop() {
+        Log.d("TEST","onStop");
+        mBluetoothLeScanner.stopScan(mLeScanCallback);
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("TEST","onResume");
+        progressView.setVisibility(View.INVISIBLE);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d("TEST","onPause");
+        mBluetoothLeScanner.stopScan(mLeScanCallback);
+        super.onPause();
     }
 
     //Scanning BLE Device
@@ -104,20 +128,20 @@ public class SettingFragment extends Fragment {
                 @Override
                 public void run() {
                     mScanning = false;
-                    scan_progress.clearAnimation();
+                    progressView.setVisibility(View.INVISIBLE);
                     mBluetoothLeScanner.stopScan(mLeScanCallback);
                     //invalidateOptionsMenu();
                 }
             }, SCAN_PERIOD);
-
+            progressView.setVisibility(View.VISIBLE);
             mScanning = true;
             mBluetoothLeScanner.startScan(mLeScanCallback);
         } else {
             mScanning = false;
-            scan_progress.clearAnimation();
+            progressView.setVisibility(View.INVISIBLE);
             mBluetoothLeScanner.stopScan(mLeScanCallback);
         }
-        //invalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
     }
 
     private ScanCallback mLeScanCallback = new ScanCallback() {
@@ -144,7 +168,7 @@ public class SettingFragment extends Fragment {
                 public void run() {
                     mLeDeviceListAdapter.addDevice(result.getDevice());
                     mLeDeviceListAdapter.notifyDataSetChanged();
-                    scan_progress.clearAnimation();
+                    //scan_progress.clearAnimation();
                 }
             });
         }
