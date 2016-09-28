@@ -64,6 +64,7 @@ public class FragmentActivity extends AppCompatActivity {
 
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         fragmentManager = getFragmentManager();
+        radioGroup.check(radioGroup.getChildAt(0).getId());
         radioGroup.setOnCheckedChangeListener(radioGroupListener);
 
         gattServiceIntent = new Intent(this, BluetoothLeService.class);

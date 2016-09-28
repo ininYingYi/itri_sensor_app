@@ -57,17 +57,17 @@
             android:textColor="@android:color/tertiary_text_light"
             android:text="@string/scan_btn"
             android:background="@drawable/border_bottom"
-            android:layout_weight="0.1"
+            android:layout_weight="0.15"
             android:textAlignment="textStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/setting_scan_new_ble" />
-        <ProgressBar
-            style="?android:attr/progressBarStyle"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/progressBarView"
             android:layout_width="match_parent"
-            android:layout_weight="0.9"
-            android:layout_height="wrap_content"
-            android:id="@+id/scan_BLE_ProgressBar" />
+            android:layout_weight="0.85"
+            android:layout_height="match_parent"></LinearLayout>
 
     </LinearLayout>
 
@@ -85,15 +85,10 @@
     </LinearLayout>
 
 
-    <ScrollView
+    <ListView
+        android:id="@+id/BLE_device_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:id="@+id/BLE_device_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>
