@@ -17,6 +17,7 @@ public class FragmentFactory {
     public static Measure2Fragment measure2Fragment = null;
     public static ViewFragment viewFragment = null;
     public static SettingFragment settingFragment = null;
+    public static boolean inMeasure2 = false;
 
     public static Fragment getInstanceByIndex(int index){
         Fragment fragment = null;
@@ -28,10 +29,18 @@ public class FragmentFactory {
                 fragment = indexFragment;
                 break;
             case R.id.radioButton2:
-                if (measureFragment==null) {
-                    measureFragment = new MeasureFragment();
+                if (inMeasure2) {
+                    if (measure2Fragment==null) {
+                        measure2Fragment = new Measure2Fragment();
+                    }
+                    fragment = measure2Fragment;
                 }
-                fragment = measureFragment;
+                else {
+                    if (measureFragment == null) {
+                        measureFragment = new MeasureFragment();
+                    }
+                    fragment = measureFragment;
+                }
                 break;
             case R.id.radioButton3:
                 if (viewFragment==null) {
@@ -49,6 +58,7 @@ public class FragmentFactory {
                 if (measure2Fragment==null) {
                     measure2Fragment = new Measure2Fragment();
                 }
+                inMeasure2 = true;
                 fragment = measure2Fragment;
                 break;
         }

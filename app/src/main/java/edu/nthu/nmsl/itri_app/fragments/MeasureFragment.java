@@ -126,21 +126,24 @@ public class MeasureFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if ( v.equals(confirm)) {
-                FragmentManager fragmentManager = getFragmentManager();;
+
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 Bundle data = new Bundle();
                 data.putString("partID", partID);
                 data.putString("partSerialID", partSerialID);
                 data.putString("workID", workID);
-                Fragment fragment = new Measure2Fragment();
+                Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
                 fragment.setArguments(data);
                 transaction.replace(R.id.content, fragment);
                 transaction.commit();
+
             }
         }
     };
     @Override
     public void onPause() {
         super.onPause();
+
     }
 }

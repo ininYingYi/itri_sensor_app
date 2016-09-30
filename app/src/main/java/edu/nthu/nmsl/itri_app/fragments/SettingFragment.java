@@ -60,6 +60,9 @@ public class SettingFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting_page, null);
+        progressView = (ViewGroup) view.findViewById(R.id.progressBarView);
+        inflater.inflate(R.layout.actionbar_indeterminate_progress, progressView);
+        progressView.setVisibility(View.INVISIBLE);
         connected_device_name = (TextView) view.findViewById(R.id.setting_connected_device);
         scan_new_BLE_device = (Button) view.findViewById(R.id.setting_scan_new_ble);
         //progressView = (LinearLayout) view.findViewById(R.id.progressBarView);
@@ -81,12 +84,6 @@ public class SettingFragment extends Fragment {
         ble_devices_listview.setAdapter(mLeDeviceListAdapter);
         ble_devices_listview.setOnItemClickListener(adapterListener);
 
-        LayoutInflater lf = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        progressView = (ViewGroup) view.findViewById(R.id.progressBarView);
-        lf.inflate(R.layout.actionbar_indeterminate_progress,progressView);
-        progressView.setVisibility(View.INVISIBLE);
-
-
         scan_new_BLE_device.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,22 +100,22 @@ public class SettingFragment extends Fragment {
     @Override
     public void onStop() {
         Log.d("TEST","onStop");
-        mBluetoothLeScanner.stopScan(mLeScanCallback);
         super.onStop();
+        mBluetoothLeScanner.stopScan(mLeScanCallback);
     }
 
     @Override
     public void onResume() {
         Log.d("TEST","onResume");
-        progressView.setVisibility(View.INVISIBLE);
         super.onResume();
+        progressView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onPause() {
         Log.d("TEST","onPause");
-        mBluetoothLeScanner.stopScan(mLeScanCallback);
         super.onPause();
+        mBluetoothLeScanner.stopScan(mLeScanCallback);
     }
 
     //Scanning BLE Device

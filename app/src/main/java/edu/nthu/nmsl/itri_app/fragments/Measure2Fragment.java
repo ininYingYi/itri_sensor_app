@@ -29,6 +29,7 @@ import java.util.TimerTask;
 
 import edu.nthu.nmsl.itri_app.Background;
 import edu.nthu.nmsl.itri_app.DatabaseHandler;
+import edu.nthu.nmsl.itri_app.FragmentFactory;
 import edu.nthu.nmsl.itri_app.MeasData;
 import edu.nthu.nmsl.itri_app.R;
 
@@ -45,10 +46,11 @@ public class Measure2Fragment extends Fragment {
     private DatabaseHandler dbHandler;
     private ArrayList<MeasData> measID;
     private TextView measIDText, valueText, deviceName;
-    private Button left, right, upload;
+    private Button left, right, upload, reset;
     private ImageView image;
     private int measIndex = 0, measNumber = 0;
     private Timer timer = new Timer();
+    private Resources res;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("MeasureFragment", "onCreateView");
         Bundle data = getArguments();
@@ -65,13 +67,54 @@ public class Measure2Fragment extends Fragment {
         image = (ImageView) view.findViewById(R.id.imageView);
         upload = (Button) view.findViewById(R.id.upload);
         upload.setOnClickListener(clickListener);
+        reset = (Button) view.findViewById(R.id.reset);
+        reset.setOnClickListener(clickListener);
         valueText = (TextView) view.findViewById(R.id.textView3);
         deviceName = (TextView) view.findViewById(R.id.device_model);
         dbHandler = new DatabaseHandler(UIHandler);
         dbHandler.requestMeasId(partID, workID);
+        timer = new Timer();
+        updateValue = new TimerTask() {
+            @Override
+            public void run() {
+                mHandler.post(new Runnable() {
+                    public void run()
+                    {
+                        sensorValue = Background.getInstance().getSensorValue();
+                        sensorName = Background.getInstance().getSensorName();
+                        if (sensorValue != null) {
+                            valueText.setText(sensorValue);
+                            deviceName.setText(sensorName);
+                        }
+                        else
+                            valueText.setText("NO DATA");
+                    }
+                });
+            }
+        };
         timer.schedule(updateValue, 0, 10);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(TAG,"onResume");
+        super.onResume();
+        res = getResources();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(TAG,"onStop");
+        super.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG,"onPause");
+        super.onPause();
+        timer.cancel();
     }
 
     public Handler UIHandler = new Handler(Looper.getMainLooper()){
@@ -109,7 +152,7 @@ public class Measure2Fragment extends Fragment {
             MeasData meas = measID.get(measIndex);
             measIDText.setText(String.valueOf(meas.getMeasID()));
             dbHandler.imageTask(meas.getImageURL());
-            Resources res=getResources();
+
             Bitmap bmp = BitmapFactory.decodeResource(res, R.drawable.work0);
             switch (measIndex) {
                 case 0:
@@ -178,6 +221,14 @@ public class Measure2Fragment extends Fragment {
                     dbHandler.insertMeasData(partSerialID, String.valueOf(measID.get(measIndex).getMeasID()), Double.valueOf(sensorValue));
                 else
                     Log.e(TAG, "NO data");
+            }
+            else if (v.equals(reset)) {
+                FragmentFactory.inMeasure2 = false;
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.radioButton2);
+                transaction.replace(R.id.content, fragment);
+                transaction.commit();
             }
         }
     };
