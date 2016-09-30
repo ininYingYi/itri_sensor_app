@@ -50,12 +50,12 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_weight="3.5"
+            android:layout_weight="4"
             android:layout_height="match_parent">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24dp"
+                android:textSize="20dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_gravity="center"
                 android:text="@string/meas_view_title"/>
@@ -87,22 +87,20 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_weight="6.5"
-            android:weightSum="10"
+            android:layout_weight="6"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24dp"
+                android:textSize="20dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_gravity="center"
                 android:text="@string/meas_data_title"/>
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_weight="9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -113,15 +111,16 @@
                     <TextView android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/device"
-                        android:textSize="18sp"/>
+                        android:textSize="16dp"/>
                     <Space android:layout_width="5dp"
                         android:layout_height="wrap_content"/>
                     <TextView android:id="@+id/device_model"
                         android:text="@string/txt_default"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"/>
+                        android:textSize="16dp"/>
                 </LinearLayout>
+
 
                 <LinearLayout android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -130,30 +129,19 @@
                     <TextView android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/meas_data"
-                        android:textSize="18sp"/>
+                        android:textSize="16dp"/>
                     <Space android:layout_width="5dp"
                         android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="1111 mm"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@drawable/border_bottom"
+                        android:textSize="18dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView3"
+                        android:textAlignment="center" />
                 </LinearLayout>
-
-                <TextView
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:text="1111 mm"
-                    android:layout_width="match_parent"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:background="@drawable/border_bottom"
-                    android:textSize="32dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView3"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_height="wrap_content">
 
                 <Button
                     android:text="上傳資料"
@@ -163,8 +151,8 @@
                     android:textColor="@color/white"
                     android:layout_gravity="center"
                     android:id="@+id/upload" />
-
             </LinearLayout>
+
 
         </LinearLayout>
 

@@ -5,5 +5,8 @@ package edu.nthu.nmsl.itri_app.settings;
  */
 
 public class Settings {
-    public static final String serverURL = "http://nmsl-14.cs.nthu.edu.tw/itriApp/";
+    //testing server
+    //public static final String serverURL = "http://nmsl-14.cs.nthu.edu.tw/itriApp/";
+    //itri server
+    public static final String serverURL = "http://140.96.173.245/cps/php/";
 }
