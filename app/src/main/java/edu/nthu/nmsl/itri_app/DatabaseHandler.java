@@ -242,13 +242,13 @@ public class DatabaseHandler {
             Message message;
             switch (msg.what){
                 case statePartId:
-                    ArrayList<String> mPartIdArray = new ArrayList<String>();
+                    ArrayList<PartData> mPartIdArray = new ArrayList<PartData>();
                     try {
                         JSONArray rec_part_json = new JSONArray(msg.obj.toString());
                         for(int i=0;i < rec_part_json.length();i++){
                             JSONObject data = rec_part_json.getJSONObject(i);
-                            String idname = data.getString("PartID") + " (" + data.getString("PartName") + ")";
-                            mPartIdArray.add(idname);
+                            PartData mdata = new PartData(data.getString("PartID"),data.getString("PartName"));
+                            mPartIdArray.add(mdata);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
