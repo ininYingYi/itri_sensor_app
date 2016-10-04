@@ -22,11 +22,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,11 +155,6 @@ public class SettingFragment extends Fragment {
                     for (ScanResult result : results) {
                         mLeDeviceListAdapter.addDevice(result.getDevice());
                         mLeDeviceListAdapter.notifyDataSetChanged();
-                        SharedPreferences settings = getActivity().getSharedPreferences("devices", 0);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("deviceName", Devices.getInstance().getAllDeviceName());
-                        editor.putString("deviceAddress", Devices.getInstance().getAllDeviceAddress());
-                        editor.commit();
                     }
                 }
             });
@@ -252,14 +250,22 @@ public class SettingFragment extends Fragment {
 
             device_name = ble_deice.getName();
             device_mac = ble_deice.getAddress();
-
+            final View item = LayoutInflater.from(getActivity()).inflate(R.layout.setting_add_device, null);
+            final TextView info = (TextView)item.findViewById(R.id.deviceInfo);
+            info.setText("裝置名稱:" + device_name + "\n裝置MAC編號:" + device_mac );
+            final EditText name = (EditText)item.findViewById(R.id.deviceEditText);
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("新增常用裝置");
-            builder.setMessage("裝置名稱: " + device_name + "\n" + "裝置MAC編號" + device_mac);
+            builder.setView(item);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Devices.getInstance().addDevice(device_name, device_mac);
+                    Devices.getInstance().addDevice(name.getText().toString(), device_mac);
+                    SharedPreferences settings = getActivity().getSharedPreferences("devices", 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("deviceName", Devices.getInstance().getAllDeviceName());
+                    editor.putString("deviceAddress", Devices.getInstance().getAllDeviceAddress());
+                    editor.commit();
                 }
             });
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
