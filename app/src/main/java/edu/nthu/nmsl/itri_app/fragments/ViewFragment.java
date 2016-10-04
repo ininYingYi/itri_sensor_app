@@ -23,6 +23,8 @@ import java.util.List;
 import edu.nthu.nmsl.itri_app.DatabaseHandler;
 import edu.nthu.nmsl.itri_app.MeasData;
 import edu.nthu.nmsl.itri_app.MeasDataAdapter;
+import edu.nthu.nmsl.itri_app.PartData;
+import edu.nthu.nmsl.itri_app.PartDataAdapter;
 import edu.nthu.nmsl.itri_app.R;
 
 /**
@@ -54,8 +56,7 @@ public class ViewFragment extends Fragment {
             switch (msg.what){
                 case DatabaseHandler.statePartId:
                     //Log.d(TAG,"Receive:"+msg.obj.toString());
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, (ArrayList<String>)msg.obj);
-
+                    PartDataAdapter adapter = new PartDataAdapter(getActivity(), (ArrayList<PartData>)msg.obj);
                     selectPartSpinner.setAdapter(adapter);
                     selectPartSpinner.setOnItemSelectedListener(adapterListener);
                     break;
@@ -96,12 +97,16 @@ public class ViewFragment extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (parent.equals(selectPartSpinner)) {
-                Log.v("item", (String) parent.getItemAtPosition(position));
-                partID = (String)parent.getItemAtPosition(position);
+                PartData part = (PartData)parent.getItemAtPosition(position);
+                partID = part.getPartId();
+                selectPartSerialSpinner.setAdapter(null);
+                selectWorkSpinner.setAdapter(null);
                 dbHandler.requestPartSerialId(partID);
+
             }
             else if (parent.equals(selectPartSerialSpinner)) {
                 partSerialID = (String)parent.getItemAtPosition(position);
+                selectWorkSpinner.setAdapter(null);
                 dbHandler.requestWorkId(partID);
             }
             else if (parent.equals(selectWorkSpinner)) {
