@@ -14,12 +14,15 @@ import android.content.SharedPreferences;
 import android.net.LinkAddress;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,15 +37,19 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.nthu.nmsl.itri_app.DatabaseHandler;
+import edu.nthu.nmsl.itri_app.MeasData;
+import edu.nthu.nmsl.itri_app.MeasDataAdapter;
 import edu.nthu.nmsl.itri_app.R;
 import edu.nthu.nmsl.itri_app.settings.Devices;
+import edu.nthu.nmsl.itri_app.settings.Settings;
 
 /**
  * Created by InIn on 2016/9/19.
  */
 public class SettingFragment extends Fragment {
 
-
+    private static final String TAG = "SettingFragment";
     private LeDeviceListAdapter mLeDeviceListAdapter;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeScanner mBluetoothLeScanner;
@@ -55,9 +62,13 @@ public class SettingFragment extends Fragment {
     private static final long SCAN_PERIOD = 30000;
 
     private TextView connected_device_name;
+    private TextView connected_server_name;
+
     private Button scan_new_BLE_device;
     //private ProgressBar scan_progress;
     private ListView ble_devices_listview;
+    private DatabaseHandler dbHandler;
+
     ViewGroup progressView;
     //LinearLayout progressView;
 
@@ -67,6 +78,7 @@ public class SettingFragment extends Fragment {
         inflater.inflate(R.layout.actionbar_indeterminate_progress, progressView);
         progressView.setVisibility(View.INVISIBLE);
         connected_device_name = (TextView) view.findViewById(R.id.setting_connected_device);
+        connected_server_name = (TextView) view.findViewById(R.id.setting_connected_server);
         scan_new_BLE_device = (Button) view.findViewById(R.id.setting_scan_new_ble);
         //progressView = (LinearLayout) view.findViewById(R.id.progressBarView);
         ble_devices_listview = (ListView) view.findViewById(R.id.BLE_device_list);
@@ -97,8 +109,33 @@ public class SettingFragment extends Fragment {
             }
         });
 
+        dbHandler = new DatabaseHandler(UIHandler);
+        dbHandler.isServerAlive();
         return view;
     }
+
+    public Handler UIHandler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (getActivity() == null ) return;
+            switch (msg.what){
+                case DatabaseHandler.check_alive:
+                    //Log.d(TAG,"Receive:"+msg.obj.toString());
+                    boolean alive = (boolean)msg.obj;
+                    if(alive){
+                        connected_server_name.setText(Settings.serverName);
+                    }else {
+                        connected_server_name.setText(R.string.service_offline);
+                    }
+                    break;
+
+                default:
+                    Log.d(TAG,"Error");
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onStop() {

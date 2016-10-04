@@ -33,6 +33,8 @@
     <string name="show_data">檢視資料</string>
     <string name="setting">設定</string>
     <string name="setting_connected_device_title">目前連線裝置:</string>
+    <string name="setting_connected_server_title">目前連線資料庫:</string>
+
 
     <string name="setting_scan_state_connecting">尋找裝置中</string>
     <string name="setting_scan_state_show">附近藍芽裝置</string>

@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -38,7 +39,8 @@ public class DatabaseHandler {
     public static final int stateGetAllMeasData = 4;
     public static final int sendData = 5;
     public static final int imageTask = 6;
-    public static final int no_image_available = 7;
+    public static final int check_alive = 7;
+
     private Handler ActivityUIHandler;
 
     public DatabaseHandler (Handler mHandler){
@@ -147,6 +149,44 @@ public class DatabaseHandler {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Log.d(TAG,"URL error");
+        }
+    }
+
+    public void isServerAlive(){
+        Thread getThread;
+        getThread = new Thread(new checkAlive(check_alive));
+        getThread.start();
+    }
+
+    public class checkAlive implements Runnable {
+        private int state;
+        private int timeout;
+        private boolean alive;
+
+        public checkAlive(int s){
+            this.state = s;
+            this.timeout = 200;
+            this.alive = false;
+        }
+
+        @Override
+        public void run() {
+            Message message;
+
+            try{
+                URL myUrl = new URL(Settings.serverURL);
+                URLConnection connection = myUrl.openConnection();
+                connection.setConnectTimeout(timeout);
+                connection.connect();
+                this.alive = true;
+
+            } catch (Exception e) {
+                // Handle your exceptions
+                Log.d(TAG,"Server unreachable.");
+                this.alive = false;
+            }
+            message = ResponseHandler.obtainMessage(this.state,this.alive);
+            message.sendToTarget();
         }
     }
 
@@ -345,6 +385,11 @@ public class DatabaseHandler {
                     message = ActivityUIHandler.obtainMessage(msg.what,msg.obj);
                     message.sendToTarget();
                     Log.d(TAG,"Downloaded image.");
+                    break;
+                case check_alive:
+                    message = ActivityUIHandler.obtainMessage(msg.what,msg.obj);
+                    message.sendToTarget();
+                    Log.d(TAG,"Check alive.");
                     break;
                 default:
                     Log.d(TAG,"Http Error");
