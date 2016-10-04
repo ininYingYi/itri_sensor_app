@@ -31,7 +31,7 @@ public class MeasData {
 
     public MeasData(int measId, String imageURL) {
         this.measId = measId;
-        this.imageURL = imageURL;
+        this.imageURL = imageURL.replace("//", "/");
     }
 
     public int getMeasID() {
