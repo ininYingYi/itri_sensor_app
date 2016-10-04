@@ -21,10 +21,7 @@ public class Devices {
     }
 
     public Devices() {
-        deviceName.add("BlueDial157");
-        deviceAddress.add("C4:BE:84:49:C5:3E");
-        deviceName.add("WiMER242");
-        deviceAddress.add("5C:31:3E:5C:48:BC");
+
     }
 
     public String getDeviceName(int i) {
