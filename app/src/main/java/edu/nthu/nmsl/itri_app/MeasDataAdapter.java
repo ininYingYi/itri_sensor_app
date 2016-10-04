@@ -1,6 +1,7 @@
 package edu.nthu.nmsl.itri_app;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Movie;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,17 @@ public class MeasDataAdapter extends BaseAdapter {
         holder.finalMeas.setText(measData.getFinalMeas());
         holder.isKeyMeas.setText(measData.getIsKeyMeas());
         holder.value.setText(measData.getValue());
+
+        double mvalue = Double.parseDouble(measData.getValue());
+        double upper = Double.parseDouble(measData.getNormalSize()) + Double.parseDouble(measData.getToleranceU());
+        double lower = Double.parseDouble(measData.getNormalSize()) + Double.parseDouble(measData.getToleranceL());
+
+        if ( mvalue <= upper && mvalue >= lower){
+            holder.value.setTextColor(Color.parseColor("#5cb85c"));
+        }else{
+            holder.value.setTextColor(Color.parseColor("#d9534f"));
+        }
+
         return convertView;
     }
 

@@ -103,6 +103,10 @@
                     android:layout_width="70dp"
                     android:layout_height="match_parent" />
                 <TextView
+                    android:text="@string/show_value"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent" />
+                <TextView
                     android:text="@string/show_normalSize"
                     android:layout_width="70dp"
                     android:layout_height="match_parent" />
@@ -122,10 +126,7 @@
                     android:text="@string/show_isKeyMeas"
                     android:layout_width="70dp"
                     android:layout_height="match_parent" />
-                <TextView
-                    android:text="@string/show_value"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent" />
+
             </LinearLayout>
             <ListView
                 android:layout_width="match_parent"

@@ -3,6 +3,8 @@ package edu.nthu.nmsl.itri_app;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -36,6 +38,7 @@ public class DatabaseHandler {
     public static final int stateGetAllMeasData = 4;
     public static final int sendData = 5;
     public static final int imageTask = 6;
+    public static final int no_image_available = 7;
     private Handler ActivityUIHandler;
 
     public DatabaseHandler (Handler mHandler){
@@ -134,7 +137,7 @@ public class DatabaseHandler {
     }
 
     public void imageTask(String imageURL){
-        String mURL = Settings.serverURL + imageURL;
+        String mURL = Settings.imageURL + imageURL;
         URL url;
         try {
             url = new URL(mURL);
@@ -173,6 +176,7 @@ public class DatabaseHandler {
                     message.sendToTarget();
 
                 } else {
+
                     Log.d(TAG, " Http connection error with code:" + urlConnection.getResponseCode());
                 }
                 urlConnection.disconnect();
@@ -238,20 +242,21 @@ public class DatabaseHandler {
             Message message;
             switch (msg.what){
                 case statePartId:
-
                     ArrayList<String> mPartIdArray = new ArrayList<String>();
                     try {
-
                         JSONArray rec_part_json = new JSONArray(msg.obj.toString());
                         for(int i=0;i < rec_part_json.length();i++){
-                            mPartIdArray.add(rec_part_json.get(i).toString());
+                            JSONObject data = rec_part_json.getJSONObject(i);
+                            String idname = data.getString("PartID") + " (" + data.getString("PartName") + ")";
+                            mPartIdArray.add(idname);
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     message = ActivityUIHandler.obtainMessage(msg.what,mPartIdArray);
                     message.sendToTarget();
+
+
                     Log.d(TAG,"Receive:"+mPartIdArray.toString());
                     break;
                 case statePartSerialId:

@@ -8,4 +8,6 @@
     <color name="bar_btn_checked">#1aa3ff</color>
     <color name="white">#FFFF</color>
     <color name="success">#5cb85c</color>
+    <color name="warning">#ec971f</color>
+    <color name="danger">#d9534f</color>
 </resources>

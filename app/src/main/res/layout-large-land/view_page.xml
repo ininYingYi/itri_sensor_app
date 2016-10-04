@@ -17,13 +17,13 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.1">
+            android:layout_weight="0.4">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/measure_select_help"
-                android:textSize="18dp"
+                android:textSize="24dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_gravity="center"
                 android:paddingBottom="5dp"/>
@@ -70,8 +70,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.6">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
@@ -81,40 +80,47 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="1" >
+                android:layout_height="wrap_content" >
 
                 <TextView
                     android:text="@string/show_workId"
-                    android:layout_width="70dp"
+                    android:layout_width="@dimen/view_font_width_large"
+                    android:textSize="@dimen/view_font_size_large"
                     android:layout_height="match_parent" />
                 <TextView
                     android:text="@string/show_measID"
-                    android:layout_width="70dp"
+                    android:layout_width="@dimen/view_font_width_large"
+                    android:textSize="@dimen/view_font_size_large"
                     android:layout_height="match_parent" />
                 <TextView
                     android:text="@string/show_value"
-                    android:layout_width="70dp"
+                    android:layout_width="@dimen/view_font_width_large"
+                    android:textSize="@dimen/view_font_size_large"
                     android:layout_height="match_parent" />
                 <TextView
                     android:text="@string/show_normalSize"
-                    android:layout_width="70dp"
+                    android:layout_width="@dimen/view_font_width_large"
+                    android:textSize="@dimen/view_font_size_large"
                     android:layout_height="match_parent" />
                 <TextView
                     android:text="@string/show_toleranceU"
-                    android:layout_width="70dp"
+                    android:layout_width="@dimen/view_font_width_large"
+                    android:textSize="@dimen/view_font_size_large"
                     android:layout_height="match_parent" />
                 <TextView
                     android:text="@string/show_toleranceL"
-                    android:layout_width="70dp"
+                    android:layout_width="@dimen/view_font_width_large"
+                    android:textSize="@dimen/view_font_size_large"
                     android:layout_height="match_parent" />
                 <TextView
                     android:text="@string/show_finalMeas"
-                    android:layout_width="70dp"
+                    android:layout_width="@dimen/view_font_width_large"
+                    android:textSize="@dimen/view_font_size_large"
                     android:layout_height="match_parent" />
                 <TextView
                     android:text="@string/show_isKeyMeas"
-                    android:layout_width="70dp"
+                    android:layout_width="@dimen/view_font_width_large"
+                    android:textSize="@dimen/view_font_size_large"
                     android:layout_height="match_parent" />
 
             </LinearLayout>
