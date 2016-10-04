@@ -176,6 +176,7 @@ public class FragmentActivity extends AppCompatActivity {
                 mConnected = true;
                 //updateConnectionState(R.string.connected);
                 Toast.makeText(context, "device connected.", Toast.LENGTH_SHORT).show();
+                Background.getInstance().setConnectionState(true);
                 invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
@@ -183,6 +184,7 @@ public class FragmentActivity extends AppCompatActivity {
                 //updateConnectionState(R.string.disconnected);
                 invalidateOptionsMenu();
                 Toast.makeText(context, "device disconnected.", Toast.LENGTH_SHORT).show();
+                Background.getInstance().setConnectionState(false);
                 //clearUI();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 Log.d("BluetoothLeService","ACTION_GATT_SERVICES_DISCOVERED");
