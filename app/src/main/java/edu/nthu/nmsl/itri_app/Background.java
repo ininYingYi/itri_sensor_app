@@ -48,6 +48,7 @@ public class Background {
     private String[] unitLabel = {"mm","inch"};
     private String unit_label = "mm";
     private Boolean keepRecieve = false;
+    private Boolean isConnect = false;
 
     public void recieveData(String data) {
         if (data != null) {
@@ -93,7 +94,16 @@ public class Background {
     }
 
     public String getSensorName() {
-        return Devices.getInstance().getDeviceName(selectSensor);
+        if (isConnect) {
+            return Devices.getInstance().getDeviceName(selectSensor);
+        }
+        else {
+            return "No Sensor connected.";
+        }
+    }
+
+    public void setConnectionState(boolean state) {
+        isConnect = state;
     }
 
 }
