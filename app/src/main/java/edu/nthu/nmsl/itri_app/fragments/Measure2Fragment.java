@@ -203,8 +203,7 @@ public class Measure2Fragment extends Fragment {
                 FragmentFactory.inMeasure2 = false;
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.radioButton2);
-                transaction.replace(R.id.content, fragment);
+                transaction.remove(Measure2Fragment.this);
                 transaction.commit();
             }
         }
