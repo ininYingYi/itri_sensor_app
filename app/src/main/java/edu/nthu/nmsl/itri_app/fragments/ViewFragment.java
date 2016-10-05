@@ -134,6 +134,7 @@ public class ViewFragment extends Fragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
             if(userSelect){
                 if (parent.equals(selectPartSpinner)) {
+                    selectedPartDate = position;
                     PartData part = (PartData)parent.getItemAtPosition(position);
                     partID = part.getPartId();
                     selectPartSerialSpinner.setAdapter(null);
@@ -142,11 +143,13 @@ public class ViewFragment extends Fragment {
 
                 }
                 else if (parent.equals(selectPartSerialSpinner)) {
+                    selectedPartSerialId = position;
                     partSerialID = (String)parent.getItemAtPosition(position);
                     selectWorkSpinner.setAdapter(null);
                     dbHandler.requestWorkId(partID);
                 }
                 else if (parent.equals(selectWorkSpinner)) {
+                    selectedWorkId = position;
                     workID = (String)parent.getItemAtPosition(position);
                     dbHandler.requestMeasData(partID, partSerialID, workID);
                 }
@@ -206,8 +209,10 @@ public class ViewFragment extends Fragment {
                 selectWorkSpinner.setOnTouchListener(adapterListener);
                 this.selectedWorkId = savedInstanceState.getInt(this.saveSelevtedWorkId, 0);
                 if (this.selectedWorkId != 0) selectWorkSpinner.setSelection(this.selectedWorkId);
-                dbHandler.requestMeasData(this.mPartDatas.get(this.selectedPartDate).getPartId(),
-                        this.mPartSerialIds.get(this.selectedPartSerialId), this.mWorkIds.get(this.selectedWorkId));
+                this.partID = this.mPartDatas.get(this.selectedPartDate).getPartId();
+                this.partSerialID = this.mPartSerialIds.get(this.selectedPartSerialId);
+                this.workID = this.mWorkIds.get(this.selectedWorkId);
+                dbHandler.requestMeasData(partID, partSerialID, workID);
             }
 
 

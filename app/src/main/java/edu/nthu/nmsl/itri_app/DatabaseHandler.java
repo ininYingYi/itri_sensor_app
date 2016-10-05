@@ -109,7 +109,7 @@ public class DatabaseHandler {
         String mURL = Settings.serverURL
                 + "appGetMeasData.php?partId=" + selectedPartId + "&workId="
                 + selectedWorkId + "&partSerialId=" + selectedPartSerial;
-
+        Log.d(TAG,mURL);
         URL url;
         try {
             url = new URL(mURL);
