@@ -10,4 +10,5 @@
     <color name="success">#5cb85c</color>
     <color name="warning">#ec971f</color>
     <color name="danger">#d9534f</color>
+    <color name="black">#000000</color>
 </resources>
