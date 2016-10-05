@@ -116,9 +116,6 @@ public class ViewFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("MeasureFragment", "onResume");
-        firstSetPart = true;
-        firstSetPartSerial = true;
-        firstSetWork = true;
     }
 
     private String partID, partSerialID, workID;
@@ -126,7 +123,6 @@ public class ViewFragment extends Fragment {
     private boolean firstSetPartSerial = true;
     private boolean firstSetWork = true;
     public class AdapterListener implements AdapterView.OnItemSelectedListener {
-
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
             if (parent.equals(selectPartSpinner)) {
@@ -185,12 +181,10 @@ public class ViewFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(savedInstanceState!=null) {
-            firstSetPart = true;
-            firstSetPartSerial = true;
-            firstSetWork = true;
             Log.d(TAG,"savedInstanceState");
             this.mPartDatas = savedInstanceState.getParcelableArrayList(this.saveParts);
             if(this.mPartDatas.size() > 0) {
+                firstSetPart = true;
                 PartDataAdapter adapter = new PartDataAdapter(getActivity(), this.mPartDatas);
                 selectPartSpinner.setAdapter(adapter);
                 selectPartSpinner.setOnItemSelectedListener(adapterListener);
@@ -202,6 +196,7 @@ public class ViewFragment extends Fragment {
 
             this.mPartSerialIds = savedInstanceState.getStringArrayList(this.savePartSerialIds);
             if(this.mPartSerialIds.size() > 0) {
+                firstSetPartSerial = true;
                 ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mPartSerialIds);
                 selectPartSerialSpinner.setAdapter(partSerialAdapter);
                 selectPartSerialSpinner.setOnItemSelectedListener(adapterListener);
@@ -213,6 +208,7 @@ public class ViewFragment extends Fragment {
 
             this.mWorkIds = savedInstanceState.getStringArrayList(this.saveWorkIds);
             if(this.mWorkIds.size() > 0) {
+                firstSetWork = true;
                 ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mWorkIds);
                 selectWorkSpinner.setAdapter(workAdapter);
                 selectWorkSpinner.setOnItemSelectedListener(adapterListener);
