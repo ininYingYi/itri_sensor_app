@@ -170,9 +170,9 @@ public class Measure2Fragment extends Fragment {
                 {
                     sensorValue = Background.getInstance().getSensorValue();
                     sensorName = Background.getInstance().getSensorName();
+                    deviceName.setText(sensorName);
                     if (sensorValue != null) {
                         valueText.setText(sensorValue);
-                        deviceName.setText(sensorName);
                     }
                     else
                         valueText.setText("NO DATA");
@@ -181,7 +181,7 @@ public class Measure2Fragment extends Fragment {
         }
     };
 
-    Button.OnClickListener clickListener = new Button.OnClickListener() {
+    Button.OnClickListener clickListener = new Button.OnClickListener(){
         @Override
         public void onClick(View v) {
             if (v.equals(left)) {

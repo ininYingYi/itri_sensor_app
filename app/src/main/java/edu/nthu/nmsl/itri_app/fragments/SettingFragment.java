@@ -37,6 +37,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.nthu.nmsl.itri_app.Background;
 import edu.nthu.nmsl.itri_app.DatabaseHandler;
 import edu.nthu.nmsl.itri_app.MeasData;
 import edu.nthu.nmsl.itri_app.MeasDataAdapter;
@@ -108,6 +109,8 @@ public class SettingFragment extends Fragment {
 
             }
         });
+
+        connected_device_name.setText(Background.getInstance().getSensorName());
 
         dbHandler = new DatabaseHandler(UIHandler);
         dbHandler.isServerAlive();

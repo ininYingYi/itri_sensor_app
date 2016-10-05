@@ -98,7 +98,7 @@ public class Background {
             return Devices.getInstance().getDeviceName(selectSensor);
         }
         else {
-            return "No Sensor connected.";
+            return "裝置離線";
         }
     }
 
