@@ -64,7 +64,7 @@ public class FragmentActivity extends AppCompatActivity {
 
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         fragmentManager = getFragmentManager();
-        radioGroup.check(radioGroup.getChildAt(0).getId());
+        //radioGroup.check(radioGroup.getChildAt(0).getId());
         radioGroup.setOnCheckedChangeListener(radioGroupListener);
 
         gattServiceIntent = new Intent(this, BluetoothLeService.class);
@@ -220,14 +220,21 @@ public class FragmentActivity extends AppCompatActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             //change fragment when the radio group checked item changed
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            Fragment fragment = FragmentFactory.getInstanceByIndex(checkedId);
+
+            Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(checkedId));
+            if(fragment == null){
+                fragment = FragmentFactory.getInstanceByIndex(checkedId);
+            }
+
+
 
             Log.e(TAG, "CheckId = " + checkedId);
             if(fragment == null){
                 Log.i(TAG, "fragment is null");
             }
-            transaction.replace(R.id.content, fragment);
+
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content, fragment,String.valueOf(checkedId));
             transaction.commit();
         }
     };
