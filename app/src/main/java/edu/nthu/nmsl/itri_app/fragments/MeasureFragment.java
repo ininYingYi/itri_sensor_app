@@ -194,32 +194,35 @@ public class MeasureFragment extends Fragment {
         if(savedInstanceState!=null) {
             Log.d(TAG,"savedInstanceState");
             this.mPartDatas = savedInstanceState.getParcelableArrayList(this.saveParts);
-            PartDataAdapter adapter = new PartDataAdapter(getActivity(), this.mPartDatas);
-            selectPartSpinner.setAdapter(adapter);
+            if(this.mPartDatas.size() > 0) {
+                PartDataAdapter adapter = new PartDataAdapter(getActivity(), this.mPartDatas);
+                selectPartSpinner.setAdapter(adapter);
+                selectPartSpinner.setOnItemSelectedListener(adapterListener);
+                this.selectedPartDate = savedInstanceState.getInt(this.saveSelectedPart, 0);
+                if (this.selectedPartDate != 0) selectPartSpinner.setSelection(this.selectedPartDate);
+            }
 
 
             this.mPartSerialIds = savedInstanceState.getStringArrayList(this.savePartSerialIds);
-            ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mPartSerialIds);
-            selectPartSerialSpinner.setAdapter(partSerialAdapter);
+            if(this.mPartSerialIds.size() > 0) {
+                ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mPartSerialIds);
+                selectPartSerialSpinner.setAdapter(partSerialAdapter);
+                selectPartSerialSpinner.setOnItemSelectedListener(adapterListener);
+                this.selectedPartSerialId = savedInstanceState.getInt(this.saveSelectedPartSerial, 0);
+                if (this.selectedPartSerialId != 0) selectPartSerialSpinner.setSelection(this.selectedPartSerialId);
+            }
 
 
             this.mWorkIds = savedInstanceState.getStringArrayList(this.saveWorkIds);
-            ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mWorkIds);
-            selectWorkSpinner.setAdapter(workAdapter);
+            if(this.mWorkIds.size() > 0) {
+                ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mWorkIds);
+                selectWorkSpinner.setAdapter(workAdapter);
+                selectWorkSpinner.setOnItemSelectedListener(adapterListener);
+                this.selectedWorkId = savedInstanceState.getInt(this.saveSelevtedWorkId, 0);
+                if (this.selectedWorkId != 0) selectWorkSpinner.setSelection(this.selectedWorkId);
+            }
 
 
-            this.selectedPartDate = savedInstanceState.getInt(this.saveSelectedPart, 0);
-            if (this.selectedPartDate != 0) selectPartSpinner.setSelection(this.selectedPartDate);
-            this.selectedPartSerialId = savedInstanceState.getInt(this.saveSelectedPartSerial, 0);
-            if (this.selectedPartSerialId != 0)
-                selectPartSerialSpinner.
-                        setSelection(this.selectedPartSerialId);
-            this.selectedWorkId = savedInstanceState.getInt(this.saveSelevtedWorkId, 0);
-            if (this.selectedWorkId != 0) selectWorkSpinner.setSelection(this.selectedWorkId);
-
-            selectPartSpinner.setOnItemSelectedListener(adapterListener);
-            selectPartSerialSpinner.setOnItemSelectedListener(adapterListener);
-            selectWorkSpinner.setOnItemSelectedListener(adapterListener);
         }else {
             Log.d(TAG,"requestPartId");
             dbHandler.requestPartId();
