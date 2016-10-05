@@ -65,7 +65,7 @@ public class ViewFragment extends Fragment {
 
         dbHandler = new DatabaseHandler(UIHandler);
         adapterListener = new AdapterListener();
-        dbHandler.requestPartId();
+
         return view;
     }
 
@@ -81,14 +81,12 @@ public class ViewFragment extends Fragment {
                     PartDataAdapter adapter = new PartDataAdapter(getActivity(), mPartDatas);
                     selectPartSpinner.setAdapter(adapter);
                     selectPartSpinner.setOnItemSelectedListener(adapterListener);
-                    selectPartSpinner.setOnTouchListener(adapterListener);
                     break;
                 case DatabaseHandler.statePartSerialId:
                     mPartSerialIds = (ArrayList<String>)msg.obj;
                     ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mPartSerialIds);
                     selectPartSerialSpinner.setAdapter(partSerialAdapter);
                     selectPartSerialSpinner.setOnItemSelectedListener(adapterListener);
-                    selectPartSerialSpinner.setOnTouchListener(adapterListener);
                     break;
                 case DatabaseHandler.stateWorkId:
                     Log.d(TAG,"Receive:"+msg.obj.toString());
@@ -96,9 +94,11 @@ public class ViewFragment extends Fragment {
                     ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mWorkIds);
                     selectWorkSpinner.setAdapter(workAdapter);
                     selectWorkSpinner.setOnItemSelectedListener(adapterListener);
-                    selectWorkSpinner.setOnTouchListener(adapterListener);
                     break;
                 case DatabaseHandler.stateGetAllMeasData:
+                    firstSetPart = false;
+                    firstSetPartSerial = false;
+                    firstSetWork = false;
                     Log.d(TAG,"Receive:"+msg.obj.toString());
                     ArrayList<MeasData> list = (ArrayList<MeasData>)msg.obj;
                     listView.setAdapter(null);
@@ -116,50 +116,57 @@ public class ViewFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("MeasureFragment", "onResume");
-
+        firstSetPart = true;
+        firstSetPartSerial = true;
+        firstSetWork = true;
     }
+
     private String partID, partSerialID, workID;
-
-
-    public class AdapterListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
-
-        boolean userSelect = false;
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            userSelect = true;
-            return false;
-        }
+    private boolean firstSetPart = true;
+    private boolean firstSetPartSerial = true;
+    private boolean firstSetWork = true;
+    public class AdapterListener implements AdapterView.OnItemSelectedListener {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-            if(userSelect){
-                if (parent.equals(selectPartSpinner)) {
-                    selectedPartDate = position;
-                    PartData part = (PartData)parent.getItemAtPosition(position);
-                    partID = part.getPartId();
-                    selectPartSerialSpinner.setAdapter(null);
-                    selectWorkSpinner.setAdapter(null);
-                    dbHandler.requestPartSerialId(partID);
+            if (parent.equals(selectPartSpinner)) {
+                if (firstSetPart) {
+                    //firstSetPart = false;
+                    return;
+                }
+                Log.d(TAG, "selectPartSpinner");
+                selectedPartDate = position;
+                PartData part = (PartData) parent.getItemAtPosition(position);
+                partID = part.getPartId();
+                selectPartSerialSpinner.setAdapter(null);
+                selectWorkSpinner.setAdapter(null);
+                dbHandler.requestPartSerialId(partID);
 
+            } else if (parent.equals(selectPartSerialSpinner)) {
+                if (firstSetPartSerial) {
+                    //firstSetPartSerial = false;
+                    return;
                 }
-                else if (parent.equals(selectPartSerialSpinner)) {
-                    selectedPartSerialId = position;
-                    partSerialID = (String)parent.getItemAtPosition(position);
-                    selectWorkSpinner.setAdapter(null);
-                    dbHandler.requestWorkId(partID);
+                Log.d(TAG, "selectPartSerialSpinner");
+                selectedPartSerialId = position;
+                partSerialID = (String) parent.getItemAtPosition(position);
+                selectWorkSpinner.setAdapter(null);
+                dbHandler.requestWorkId(partID);
+            } else if (parent.equals(selectWorkSpinner)) {
+                if (firstSetWork) {
+                    //firstSetWork = false;
+                    return;
                 }
-                else if (parent.equals(selectWorkSpinner)) {
-                    selectedWorkId = position;
-                    workID = (String)parent.getItemAtPosition(position);
-                    dbHandler.requestMeasData(partID, partSerialID, workID);
-                }
-                userSelect = false;
+                Log.d(TAG, "selectWorkSpinner");
+                selectedWorkId = position;
+                workID = (String) parent.getItemAtPosition(position);
+                dbHandler.requestMeasData(partID, partSerialID, workID);
             }
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-            userSelect = false;
+
         }
     }
 
@@ -178,15 +185,18 @@ public class ViewFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(savedInstanceState!=null) {
+            firstSetPart = true;
+            firstSetPartSerial = true;
+            firstSetWork = true;
             Log.d(TAG,"savedInstanceState");
             this.mPartDatas = savedInstanceState.getParcelableArrayList(this.saveParts);
             if(this.mPartDatas.size() > 0) {
                 PartDataAdapter adapter = new PartDataAdapter(getActivity(), this.mPartDatas);
                 selectPartSpinner.setAdapter(adapter);
                 selectPartSpinner.setOnItemSelectedListener(adapterListener);
-                selectPartSpinner.setOnTouchListener(adapterListener);
                 this.selectedPartDate = savedInstanceState.getInt(this.saveSelectedPart, 0);
                 if (this.selectedPartDate != 0) selectPartSpinner.setSelection(this.selectedPartDate);
+                this.partID = this.mPartDatas.get(this.selectedPartDate).getPartId();
             }
 
 
@@ -195,9 +205,9 @@ public class ViewFragment extends Fragment {
                 ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mPartSerialIds);
                 selectPartSerialSpinner.setAdapter(partSerialAdapter);
                 selectPartSerialSpinner.setOnItemSelectedListener(adapterListener);
-                selectPartSerialSpinner.setOnTouchListener(adapterListener);
                 this.selectedPartSerialId = savedInstanceState.getInt(this.saveSelectedPartSerial, 0);
                 if (this.selectedPartSerialId != 0) selectPartSerialSpinner.setSelection(this.selectedPartSerialId);
+                this.partSerialID = this.mPartSerialIds.get(this.selectedPartSerialId);
             }
 
 
@@ -206,19 +216,17 @@ public class ViewFragment extends Fragment {
                 ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mWorkIds);
                 selectWorkSpinner.setAdapter(workAdapter);
                 selectWorkSpinner.setOnItemSelectedListener(adapterListener);
-                selectWorkSpinner.setOnTouchListener(adapterListener);
                 this.selectedWorkId = savedInstanceState.getInt(this.saveSelevtedWorkId, 0);
                 if (this.selectedWorkId != 0) selectWorkSpinner.setSelection(this.selectedWorkId);
-                this.partID = this.mPartDatas.get(this.selectedPartDate).getPartId();
-                this.partSerialID = this.mPartSerialIds.get(this.selectedPartSerialId);
                 this.workID = this.mWorkIds.get(this.selectedWorkId);
-                dbHandler.requestMeasData(partID, partSerialID, workID);
+                dbHandler.requestMeasData(this.partID, this.partSerialID, this.workID);
             }
-
-
         }else {
             Log.d(TAG,"requestPartId");
             dbHandler.requestPartId();
+            firstSetPart = false;
+            firstSetPartSerial = false;
+            firstSetWork = false;
         }
     }
 
