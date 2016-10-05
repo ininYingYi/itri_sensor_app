@@ -85,6 +85,7 @@ public class MeasureFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("MeasureFragment", "onResume");
+        
 
     }
     private String partID, partSerialID, workID;
@@ -140,9 +141,8 @@ public class MeasureFragment extends Fragment {
                 data.putString("workID", workID);
                 Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
                 fragment.setArguments(data);
-                transaction.replace(R.id.content, fragment);
+                transaction.add(R.id.content, fragment);
                 transaction.commit();
-
             }
         }
     };
