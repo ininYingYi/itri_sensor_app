@@ -66,6 +66,7 @@ public class SettingFragment extends Fragment {
     private TextView connected_server_name;
 
     private Button scan_new_BLE_device;
+    private Button set_db_btn;
     //private ProgressBar scan_progress;
     private ListView ble_devices_listview;
     private DatabaseHandler dbHandler;
@@ -81,6 +82,7 @@ public class SettingFragment extends Fragment {
         connected_device_name = (TextView) view.findViewById(R.id.setting_connected_device);
         connected_server_name = (TextView) view.findViewById(R.id.setting_connected_server);
         scan_new_BLE_device = (Button) view.findViewById(R.id.setting_scan_new_ble);
+        set_db_btn = (Button) view.findViewById(R.id.setting_set_db);
         //progressView = (LinearLayout) view.findViewById(R.id.progressBarView);
         ble_devices_listview = (ListView) view.findViewById(R.id.BLE_device_list);
 
@@ -106,6 +108,57 @@ public class SettingFragment extends Fragment {
                 if(!mScanning){
                     scanLeDevice(true);
                 }
+
+            }
+        });
+
+        set_db_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final View item = LayoutInflater.from(getActivity()).inflate(R.layout.setting_set_db_view, null);
+                final EditText db_url = (EditText)item.findViewById(R.id.EditDBsetting);
+                final EditText db_name = (EditText)item.findViewById(R.id.EditDBNameSetting);
+                final EditText db_image_url = (EditText)item.findViewById(R.id.EditImageSetting);
+
+                db_url.setHint(Settings.serverURL);
+                db_name.setHint(Settings.serverName);
+                db_image_url.setHint(Settings.imageURL);
+                db_image_url.setHint(Settings.imageURL);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("進階設定資料庫位置");
+                builder.setView(item);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        SharedPreferences settings = getActivity().getSharedPreferences("devices", 0);
+                        SharedPreferences.Editor editor = settings.edit();
+                        if(db_url.getText().toString().length() > 0){
+                            editor.putString("db_url", db_url.getText().toString());
+                            Settings.serverURL = db_url.getText().toString();
+                        }
+                        if(db_name.getText().toString().length() > 0){
+                            editor.putString("db_name", db_name.getText().toString());
+                            Settings.serverName = db_name.getText().toString();
+                        }
+                        if(db_image_url.getText().toString().length() > 0){
+                            editor.putString("db_image_url", db_image_url.getText().toString());
+                            Settings.imageURL = db_image_url.getText().toString();
+                        }
+                        Log.d(TAG,"db_url:"+ Settings.serverURL + " db_name:"+Settings.serverName + " db_image_url"+Settings.imageURL);
+                        editor.commit();
+
+                        dbHandler.isServerAlive();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
 
             }
         });

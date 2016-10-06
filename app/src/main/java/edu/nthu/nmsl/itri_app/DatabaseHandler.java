@@ -216,7 +216,9 @@ public class DatabaseHandler {
                     message.sendToTarget();
 
                 } else {
-
+                    Bitmap image = null;
+                    Message message = ResponseHandler.obtainMessage(this.state,image);
+                    message.sendToTarget();
                     Log.d(TAG, " Http connection error with code:" + urlConnection.getResponseCode());
                 }
                 urlConnection.disconnect();

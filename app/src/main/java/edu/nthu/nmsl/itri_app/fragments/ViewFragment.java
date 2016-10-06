@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,12 +79,20 @@ public class ViewFragment extends Fragment {
                 case DatabaseHandler.statePartId:
                     //Log.d(TAG,"Receive:"+msg.obj.toString());
                     mPartDatas = (ArrayList<PartData>)msg.obj;
+                    if(mPartDatas.size() <= 0){
+                        Toast.makeText(getActivity(),"無可查詢工具",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     PartDataAdapter adapter = new PartDataAdapter(getActivity(), mPartDatas);
                     selectPartSpinner.setAdapter(adapter);
                     selectPartSpinner.setOnItemSelectedListener(adapterListener);
                     break;
                 case DatabaseHandler.statePartSerialId:
                     mPartSerialIds = (ArrayList<String>)msg.obj;
+                    if(mPartSerialIds.size() <= 0){
+                        Toast.makeText(getActivity(),"無可查詢工件",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mPartSerialIds);
                     selectPartSerialSpinner.setAdapter(partSerialAdapter);
                     selectPartSerialSpinner.setOnItemSelectedListener(adapterListener);
@@ -91,6 +100,10 @@ public class ViewFragment extends Fragment {
                 case DatabaseHandler.stateWorkId:
                     Log.d(TAG,"Receive:"+msg.obj.toString());
                     mWorkIds = (ArrayList<String>)msg.obj;
+                    if(mWorkIds.size() <= 0){
+                        Toast.makeText(getActivity(),"無可查詢工單",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mWorkIds);
                     selectWorkSpinner.setAdapter(workAdapter);
                     selectWorkSpinner.setOnItemSelectedListener(adapterListener);
@@ -101,6 +114,11 @@ public class ViewFragment extends Fragment {
                     firstSetWork = false;
                     Log.d(TAG,"Receive:"+msg.obj.toString());
                     ArrayList<MeasData> list = (ArrayList<MeasData>)msg.obj;
+                    if(list.size() <= 0){
+                        Toast.makeText(getActivity(),"無可查詢資料",Toast.LENGTH_SHORT).show();
+                        listView.setAdapter(null);
+                        break;
+                    }
                     listView.setAdapter(null);
                     MeasDataAdapter listAdapter = new MeasDataAdapter(getActivity(), list);
                     listView.setAdapter(listAdapter);
@@ -183,7 +201,7 @@ public class ViewFragment extends Fragment {
         if(savedInstanceState!=null) {
             Log.d(TAG,"savedInstanceState");
             this.mPartDatas = savedInstanceState.getParcelableArrayList(this.saveParts);
-            if(this.mPartDatas.size() > 0) {
+            if(this.mPartDatas != null && this.mPartDatas.size() > 0) {
                 firstSetPart = true;
                 PartDataAdapter adapter = new PartDataAdapter(getActivity(), this.mPartDatas);
                 selectPartSpinner.setAdapter(adapter);
@@ -195,7 +213,7 @@ public class ViewFragment extends Fragment {
 
 
             this.mPartSerialIds = savedInstanceState.getStringArrayList(this.savePartSerialIds);
-            if(this.mPartSerialIds.size() > 0) {
+            if(this.mPartSerialIds != null && this.mPartSerialIds.size() > 0) {
                 firstSetPartSerial = true;
                 ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mPartSerialIds);
                 selectPartSerialSpinner.setAdapter(partSerialAdapter);
@@ -207,7 +225,7 @@ public class ViewFragment extends Fragment {
 
 
             this.mWorkIds = savedInstanceState.getStringArrayList(this.saveWorkIds);
-            if(this.mWorkIds.size() > 0) {
+            if(this.mWorkIds != null && this.mWorkIds.size() > 0) {
                 firstSetWork = true;
                 ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mWorkIds);
                 selectWorkSpinner.setAdapter(workAdapter);

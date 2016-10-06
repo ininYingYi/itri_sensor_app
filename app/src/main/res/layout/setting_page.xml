@@ -9,13 +9,14 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:textSize="24dp"
             android:paddingBottom="5dp"
-            android:text="@string/setting" />
+            android:text="@string/setting_view" />
 
         <View
             android:layout_width="fill_parent"
@@ -64,29 +65,65 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingTop="5dp"
-        android:weightSum="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24dp"
+            android:paddingBottom="5dp"
+            android:text="@string/setting" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg" />
+
         <Button
             android:paddingLeft="12dp"
+            android:layout_marginBottom="5dp"
             android:textSize="18dp"
             android:textColor="@android:color/tertiary_text_light"
-            android:text="@string/scan_btn"
-            android:background="@drawable/border_bottom"
-            android:layout_weight="0.15"
+            android:background="@color/white"
+            android:text="@string/db_setting"
             android:textAlignment="textStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/setting_scan_new_ble" />
+            android:id="@+id/setting_set_db" />
+
         <LinearLayout
             android:orientation="horizontal"
-            android:id="@+id/progressBarView"
             android:layout_width="match_parent"
-            android:layout_weight="0.85"
-            android:layout_height="match_parent"></LinearLayout>
+            android:weightSum="10"
+            android:layout_marginBottom="5dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_weight="1.5"
+                android:paddingLeft="12dp"
+                android:textSize="18dp"
+                android:textColor="@android:color/tertiary_text_light"
+                android:text="@string/scan_btn"
+                android:background="@color/white"
+                android:textAlignment="textStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/setting_scan_new_ble" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/progressBarView"
+                android:layout_width="match_parent"
+                android:layout_weight="0.85"
+                android:layout_height="match_parent"></LinearLayout>
+
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 

@@ -33,6 +33,7 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 import edu.nthu.nmsl.itri_app.settings.Devices;
+import edu.nthu.nmsl.itri_app.settings.Settings;
 
 public class MainActivity extends AppCompatActivity {
     private ProgressBar myProgressBar;
@@ -72,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("devices", 0);
         String deviceName = settings.getString("deviceName","BlueDial157;WiMER242");
         String deviceAddress = settings.getString("deviceAddress","C4:BE:84:49:C5:3E;5C:31:3E:5C:48:BC");
+
+        Settings.serverURL = settings.getString("db_url","http://140.96.173.245/cps/php/");
+        Settings.serverName = settings.getString("db_name","140.96.173.245");
+        Settings.imageURL = settings.getString("db_image_url","http://140.96.173.245/cps/Content/Picture/");
+
         Devices.getInstance().loadDevice(deviceName, deviceAddress);
         // Use this check to determine whether BLE is supported on the device.  Then you can
         // selectively disable BLE-related features.

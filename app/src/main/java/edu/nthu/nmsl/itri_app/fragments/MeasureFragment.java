@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,7 +17,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,6 +40,7 @@ public class MeasureFragment extends Fragment {
     private Spinner selectPartSpinner, selectPartSerialSpinner, selectWorkSpinner;
     private Button confirm;
     private DatabaseHandler dbHandler;
+    private ImageView imageView;
 
     //define save
     private final String saveParts = "saveParts";
@@ -61,10 +65,14 @@ public class MeasureFragment extends Fragment {
         selectPartSpinner = (Spinner) view.findViewById(R.id.select_part);
         selectPartSerialSpinner = (Spinner) view.findViewById(R.id.select_work);
         selectWorkSpinner = (Spinner) view.findViewById(R.id.select_process);
+        imageView = (ImageView) view.findViewById(R.id.measImageView);
+
+
         confirm = (Button) view.findViewById(R.id.button);
         confirm.setOnClickListener(clickListener);
         dbHandler = new DatabaseHandler(UIHandler);
         adapterListener = new AdapterListener();
+
         return view;
     }
 
@@ -77,12 +85,20 @@ public class MeasureFragment extends Fragment {
                 case DatabaseHandler.statePartId:
                     //Log.d(TAG,"Receive:"+msg.obj.toString());
                     mPartDatas = (ArrayList<PartData>)msg.obj;
+                    if(mPartDatas.size() <= 0){
+                        Toast.makeText(getActivity(),"此任務無此工具",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     PartDataAdapter adapter = new PartDataAdapter(getActivity(), mPartDatas);
                     selectPartSpinner.setAdapter(adapter);
                     selectPartSpinner.setOnItemSelectedListener(adapterListener);
                     break;
                 case DatabaseHandler.statePartSerialId:
                     mPartSerialIds = (ArrayList<String>)msg.obj;
+                    if(mPartSerialIds.size() <= 0){
+                        Toast.makeText(getActivity(),"此任務無待測工件號",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mPartSerialIds);
                     selectPartSerialSpinner.setAdapter(partSerialAdapter);
                     selectPartSerialSpinner.setOnItemSelectedListener(adapterListener);
@@ -90,12 +106,25 @@ public class MeasureFragment extends Fragment {
                 case DatabaseHandler.stateWorkId:
                     Log.d(TAG,"Receive:"+msg.obj.toString());
                     mWorkIds = (ArrayList<String>)msg.obj;
+                    if(mWorkIds.size() <= 0){
+                        Toast.makeText(getActivity(),"此任務無待測工單號",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mWorkIds);
                     selectWorkSpinner.setAdapter(workAdapter);
                     selectWorkSpinner.setOnItemSelectedListener(adapterListener);
                     break;
                 case DatabaseHandler.stateMeasId:
                     Log.d(TAG,"Receive:"+msg.obj.toString());
+                    break;
+                case DatabaseHandler.imageTask:
+                    if (msg.obj != null) {
+                        imageView.setImageBitmap((Bitmap) msg.obj);
+                        imageView.invalidate();
+                    }else {
+                        Toast.makeText(getActivity(),"無法取得圖片",Toast.LENGTH_SHORT).show();
+                        imageView.setImageResource(R.drawable.noimage);
+                    }
                     break;
                 default:
                     Log.d(TAG,"Error");
@@ -143,6 +172,8 @@ public class MeasureFragment extends Fragment {
                     }
                     selectedWorkId = position;
                     workID = (String) parent.getItemAtPosition(position);
+                    //cps/Content/Picture/HD-25-033/020-0.png
+                    if(partID != null && workID != null)dbHandler.imageTask(partID+"/"+workID+"-0.png");
                 }
 
         }
@@ -159,17 +190,20 @@ public class MeasureFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if ( v.equals(confirm)) {
-
-                FragmentManager fragmentManager = getActivity().getFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                Bundle data = new Bundle();
-                data.putString("partID", partID);
-                data.putString("partSerialID", partSerialID);
-                data.putString("workID", workID);
-                Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
-                fragment.setArguments(data);
-                transaction.add(R.id.content, fragment);
-                transaction.commit();
+                if(partID != null && partSerialID !=null && workID != null) {
+                    FragmentManager fragmentManager = getActivity().getFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    Bundle data = new Bundle();
+                    data.putString("partID", partID);
+                    data.putString("partSerialID", partSerialID);
+                    data.putString("workID", workID);
+                    Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
+                    fragment.setArguments(data);
+                    transaction.add(R.id.content, fragment);
+                    transaction.commit();
+                }else{
+                    Toast.makeText(getActivity(),"尚有未選擇選項!",Toast.LENGTH_SHORT).show();
+                }
             }
         }
     };
@@ -197,34 +231,37 @@ public class MeasureFragment extends Fragment {
         if(savedInstanceState!=null) {
             Log.d(TAG,"savedInstanceState");
             this.mPartDatas = savedInstanceState.getParcelableArrayList(this.saveParts);
-            if(this.mPartDatas.size() > 0) {
+            if(this.mPartDatas != null && this.mPartDatas.size() > 0) {
                 firstSetPart = true;
                 PartDataAdapter adapter = new PartDataAdapter(getActivity(), this.mPartDatas);
                 selectPartSpinner.setAdapter(adapter);
                 selectPartSpinner.setOnItemSelectedListener(adapterListener);
                 this.selectedPartDate = savedInstanceState.getInt(this.saveSelectedPart, 0);
+                partID = this.mPartDatas.get(this.selectedPartDate).getPartId();
                 if (this.selectedPartDate != 0) selectPartSpinner.setSelection(this.selectedPartDate);
             }
 
 
             this.mPartSerialIds = savedInstanceState.getStringArrayList(this.savePartSerialIds);
-            if(this.mPartSerialIds.size() > 0) {
+            if(this.mPartSerialIds != null && this.mPartSerialIds.size() > 0) {
                 firstSetPartSerial = true;
                 ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mPartSerialIds);
                 selectPartSerialSpinner.setAdapter(partSerialAdapter);
                 selectPartSerialSpinner.setOnItemSelectedListener(adapterListener);
                 this.selectedPartSerialId = savedInstanceState.getInt(this.saveSelectedPartSerial, 0);
+                partSerialID = this.mPartSerialIds.get(selectedPartSerialId);
                 if (this.selectedPartSerialId != 0) selectPartSerialSpinner.setSelection(this.selectedPartSerialId);
             }
 
 
             this.mWorkIds = savedInstanceState.getStringArrayList(this.saveWorkIds);
 
-            if(this.mWorkIds.size() > 0) {
+            if(this.mWorkIds != null && this.mWorkIds.size() > 0) {
                 firstSetWork = true;
                 ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, this.mWorkIds);
                 selectWorkSpinner.setAdapter(workAdapter);
                 selectWorkSpinner.setOnItemSelectedListener(adapterListener);
+                workID = this.mWorkIds.get(selectedWorkId);
                 this.selectedWorkId = savedInstanceState.getInt(this.saveSelevtedWorkId, 0);
                 if (this.selectedWorkId != 0) selectWorkSpinner.setSelection(this.selectedWorkId);
                 Handler mHandler = new Handler();
@@ -238,6 +275,8 @@ public class MeasureFragment extends Fragment {
                 }, 1000);
 
             }
+
+            if(partID != null && workID != null)dbHandler.imageTask(partID+"/"+workID+"-0.png");
         }else {
             Log.d(TAG,"requestPartId");
             dbHandler.requestPartId();
