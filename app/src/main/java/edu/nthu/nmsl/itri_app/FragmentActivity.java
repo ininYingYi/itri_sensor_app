@@ -222,6 +222,9 @@ public class FragmentActivity extends AppCompatActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             //change fragment when the radio group checked item changed
 
+            if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
+                checkedId = R.id.button;
+            }
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(checkedId));
             if(fragment == null){
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);
