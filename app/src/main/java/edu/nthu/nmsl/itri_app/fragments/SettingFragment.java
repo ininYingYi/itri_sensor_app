@@ -67,6 +67,7 @@ public class SettingFragment extends Fragment {
 
     private Button scan_new_BLE_device;
     private Button set_db_btn;
+    private Button recover_db_btn;
     //private ProgressBar scan_progress;
     private ListView ble_devices_listview;
     private DatabaseHandler dbHandler;
@@ -82,6 +83,7 @@ public class SettingFragment extends Fragment {
         connected_device_name = (TextView) view.findViewById(R.id.setting_connected_device);
         connected_server_name = (TextView) view.findViewById(R.id.setting_connected_server);
         scan_new_BLE_device = (Button) view.findViewById(R.id.setting_scan_new_ble);
+        recover_db_btn = (Button) view.findViewById(R.id.setting_set_db_default);
         set_db_btn = (Button) view.findViewById(R.id.setting_set_db);
         //progressView = (LinearLayout) view.findViewById(R.id.progressBarView);
         ble_devices_listview = (ListView) view.findViewById(R.id.BLE_device_list);
@@ -112,6 +114,32 @@ public class SettingFragment extends Fragment {
             }
         });
 
+        recover_db_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("恢復預設資料庫");
+                builder.setMessage("是否要恢復成工研院預設資料庫?");
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Settings.serverURL = Settings.default_serverURL;
+                        Settings.imageURL = Settings.default_imageURL;
+                        Settings.serverName = Settings.default_serverName;
+                        Toast.makeText(getActivity(),"恢復成功",Toast.LENGTH_SHORT).show();
+                        dbHandler.isServerAlive();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
+            }
+        });
+
         set_db_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,7 +163,7 @@ public class SettingFragment extends Fragment {
                         SharedPreferences settings = getActivity().getSharedPreferences("devices", 0);
                         SharedPreferences.Editor editor = settings.edit();
                         if(db_url.getText().toString().length() > 0){
-                            editor.putString("db_url", db_url.getText().toString());
+                            editor.putString("db_url", db_url.getText().toString()+"/");
                             Settings.serverURL = db_url.getText().toString();
                         }
                         if(db_name.getText().toString().length() > 0){
@@ -143,7 +171,7 @@ public class SettingFragment extends Fragment {
                             Settings.serverName = db_name.getText().toString();
                         }
                         if(db_image_url.getText().toString().length() > 0){
-                            editor.putString("db_image_url", db_image_url.getText().toString());
+                            editor.putString("db_image_url", db_image_url.getText().toString()+"/");
                             Settings.imageURL = db_image_url.getText().toString();
                         }
                         Log.d(TAG,"db_url:"+ Settings.serverURL + " db_name:"+Settings.serverName + " db_image_url"+Settings.imageURL);
@@ -204,6 +232,7 @@ public class SettingFragment extends Fragment {
     public void onResume() {
         Log.d("TEST","onResume");
         super.onResume();
+        connected_device_name.setText(Background.getInstance().getSensorName());
         progressView.setVisibility(View.INVISIBLE);
     }
 

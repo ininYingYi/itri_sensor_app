@@ -8,6 +8,7 @@
     <string name="itri_ble_device_1">Unkown </string>
     <string name="scan_btn">尋找更多設備...</string>
     <string name="db_setting">進階設定伺服器</string>
+    <string name="db_setting_default">恢復預設值</string>
     <string name="scan_stop_btn">停止搜尋...</string>
     <string name="add_new_device">新增常用裝置</string>
     <string name="switch_btn">更換測量工具</string>

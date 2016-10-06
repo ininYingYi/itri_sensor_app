@@ -95,6 +95,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/setting_set_db" />
 
+        <Button
+            android:paddingLeft="12dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="24dp"
+            android:textColor="@android:color/tertiary_text_light"
+            android:background="@color/white"
+            android:text="@string/db_setting_default"
+            android:textAlignment="textStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/setting_set_db_default" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

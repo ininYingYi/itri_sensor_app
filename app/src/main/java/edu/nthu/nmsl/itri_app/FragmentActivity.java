@@ -125,6 +125,7 @@ public class FragmentActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_ble_scan:
                 //scan BLE
+                radioGroup.check(radioGroup.getChildAt(3).getId());
                 break;
             default:
                 //check if device
@@ -175,7 +176,7 @@ public class FragmentActivity extends AppCompatActivity {
                 Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
                 mConnected = true;
                 //updateConnectionState(R.string.connected);
-                Toast.makeText(context, "device connected.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "裝置連線成功", Toast.LENGTH_SHORT).show();
                 Background.getInstance().setConnectionState(true);
                 invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
@@ -183,7 +184,7 @@ public class FragmentActivity extends AppCompatActivity {
                 mConnected = false;
                 //updateConnectionState(R.string.disconnected);
                 invalidateOptionsMenu();
-                Toast.makeText(context, "device disconnected.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "裝置離線",Toast.LENGTH_SHORT).show();
                 Background.getInstance().setConnectionState(false);
                 //clearUI();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
