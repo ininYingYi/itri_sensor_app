@@ -138,7 +138,8 @@
                         android:layout_width="match_parent"
                         android:textColor="@color/colorPrimaryDark"
                         android:background="@drawable/border_bottom"
-                        android:textSize="32dp"
+                        android:textStyle="bold"
+                        android:textSize="50dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView3"
                         android:textAlignment="center" />

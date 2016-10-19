@@ -16,6 +16,7 @@ public class MeasData {
     private String finalMeas;
     private String isKeyMeas;
     private String imageURL;
+    private boolean isCMM;
 
     public MeasData(String workId, int measId, String value, String normalSize, String status, String toleranceU, String toleranceL, String finalMeas, String isKeyMeas) {
         this.workId = workId;
@@ -32,6 +33,16 @@ public class MeasData {
     public MeasData(int measId, String imageURL) {
         this.measId = measId;
         this.imageURL = imageURL.replace("//", "/");
+    }
+
+    public MeasData(int measId, String imageURL, String cmm) {
+        this.measId = measId;
+        this.imageURL = imageURL.replace("//", "/");
+        if(cmm.equals("1")){
+            this.isCMM = true;
+        }else{
+            this.isCMM = false;
+        }
     }
 
     public int getMeasID() {
