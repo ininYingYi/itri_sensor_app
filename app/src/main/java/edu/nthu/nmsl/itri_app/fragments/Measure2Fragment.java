@@ -151,7 +151,7 @@ public class Measure2Fragment extends Fragment {
         Log.d(TAG, String.valueOf(measIndex));
         if (measIndex < measNumber) {
             MeasData meas = measID.get(measIndex);
-            measIDText.setText("程序:" + workID + "編號:" + String.valueOf(meas.getMeasID()));
+            measIDText.setText("程序:" + workID + " 編號:" + String.valueOf(meas.getMeasID()));
             dbHandler.imageTask(meas.getImageURL());
 
             Bitmap bmp = BitmapFactory.decodeResource(res, R.drawable.noimage);
