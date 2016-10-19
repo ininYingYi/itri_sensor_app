@@ -56,6 +56,7 @@ public class FragmentActivity extends AppCompatActivity {
     private boolean mBound;
     private static final int menu_device_group_id = 2;
     private Intent gattServiceIntent;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Hide the window title.
@@ -64,8 +65,19 @@ public class FragmentActivity extends AppCompatActivity {
 
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         fragmentManager = getFragmentManager();
-        //radioGroup.check(radioGroup.getChildAt(0).getId());
+
         radioGroup.setOnCheckedChangeListener(radioGroupListener);
+
+        if(savedInstanceState != null){
+            //do nothing
+            Log.e(TAG,"savedInstanceState");
+        }else {
+            Log.e(TAG,"click 0");
+            radioGroup.check(radioGroup.getChildAt(0).getId());
+        }
+
+
+        Log.d(TAG,"getCheckedRadioButtonId:"+radioGroup.getCheckedRadioButtonId());
 
         gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -231,7 +243,7 @@ public class FragmentActivity extends AppCompatActivity {
             }
 
 
-
+            Log.e(TAG,"getCheckedRadioButtonId:"+radioGroup.getCheckedRadioButtonId());
             Log.e(TAG, "CheckId = " + checkedId);
             if(fragment == null){
                 Log.i(TAG, "fragment is null");
@@ -250,5 +262,10 @@ public class FragmentActivity extends AppCompatActivity {
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
