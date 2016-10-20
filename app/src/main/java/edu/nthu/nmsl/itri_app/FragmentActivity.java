@@ -239,19 +239,18 @@ public class FragmentActivity extends AppCompatActivity {
             }
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(checkedId));
             if(fragment == null){
+                Log.i(TAG, "fragment is null, create one ");
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);
             }
 
 
             Log.e(TAG,"getCheckedRadioButtonId:"+radioGroup.getCheckedRadioButtonId());
             Log.e(TAG, "CheckId = " + checkedId);
-            if(fragment == null){
-                Log.i(TAG, "fragment is null");
-            }
 
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content, fragment,String.valueOf(checkedId));
             transaction.commit();
+
         }
     };
 

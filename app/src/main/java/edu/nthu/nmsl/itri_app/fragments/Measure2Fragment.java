@@ -62,11 +62,14 @@ public class Measure2Fragment extends Fragment {
     private boolean isCMM_status = false;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("MeasureFragment", "onCreateView");
+
+        //get value from instance
         Bundle data = getArguments();
         partID = data.getString("partID");
         partSerialID = data.getString("partSerialID");
         workID = data.getString("workID");
 
+        //handle UI components
         View view = inflater.inflate(R.layout.measure2_page, null);
         measIDText = (TextView) view.findViewById(R.id.textView);
         left = (Button) view.findViewById(R.id.button2);
@@ -80,8 +83,12 @@ public class Measure2Fragment extends Fragment {
         reset.setOnClickListener(clickListener);
         valueText = (TextView) view.findViewById(R.id.textView3);
         deviceName = (TextView) view.findViewById(R.id.device_model);
+
+        //connect to the server
         dbHandler = new DatabaseHandler(UIHandler);
-        dbHandler.requestMeasId(partID, workID);
+
+
+        //start a timer to get sensor's data
         timer = new Timer();
         updateValue = new TimerTask() {
             @Override
@@ -105,6 +112,13 @@ public class Measure2Fragment extends Fragment {
         timer.schedule(updateValue, 0, 10);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //ask for measId -> results will be handled by Handler
+        dbHandler.requestMeasId(partID, workID);
     }
 
     @Override
@@ -177,11 +191,20 @@ public class Measure2Fragment extends Fragment {
             //handle CMM
             if(meas.isCMM()){
                 this.upload.setEnabled(false);
-                this.upload.setBackground(getResources().getDrawable(R.drawable.btn_disable));
-                Toast.makeText(getActivity(),"此為CMM量測值，三次元資料無須上傳",Toast.LENGTH_LONG).show();
+                if(isAdded()) {
+                    this.upload.setBackground(getResources().getDrawable(R.drawable.btn_disable));
+                    Toast.makeText(getActivity(), "此為CMM量測值，三次元資料無須上傳", Toast.LENGTH_LONG).show();
+                }else{
+                    Log.d(TAG,"Fragment not attached to Activity");
+                }
             }else{
                 this.upload.setEnabled(true);
-                this.upload.setBackground(getResources().getDrawable(R.drawable.btn_success));
+                if(isAdded()) {
+                    this.upload.setBackground(getResources().getDrawable(R.drawable.btn_success));
+                }
+                else{
+                    Log.d(TAG,"Fragment not attached to Activity");
+                }
             }
         }
     }
@@ -217,7 +240,6 @@ public class Measure2Fragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if(savedInstanceState != null){
             this.measIndex = savedInstanceState.getInt(this.save_measIndex);
-            updateUI();
         }
     }
 
