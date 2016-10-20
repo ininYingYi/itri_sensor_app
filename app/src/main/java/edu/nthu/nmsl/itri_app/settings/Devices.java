@@ -71,4 +71,8 @@ public class Devices {
         }
         return sb.toString();
     }
+
+    public String[] getArrayDeviceName() {
+        return (String[]) deviceName.toArray();
+    }
 }

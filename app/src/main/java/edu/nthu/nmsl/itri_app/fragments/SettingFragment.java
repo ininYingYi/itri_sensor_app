@@ -68,6 +68,7 @@ public class SettingFragment extends Fragment {
     private Button scan_new_BLE_device;
     private Button set_db_btn;
     private Button recover_db_btn;
+    private Button set_default_sensor_btn;
     //private ProgressBar scan_progress;
     private ListView ble_devices_listview;
     private DatabaseHandler dbHandler;
@@ -84,6 +85,7 @@ public class SettingFragment extends Fragment {
         connected_server_name = (TextView) view.findViewById(R.id.setting_connected_server);
         scan_new_BLE_device = (Button) view.findViewById(R.id.setting_scan_new_ble);
         recover_db_btn = (Button) view.findViewById(R.id.setting_set_db_default);
+        set_default_sensor_btn = (Button) view.findViewById(R.id.setting_set_sensor_default);
         set_db_btn = (Button) view.findViewById(R.id.setting_set_db);
         //progressView = (LinearLayout) view.findViewById(R.id.progressBarView);
         ble_devices_listview = (ListView) view.findViewById(R.id.BLE_device_list);
@@ -188,6 +190,28 @@ public class SettingFragment extends Fragment {
                 });
                 builder.show();
 
+            }
+        });
+
+        set_default_sensor_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String test[] = Devices.getInstance().getArrayDeviceName();
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("請選擇預設裝置")
+                        .setItems(test, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String name = test[which];
+                                Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                                Background.getInstance().selectSensor(which);
+                                SharedPreferences settings = getActivity().getSharedPreferences("devices", 0);
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putInt("selectSensor", which);
+                                editor.commit();
+                            }
+                        })
+                        .show();
             }
         });
 

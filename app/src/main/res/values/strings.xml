@@ -50,4 +50,6 @@
     <string name="service_offline">資料庫維護中，請稍後再嘗試...</string>
     <string name="unknown_characteristic">Unknown characteristic</string>
     <string name="unknown_service">Unknown service</string>
+
+    <string name="sensor_setting_default">設定預設連結裝置</string>
 </resources>

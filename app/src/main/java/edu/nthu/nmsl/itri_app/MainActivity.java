@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         Settings.serverName = settings.getString("db_name","140.96.173.245");
         Settings.imageURL = settings.getString("db_image_url","http://140.96.173.245/cps/Content/Picture/");
 
+        int selectorSensor = settings.getInt("selectSensor", 0);
+        Background.getInstance().selectSensor(selectorSensor);
         Log.d(TAG,"db_url:"+ Settings.serverURL + " db_name:"+Settings.serverName + " db_image_url"+Settings.imageURL);
 
         Devices.getInstance().loadDevice(deviceName, deviceAddress);

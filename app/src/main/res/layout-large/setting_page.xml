@@ -107,6 +107,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/setting_set_db_default" />
 
+        <Button
+            android:paddingLeft="12dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="24dp"
+            android:textColor="@android:color/tertiary_text_light"
+            android:background="@color/white"
+            android:text="@string/sensor_setting_default"
+            android:textAlignment="textStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/setting_set_sensor_default" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
