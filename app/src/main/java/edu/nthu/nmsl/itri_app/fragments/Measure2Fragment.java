@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -48,9 +49,17 @@ public class Measure2Fragment extends Fragment {
     private TextView measIDText, valueText, deviceName;
     private Button left, right, upload, reset;
     private ImageView image;
+
+    //save measIndex
+    private final String save_measIndex = "measIndex";
+
     private int measIndex = 0, measNumber = 0;
+
+
     private Timer timer = new Timer();
     private Resources res;
+
+    private boolean isCMM_status = false;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("MeasureFragment", "onCreateView");
         Bundle data = getArguments();
@@ -137,8 +146,14 @@ public class Measure2Fragment extends Fragment {
                 case DatabaseHandler.sendData:
                     String result = msg.obj.toString();
                     Log.d(TAG, result);
-                    if (result.equals("Successfully"))
-                        Toast.makeText(getActivity(), "Upload succesfully", Toast.LENGTH_SHORT).show();
+                    if (result.equals("Successfully")) {
+                        Toast.makeText(getActivity(), "成功上傳", Toast.LENGTH_SHORT).show();
+                        if (measIndex < measNumber - 1){
+                            measIndex += 1;
+                            updateUI();
+                        }
+                    }else
+                        Toast.makeText(getActivity(), "伺服器錯誤", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     Log.d(TAG,"Error");
@@ -158,6 +173,16 @@ public class Measure2Fragment extends Fragment {
 
             image.setImageBitmap(bmp);
             image.invalidate();
+
+            //handle CMM
+            if(meas.isCMM()){
+                this.upload.setEnabled(false);
+                this.upload.setBackground(getResources().getDrawable(R.drawable.btn_disable));
+                Toast.makeText(getActivity(),"此為CMM量測值，三次元資料無須上傳",Toast.LENGTH_LONG).show();
+            }else{
+                this.upload.setEnabled(true);
+                this.upload.setBackground(getResources().getDrawable(R.drawable.btn_success));
+            }
         }
     }
     private Handler mHandler = new Handler();
@@ -181,22 +206,43 @@ public class Measure2Fragment extends Fragment {
         }
     };
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(this.save_measIndex,measIndex);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState != null){
+            this.measIndex = savedInstanceState.getInt(this.save_measIndex);
+            updateUI();
+        }
+    }
+
     Button.OnClickListener clickListener = new Button.OnClickListener(){
         @Override
         public void onClick(View v) {
             if (v.equals(left)) {
-                if (measIndex > 0) measIndex -= 1;
-                updateUI();
+                if (measIndex > 0) {
+                    measIndex -= 1;
+                    updateUI();
+                }
+
             }
             else if (v.equals(right)) {
-                if (measIndex < measNumber - 1) measIndex += 1;
-                updateUI();
+                if (measIndex < measNumber - 1){
+                    measIndex += 1;
+                    updateUI();
+                }
             }
             else if (v.equals(upload)) {
                 Log.d(TAG, "UPLOAD DATA");
                 if (sensorValue != null)
                     dbHandler.insertMeasData(partSerialID, String.valueOf(measID.get(measIndex).getMeasID()), Double.valueOf(sensorValue));
                 else
+                    Toast.makeText(getActivity(),"裝置錯誤，請重新連線",Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "NO data");
             }
             else if (v.equals(reset)) {

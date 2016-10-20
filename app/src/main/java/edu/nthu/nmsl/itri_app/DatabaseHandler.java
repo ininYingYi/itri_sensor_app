@@ -381,7 +381,6 @@ public class DatabaseHandler {
                 case sendData:
                     message = ActivityUIHandler.obtainMessage(msg.what,msg.obj);
                     message.sendToTarget();
-
                     break;
                 case imageTask:
                     message = ActivityUIHandler.obtainMessage(msg.what,msg.obj);

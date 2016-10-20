@@ -30,6 +30,10 @@ public class MeasData {
         this.isKeyMeas = isKeyMeas;
     }
 
+    public boolean isCMM(){
+        return this.isCMM;
+    }
+
     public MeasData(int measId, String imageURL) {
         this.measId = measId;
         this.imageURL = imageURL.replace("//", "/");
