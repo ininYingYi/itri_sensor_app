@@ -346,7 +346,7 @@ public class DatabaseHandler {
                         JSONArray rec_part_json = new JSONArray(msg.obj.toString());
                         for(int i=0;i < rec_part_json.length();i++){
                             JSONObject data = rec_part_json.getJSONObject(i);
-                            MeasData mdata = new MeasData(Integer.parseInt(data.getString("MeasID")),data.getString("ImagePath"));
+                            MeasData mdata = new MeasData(Integer.parseInt(data.getString("MeasID")),data.getString("ImagePath"),data.getString("CMM"));
                             mMeasIdArray.add(mdata);
                         }
 
