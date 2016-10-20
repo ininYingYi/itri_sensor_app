@@ -5,171 +5,185 @@
     android:padding="20dp"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:orientation="vertical"
+
+    <ScrollView
+        android:padding="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:textSize="32dp"
-            android:paddingBottom="5dp"
-            android:text="@string/setting_view" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/bg" />
-
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-            <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/setting_connected_device_title"
-                android:textSize="24dp"/>
-            <Space android:layout_width="5dp"
-                android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/setting_connected_device"
-                android:text="@string/txt_default"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="24dp"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-            <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/setting_connected_server_title"
-                android:textSize="24dp"/>
-            <Space android:layout_width="5dp"
-                android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/setting_connected_server"
-                android:text="@string/txt_default"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="24dp"/>
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:paddingTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:textSize="32dp"
-            android:paddingBottom="5dp"
-            android:text="@string/setting" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/bg" />
-
-        <Button
-            android:paddingLeft="12dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="24dp"
-            android:textColor="@android:color/tertiary_text_light"
-            android:background="@color/white"
-            android:text="@string/db_setting"
-            android:textAlignment="textStart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/setting_set_db" />
-
-        <Button
-            android:paddingLeft="12dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="24dp"
-            android:textColor="@android:color/tertiary_text_light"
-            android:background="@color/white"
-            android:text="@string/db_setting_default"
-            android:textAlignment="textStart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/setting_set_db_default" />
-
-        <Button
-            android:paddingLeft="12dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="24dp"
-            android:textColor="@android:color/tertiary_text_light"
-            android:background="@color/white"
-            android:text="@string/sensor_setting_default"
-            android:textAlignment="textStart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/setting_set_sensor_default" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:weightSum="10"
-            android:layout_marginBottom="5dp"
+            android:orientation="vertical"
             android:layout_height="match_parent">
 
-            <Button
-                android:layout_weight="1.5"
-                android:paddingLeft="12dp"
-                android:textSize="24dp"
-                android:textColor="@android:color/tertiary_text_light"
-                android:text="@string/scan_btn"
-                android:background="@color/white"
-                android:textAlignment="textStart"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/setting_scan_new_ble" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="32dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/setting_view" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg" />
+
+                <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+                    <TextView android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setting_connected_device_title"
+                        android:textSize="24dp"/>
+                    <Space android:layout_width="5dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/setting_connected_device"
+                        android:text="@string/txt_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="24dp"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+                    <TextView android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setting_connected_server_title"
+                        android:textSize="24dp"/>
+                    <Space android:layout_width="5dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/setting_connected_server"
+                        android:text="@string/txt_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="24dp"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/progressBarView"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_weight="0.85"
-                android:layout_height="match_parent"></LinearLayout>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="32dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/setting" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg" />
+
+                <Button
+                    android:paddingLeft="12dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="24dp"
+                    android:textColor="@android:color/tertiary_text_light"
+                    android:background="@color/white"
+                    android:text="@string/db_setting"
+                    android:textAlignment="textStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/setting_set_db" />
+
+                <Button
+                    android:paddingLeft="12dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="24dp"
+                    android:textColor="@android:color/tertiary_text_light"
+                    android:background="@color/white"
+                    android:text="@string/db_setting_default"
+                    android:textAlignment="textStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/setting_set_db_default" />
+
+                <Button
+                    android:paddingLeft="12dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="24dp"
+                    android:textColor="@android:color/tertiary_text_light"
+                    android:background="@color/white"
+                    android:text="@string/setting_default_sensor"
+                    android:textAlignment="textStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/setting_set_sensor_default" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:weightSum="10"
+                    android:layout_marginBottom="5dp"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:layout_weight="1.5"
+                        android:paddingLeft="12dp"
+                        android:textSize="24dp"
+                        android:textColor="@android:color/tertiary_text_light"
+                        android:text="@string/scan_btn"
+                        android:background="@color/white"
+                        android:textAlignment="textStart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/setting_scan_new_ble" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:id="@+id/progressBarView"
+                        android:layout_width="match_parent"
+                        android:layout_weight="0.85"
+                        android:layout_height="match_parent"></LinearLayout>
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg" />
+
+            </LinearLayout>
+
+
+            <ListView
+                android:id="@+id/BLE_device_list"
+                android:layout_width="match_parent"
+                android:layout_height="650dp" />
 
         </LinearLayout>
-
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp">
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/bg" />
-
-    </LinearLayout>
-
-
-    <ListView
-        android:id="@+id/BLE_device_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    </ScrollView>
 
 
 </LinearLayout>

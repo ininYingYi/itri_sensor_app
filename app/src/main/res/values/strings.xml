@@ -38,7 +38,7 @@
     <string name="setting_view">狀態</string>
     <string name="setting_connected_device_title">目前連線裝置:</string>
     <string name="setting_connected_server_title">目前連線資料庫:</string>
-
+    <string name="setting_default_sensor">設定預設連結裝置</string>
 
     <string name="setting_scan_state_connecting">尋找裝置中</string>
     <string name="setting_scan_state_show">附近藍芽裝置</string>
@@ -51,5 +51,5 @@
     <string name="unknown_characteristic">Unknown characteristic</string>
     <string name="unknown_service">Unknown service</string>
 
-    <string name="sensor_setting_default">設定預設連結裝置</string>
+
 </resources>
