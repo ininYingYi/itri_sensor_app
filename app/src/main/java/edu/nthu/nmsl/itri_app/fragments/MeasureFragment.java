@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import edu.nthu.nmsl.itri_app.Background;
 import edu.nthu.nmsl.itri_app.DatabaseHandler;
@@ -199,7 +200,7 @@ public class MeasureFragment extends Fragment {
                     data.putString("workID", workID);
                     Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
                     fragment.setArguments(data);
-                    transaction.add(R.id.content, fragment);
+                    transaction.add(R.id.content, fragment, String.valueOf(R.id.button));
                     transaction.commit();
                 }else{
                     Toast.makeText(getActivity(),"尚有未選擇選項!",Toast.LENGTH_SHORT).show();

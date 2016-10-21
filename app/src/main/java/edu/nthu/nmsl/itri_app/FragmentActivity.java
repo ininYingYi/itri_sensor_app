@@ -66,7 +66,7 @@ public class FragmentActivity extends AppCompatActivity {
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         fragmentManager = getFragmentManager();
 
-        radioGroup.setOnCheckedChangeListener(radioGroupListener);
+
 
         if(savedInstanceState != null){
             //do nothing
@@ -74,6 +74,14 @@ public class FragmentActivity extends AppCompatActivity {
         }else {
             Log.e(TAG,"click 0");
             radioGroup.check(radioGroup.getChildAt(0).getId());
+            Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton1));
+            if (fragment == null) {
+                Log.i(TAG, "fragment is null, create one ");
+                fragment = FragmentFactory.getInstanceByIndex(R.id.radioButton1);
+            }
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content, fragment,String.valueOf(R.id.radioButton1));
+            transaction.commit();
         }
 
 
@@ -91,6 +99,7 @@ public class FragmentActivity extends AppCompatActivity {
             final boolean result = mBluetoothLeService.connect(Devices.getInstance().getDeviceAddress(Background.getInstance().getUsingSensorID()));
             Log.d(TAG, "Connect request result=" + result);
         }
+        radioGroup.setOnCheckedChangeListener(radioGroupListener);
     }
 
     @Override
@@ -115,7 +124,10 @@ public class FragmentActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         available_devics.clear();
         for (int id = 0; id < Devices.getInstance().getDeviceNumber(); id++) {
-            available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.getInstance().getDeviceName(id));
+            if (Background.getInstance().getUsingSensorID() == id)
+                available_devics.add(menu_device_group_id,id,Menu.NONE,"* " + Devices.getInstance().getDeviceName(id));
+            else
+                available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.getInstance().getDeviceName(id));
         }
         return true;
     }
@@ -125,16 +137,18 @@ public class FragmentActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.fragment_action_menu,menu);
         available_devics = menu.addSubMenu("更換連結裝置");
         for (int id = 0; id < Devices.getInstance().getDeviceNumber(); id++) {
-            available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.getInstance().getDeviceName(id));
+            if (Background.getInstance().getUsingSensorID() == id)
+                available_devics.add(menu_device_group_id,id,Menu.NONE,"A" + Devices.getInstance().getDeviceName(id));
+            else
+                available_devics.add(menu_device_group_id,id,Menu.NONE,Devices.getInstance().getDeviceName(id));
         }
-
         return true;
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_ble_scan:
                 //scan BLE
                 radioGroup.check(radioGroup.getChildAt(3).getId());
@@ -234,11 +248,11 @@ public class FragmentActivity extends AppCompatActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             //change fragment when the radio group checked item changed
 
-            if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
+            /*if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
                 checkedId = R.id.button;
-            }
+            }*/
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(checkedId));
-            if(fragment == null){
+            if (fragment == null) {
                 Log.i(TAG, "fragment is null, create one ");
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);
             }
@@ -249,6 +263,14 @@ public class FragmentActivity extends AppCompatActivity {
 
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content, fragment,String.valueOf(checkedId));
+            if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
+                Fragment fragment2 = fragmentManager.findFragmentByTag(String.valueOf(R.id.button));
+                if (fragment2 == null) {
+                    Log.i(TAG, "fragment is null, create one ");
+                    fragment2 = FragmentFactory.getInstanceByIndex(R.id.button);
+                }
+                transaction.add(R.id.content, fragment2, String.valueOf(R.id.button));
+            }
             transaction.commit();
 
         }

@@ -269,6 +269,7 @@ public class Measure2Fragment extends Fragment {
             }
             else if (v.equals(reset)) {
                 FragmentFactory.inMeasure2 = false;
+                measIndex = 0;
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.remove(Measure2Fragment.this);

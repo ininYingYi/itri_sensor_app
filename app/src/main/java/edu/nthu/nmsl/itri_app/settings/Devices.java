@@ -73,6 +73,13 @@ public class Devices {
     }
 
     public String[] getArrayDeviceName() {
-        return (String[]) deviceName.toArray();
+        String array[] = new String[deviceName.size()];
+        int i =0;
+        for (String s : deviceName)
+        {
+            array[i] = s;
+            i++;
+        }
+        return array;
     }
 }

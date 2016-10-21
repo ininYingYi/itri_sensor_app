@@ -203,7 +203,7 @@ public class SettingFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String name = test[which];
-                                Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), name + "於下次啟動時將會自動連接", Toast.LENGTH_SHORT).show();
                                 Background.getInstance().selectSensor(which);
                                 SharedPreferences settings = getActivity().getSharedPreferences("devices", 0);
                                 SharedPreferences.Editor editor = settings.edit();
