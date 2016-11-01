@@ -87,7 +87,7 @@ public class MeasureFragment extends Fragment {
                     //Log.d(TAG,"Receive:"+msg.obj.toString());
                     mPartDatas = (ArrayList<PartData>)msg.obj;
                     if(mPartDatas.size() <= 0){
-                        Toast.makeText(getActivity(),"此任務無此工具",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"此任務無此工件",Toast.LENGTH_SHORT).show();
                         break;
                     }
                     PartDataAdapter adapter = new PartDataAdapter(getActivity(), mPartDatas);
@@ -97,7 +97,7 @@ public class MeasureFragment extends Fragment {
                 case DatabaseHandler.statePartSerialId:
                     mPartSerialIds = (ArrayList<String>)msg.obj;
                     if(mPartSerialIds.size() <= 0){
-                        Toast.makeText(getActivity(),"此任務無待測工件號",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"此任務無待測工單號",Toast.LENGTH_SHORT).show();
                         break;
                     }
                     ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mPartSerialIds);
@@ -108,7 +108,7 @@ public class MeasureFragment extends Fragment {
                     Log.d(TAG,"Receive:"+msg.obj.toString());
                     mWorkIds = (ArrayList<String>)msg.obj;
                     if(mWorkIds.size() <= 0){
-                        Toast.makeText(getActivity(),"此任務無待測工單號",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"此任務無待測程序號",Toast.LENGTH_SHORT).show();
                         break;
                     }
                     ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mWorkIds);
