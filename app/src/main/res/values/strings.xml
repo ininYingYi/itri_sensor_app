@@ -13,8 +13,8 @@
     <string name="add_new_device">新增常用裝置</string>
     <string name="switch_btn">更換測量工具</string>
     <string name="app_title">CPS精密製造系統</string>
-    <string name="part_string">選擇工具:</string>
-    <string name="partserial_string">選擇工件:</string>
+    <string name="part_string">選擇工件:</string>
+    <string name="partserial_string">選擇工具:</string>
     <string name="work_string">選擇工單:</string>
 
     <string name="copyright">2016 Copyright ©, Industrial Technology Research Institute, 工業技術研究院</string>
