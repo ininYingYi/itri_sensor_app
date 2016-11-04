@@ -44,6 +44,7 @@ public class Measure2Fragment extends Fragment {
     private static final String TAG = "Measure2Fragment";
     private TextSwitcher textSwitcher;
     private String partID, partSerialID, workID;
+    private ArrayList<String> workIDs;
     private DatabaseHandler dbHandler;
     private ArrayList<MeasData> measID;
     private TextView measIDText, valueText, deviceName;
@@ -68,6 +69,7 @@ public class Measure2Fragment extends Fragment {
         partID = data.getString("partID");
         partSerialID = data.getString("partSerialID");
         workID = data.getString("workID");
+        workIDs = data.getStringArrayList("workIDs");
 
         //handle UI components
         View view = inflater.inflate(R.layout.measure2_page, null);
@@ -149,6 +151,12 @@ public class Measure2Fragment extends Fragment {
                 case DatabaseHandler.stateMeasId:
                     measID = (ArrayList<MeasData>)msg.obj;
                     measNumber = measID.size();
+                    if (isLeft) {
+                        measIndex = measNumber - 1;
+                    }
+                    else {
+                        measIndex = 0;
+                    }
                     updateUI();
                     break;
                 case DatabaseHandler.imageTask:
@@ -175,7 +183,7 @@ public class Measure2Fragment extends Fragment {
             }
         }
     };
-
+    private boolean isLeft = false;
     public void updateUI() {
         Log.d(TAG, String.valueOf(measIndex));
         if (measIndex < measNumber) {
@@ -233,6 +241,7 @@ public class Measure2Fragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(this.save_measIndex,measIndex);
+        outState.putString("workID", workID);
     }
 
     @Override
@@ -240,6 +249,8 @@ public class Measure2Fragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if(savedInstanceState != null){
             this.measIndex = savedInstanceState.getInt(this.save_measIndex);
+            workID = savedInstanceState.getString("workID");
+
         }
     }
 
@@ -251,12 +262,30 @@ public class Measure2Fragment extends Fragment {
                     measIndex -= 1;
                     updateUI();
                 }
-
+                else {
+                    int index = workIDs.indexOf(workID);
+                    if ( index > 0) {
+                        isLeft = true;
+                        workID = (String) workIDs.get(--index);
+                        dbHandler.requestMeasId(partID, workID);
+                    }
+                }
             }
             else if (v.equals(right)) {
                 if (measIndex < measNumber - 1){
                     measIndex += 1;
                     updateUI();
+                }
+                else {
+                    int totalWorkIDNumber = workIDs.size();
+                    int index = workIDs.indexOf(workID);
+                    Log.e(TAG, workID + "index: " + index);
+                    if ( index < totalWorkIDNumber - 1) {
+                        isLeft = false;
+                        workID = (String) workIDs.get(++index);
+                        dbHandler.requestMeasId(partID, workID);
+                        updateUI();
+                    }
                 }
             }
             else if (v.equals(upload)) {

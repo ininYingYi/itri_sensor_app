@@ -208,6 +208,7 @@ public class MeasureFragment extends Fragment {
                     data.putString("partID", partID);
                     data.putString("partSerialID", partSerialID);
                     data.putString("workID", workID);
+                    data.putStringArrayList("workIDs", mWorkIds);
                     Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
                     fragment.setArguments(data);
                     transaction.add(R.id.content, fragment, String.valueOf(R.id.button));
