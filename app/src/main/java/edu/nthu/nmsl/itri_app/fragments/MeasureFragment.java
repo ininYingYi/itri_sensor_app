@@ -118,6 +118,15 @@ public class MeasureFragment extends Fragment {
                 case DatabaseHandler.stateMeasId:
                     Log.d(TAG,"Receive:"+msg.obj.toString());
                     break;
+                case DatabaseHandler.measImagePath:
+                    if (msg.obj != null) {
+                        String imagePath = msg.obj.toString();
+                        dbHandler.imageTask(imagePath);
+                    }else {
+                        Toast.makeText(getActivity(),"無法取得圖片",Toast.LENGTH_SHORT).show();
+                        imageView.setImageResource(R.drawable.noimage);
+                    }
+                    break;
                 case DatabaseHandler.imageTask:
                     if (msg.obj != null) {
                         imageView.setImageBitmap((Bitmap) msg.obj);
@@ -173,8 +182,9 @@ public class MeasureFragment extends Fragment {
                     }
                     selectedWorkId = position;
                     workID = (String) parent.getItemAtPosition(position);
+                    //request image url
                     //cps/Content/Picture/HD-25-033/020-0.png
-                    if(partID != null && workID != null)dbHandler.imageTask(partID+"/"+workID+"-0.png");
+                    if(partID != null && workID != null)dbHandler.requestMeasImagePath(partID,workID);
                 }
 
         }

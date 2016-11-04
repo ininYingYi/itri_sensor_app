@@ -40,6 +40,7 @@ public class DatabaseHandler {
     public static final int sendData = 5;
     public static final int imageTask = 6;
     public static final int check_alive = 7;
+    public static final int measImagePath = 8;
 
     private Handler ActivityUIHandler;
 
@@ -115,6 +116,23 @@ public class DatabaseHandler {
             url = new URL(mURL);
             Thread getThread;
             getThread = new Thread(new httpGet(url, stateGetAllMeasData));
+            getThread.start();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Log.d(TAG,"URL error");
+        }
+    }
+
+    public void requestMeasImagePath(String selectedPartId, String selectedWorkId){
+        String mURL = Settings.serverURL
+                + "appGetMeasImage.php?partId=" + selectedPartId + "&workId="
+                + selectedWorkId;
+        Log.d(TAG,mURL);
+        URL url;
+        try {
+            url = new URL(mURL);
+            Thread getThread;
+            getThread = new Thread(new httpGet(url, measImagePath));
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -358,6 +376,15 @@ public class DatabaseHandler {
                     message.sendToTarget();
                     Log.d(TAG,"mMeasIdArray Receive:"+mMeasIdArray.toString());
                     break;
+                case measImagePath:
+
+                    String imagePath = msg.obj.toString().replace(" ","");
+
+
+                    message = ActivityUIHandler.obtainMessage(msg.what,imagePath);
+                    message.sendToTarget();
+                    Log.d(TAG,"measImagePath Receive:"+imagePath);
+                    break;
                 case stateGetAllMeasData:
                     ArrayList<MeasData> mMeasDataArray = new ArrayList<MeasData>();
                     try {
@@ -385,7 +412,6 @@ public class DatabaseHandler {
                 case imageTask:
                     message = ActivityUIHandler.obtainMessage(msg.what,msg.obj);
                     message.sendToTarget();
-                    Log.d(TAG,"Downloaded image.");
                     break;
                 case check_alive:
                     message = ActivityUIHandler.obtainMessage(msg.what,msg.obj);
