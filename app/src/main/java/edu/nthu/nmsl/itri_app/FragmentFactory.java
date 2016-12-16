@@ -18,7 +18,7 @@ public class FragmentFactory {
     public static ViewFragment viewFragment = null;
     public static SettingFragment settingFragment = null;
     public static boolean inMeasure2 = false;
-
+    // return the fragment by the button's id
     public static Fragment getInstanceByIndex(int index){
         Fragment fragment = null;
         switch (index){

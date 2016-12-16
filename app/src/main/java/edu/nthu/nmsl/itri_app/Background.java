@@ -49,7 +49,7 @@ public class Background {
     private String unit_label = "mm";
     private Boolean keepRecieve = false;
     private Boolean isConnect = false;
-
+    // keep update the sensor value
     public void recieveData(String data) {
         if (data != null) {
             final String[] tmp = data.split(",");
