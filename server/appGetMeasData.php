@@ -5,6 +5,7 @@ $partId = $_GET["partId"];
 $partSerialId = $_GET["partSerialId"];
 $workId = $_GET["workId"];
 
+/*Prevent sql injection*/
 function mssql_escape($data) {
     if(is_numeric($data))
         return $data;
@@ -28,6 +29,8 @@ if( $conn === false )
 }
 $measData = array();
 
+
+//prepare sql
 $getAllMeasData = "SELECT tblpartqcdata.MeasID,tblpartqcdata.Value,tblpartqcdata.Status, tblpartqcdefine.WorkID, tblpartqcdefine.NormalSize, tblpartqcdefine.ToleranceU, tblpartqcdefine.ToleranceL, tblpartqcdefine.FinalMeas, tblpartqcdefine.IsKeyMeas FROM tblpartqcdata INNER JOIN tblpartqcdefine ON tblpartqcdata.MeasID = tblpartqcdefine.MeasID WHERE tblpartqcdata.PartSerialID = '$partSerialId' AND tblpartqcdefine.PartID = ". mssql_escape($partId) ." AND tblpartqcdefine.WorkID = " . mssql_escape($workId);
 $res = sqlsrv_query($conn,$getAllMeasData);
 

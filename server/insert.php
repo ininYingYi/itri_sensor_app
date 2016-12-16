@@ -1,4 +1,10 @@
 <?php
+
+/************************************
+Insert measured value into database
+modified: mao
+*************************************/
+
 $reading =  $_POST["reading"];
 $unit =  $_POST["unit"];
 $triggerFlag =  $_POST["triggerFlag"];
@@ -7,6 +13,9 @@ $batteryVoltage =  $_POST["batteryVoltage"];
 $versionFlag =  $_POST["versionFlag"];
 $timeInterval =  $_POST["timeInterval"];
 
+/**************************
+Prevent sql injection
+**************************/
 function mssql_escape($data) {
     if(is_numeric($data))
         return $data;
@@ -14,8 +23,9 @@ function mssql_escape($data) {
     return '0x' . $unpacked['hex'];
 }
 
-//load DB settings
+/*load DB settings*/
 include 'settings.php';
+/*establish connection object*/
 $connectionInfo = array( "UID"=>$uid,  
                          "PWD"=>$pwd,  
                          "Database"=>$dbname,
@@ -29,9 +39,11 @@ if( $conn === false )
      die( print_r( sqlsrv_errors(), true));  
 }
 
+/*prepare sql*/
 $sql = "INSERT INTO sensor (reading, unit, triggerFlag, angles, batteryVoltage, versionFlag, timeInterval)
 VALUES ('". $reading ."','". $unit ."','". $triggerFlag ."','". $angles ."','". $batteryVoltage ."','". $versionFlag ."','". $timeInterval ."')";
 
+/*execute sql*/
 if (sqlsrv_query($conn,$sql) === TRUE) {
     echo "Successfully";
 } else {

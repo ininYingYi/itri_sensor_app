@@ -1,5 +1,11 @@
 <?php
+/************************************
+Insert measured value into database
+modified: mao
+*************************************/
 
+
+/*Prevent sql injection*/
 function mssql_escape($data) {
     if(is_numeric($data))
         return $data;
@@ -14,6 +20,7 @@ $value=mssql_escape($_GET["value"]);
 
 //load DB settings
 include 'settings.php';
+/*establish connection object*/
 $connectionInfo = array( "UID"=>$uid,  
                          "PWD"=>$pwd,  
                          "Database"=>$dbname,
@@ -30,13 +37,16 @@ if( $conn === false )
 $now = date("Y-m-d H:i:s");
 $sql;
 
+/*check if the entry is already existed*/
 $check_sql = "SELECT PartSerialID, MeasID FROM tblPartQCData WHERE PartSerialID=$partSerialId AND MeasID=$measId";
 $res = sqlsrv_query($conn,$check_sql);
-//echo $check_sql;
-//var_dump($res);
+
+
 if($res == false){
-	$sql = "INSERT INTO tblpartqcdata (PartSerialID, MeasID, Value, Status, Grade, CreateDate) VALUES ($partSerialId, $measId, $value, NULL, NULL, '$now')";
+	/*insert new data*/
+    $sql = "INSERT INTO tblpartqcdata (PartSerialID, MeasID, Value, Status, Grade, CreateDate) VALUES ($partSerialId, $measId, $value, NULL, NULL, '$now')";
 }else {
+    /*update existing data*/
 	$sql = "UPDATE tblpartqcdata SET Value=$value,CreateDate='$now' WHERE PartSerialID=$partSerialId AND MeasID=$measId";
 }
 
@@ -53,7 +63,7 @@ if (($r = sqlsrv_query($conn,$sql)) != FALSE) {
         }
     }
 }
-//echo $r;
+
 
 sqlsrv_close( $conn );
 
