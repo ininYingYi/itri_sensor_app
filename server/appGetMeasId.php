@@ -1,7 +1,7 @@
 <?php
 
 header("Content-Type:text/html; charset=utf-8");
-
+/*Prevent sql injection*/
 function mssql_escape($data) {
     if(is_numeric($data))
         return $data;
@@ -31,7 +31,7 @@ if( $conn === false )
 }
 
 $measId = array();
-
+//prepare sql
 $getAllMeasID = "select MeasID,ImagePath,CMM from tblpartqcdefine where PartID=$partId and WorkID=$workId";
 $res = sqlsrv_query($conn,$getAllMeasID);
 

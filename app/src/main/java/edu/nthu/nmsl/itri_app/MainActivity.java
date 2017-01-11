@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        // load the devices settings and server settings. if there is no value will load the default settings.
         SharedPreferences settings = getSharedPreferences("devices", 0);
         String deviceName = settings.getString("deviceName","BlueDial157;WiMER242");
         String deviceAddress = settings.getString("deviceAddress","C4:BE:84:49:C5:3E;5C:31:3E:5C:48:BC");
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 mHandler.post(new Runnable() {
                     public void run() {
                         mBluetoothLeScanner.stopScan(mLeScanCallback);
-
+                        // jump to FragmentActivity (Index, Measure, View, Setting)
                         Intent intent = new Intent();
                         intent.setClass(MainActivity.this, FragmentActivity.class);
                         startActivity(intent);
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeScanner mBluetoothLeScanner;
     private void startConnectBLE() {
-        Log.d("!!!", "!!");
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -183,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    //check permissions
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

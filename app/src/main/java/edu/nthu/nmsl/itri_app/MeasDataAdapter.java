@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by YingYi on 2016/9/23.
+ * * Adapter is to create the each item in the list view.
  */
 
 public class MeasDataAdapter extends BaseAdapter {

@@ -2,6 +2,7 @@
 
 header("Content-Type:text/html; charset=utf-8");
 
+/*Prevent sql injection*/
 function mssql_escape($data) {
     if(is_numeric($data))
         return $data;
@@ -14,6 +15,7 @@ $partId = $_GET["partId"];
 
 //load DB settings
 include 'settings.php';
+/*establish connection object*/
 $connectionInfo = array( "UID"=>$uid,  
                          "PWD"=>$pwd,  
                          "Database"=>$dbname,
@@ -29,16 +31,19 @@ if( $conn === false )
 
 $partSerialId = array();
 
+//prepare sql
 $getWorkSID = "select * from tblpartworklotcreate where PartID=". mssql_escape($partId) .";";
 //echo $getWorkSID;
 $res = sqlsrv_query($conn,$getWorkSID);
 $i = 0;
 
+//fetch result
 while($row = sqlsrv_fetch_array($res,SQLSRV_FETCH_ASSOC)){
   $partSerialId[$i] = $row["PartSerialID"];
   $i = $i + 1;
 }
 
+//send data in json format
 echo json_encode($partSerialId);
 
 sqlsrv_close( $conn );

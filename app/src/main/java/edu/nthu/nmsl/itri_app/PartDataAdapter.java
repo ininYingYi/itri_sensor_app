@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by NMSL-YingYi on 2016/10/4.
+ * Adapter is to create the each item in the list view.
  */
 
 public class PartDataAdapter extends BaseAdapter {

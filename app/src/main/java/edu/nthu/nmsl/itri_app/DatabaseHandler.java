@@ -43,7 +43,9 @@ public class DatabaseHandler {
     public static final int measImagePath = 8;
 
     private Handler ActivityUIHandler;
-
+    /*
+    *** connect with the PHP and get the data from server.
+     */
     public DatabaseHandler (Handler mHandler){
         this.ActivityUIHandler = mHandler;
     }

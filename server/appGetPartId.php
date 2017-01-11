@@ -1,5 +1,6 @@
 <?php
 
+/*Prevent sql injection*/
 function mssql_escape($data) {
     if(is_numeric($data))
         return $data;
@@ -9,6 +10,7 @@ function mssql_escape($data) {
 
 //load DB settings
 include 'settings.php';
+/*establish connection object*/
 $connectionInfo = array( "UID"=>$uid,  
                          "PWD"=>$pwd,  
                          "Database"=>$dbname,
@@ -25,7 +27,7 @@ if( $conn === false )
 
 $AllPartID = array();
 $AllPartName = array();
-
+//prepare sql
 $getAllPartID = "SELECT PartID,PartName FROM tblpartdatadefine";
 
 
