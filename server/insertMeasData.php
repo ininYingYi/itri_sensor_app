@@ -27,6 +27,8 @@ if( $conn === false )
      die( print_r( sqlsrv_errors(), true));  
 }
 
+/*Get timestamp manually*/
+date_default_timezone_set('Asia/Taipei');
 $now = date("Y-m-d H:i:s");
 $sql;
 
@@ -34,8 +36,11 @@ $check_sql = "SELECT PartSerialID, MeasID FROM tblPartQCData WHERE PartSerialID=
 $res = sqlsrv_query($conn,$check_sql);
 //echo $check_sql;
 //var_dump($res);
-if($res == false){
+$check_existed_array = sqlsrv_fetch_array($res,SQLSRV_FETCH_ASSOC);
+
+if(count($check_existed_array) == 0){
 	$sql = "INSERT INTO tblpartqcdata (PartSerialID, MeasID, Value, Status, Grade, CreateDate) VALUES ($partSerialId, $measId, $value, NULL, NULL, '$now')";
+    //echo $sql;
 }else {
 	$sql = "UPDATE tblpartqcdata SET Value=$value,CreateDate='$now' WHERE PartSerialID=$partSerialId AND MeasID=$measId";
 }
