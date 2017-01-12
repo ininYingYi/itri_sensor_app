@@ -56,6 +56,8 @@ public class FragmentActivity extends AppCompatActivity {
     private boolean mBound;
     private static final int menu_device_group_id = 2;
     private Intent gattServiceIntent;
+    private final String CurrentFragementTAG_KEY = "currentFragementTAG";
+    public static String currentFragementTAG = "";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,18 +71,29 @@ public class FragmentActivity extends AppCompatActivity {
 
 
         if(savedInstanceState != null){
-            //do nothing
-            Log.e(TAG,"savedInstanceState");
+            //do something
+            Log.e(TAG,"Restore " + savedInstanceState.getString(CurrentFragementTAG_KEY));
+            this.currentFragementTAG = savedInstanceState.getString(this.CurrentFragementTAG_KEY);
+
+            Fragment fragment = fragmentManager.findFragmentByTag(currentFragementTAG);
+
+
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.show(fragment);
+            transaction.commit();
+
         }else {
             Log.e(TAG,"click 0");
             radioGroup.check(radioGroup.getChildAt(0).getId());
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton1));
+            currentFragementTAG = String.valueOf(R.id.radioButton1);
             if (fragment == null) {
                 Log.i(TAG, "fragment is null, create one ");
                 fragment = FragmentFactory.getInstanceByIndex(R.id.radioButton1);
             }
+
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.content, fragment,String.valueOf(R.id.radioButton1));
+            transaction.add(R.id.content, fragment, String.valueOf(R.id.radioButton1));
             transaction.commit();
         }
 
@@ -251,29 +264,49 @@ public class FragmentActivity extends AppCompatActivity {
                 checkedId = R.id.button;
             }*/
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(checkedId));
+            Fragment current = fragmentManager.findFragmentByTag(currentFragementTAG);
+
             if (fragment == null) {
-                Log.i(TAG, "fragment is null, create one ");
+                Log.i(TAG, "fragment is null, create one " + checkedId);
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);
             }
 
-
-            Log.e(TAG,"getCheckedRadioButtonId:"+radioGroup.getCheckedRadioButtonId());
+            Log.e(TAG,"getCheckedRadioButtonId:" + radioGroup.getCheckedRadioButtonId());
             Log.e(TAG, "CheckId = " + checkedId);
 
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.content, fragment,String.valueOf(checkedId));
+
             if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
+
                 Fragment fragment2 = fragmentManager.findFragmentByTag(String.valueOf(R.id.button));
                 if (fragment2 == null) {
                     Log.i(TAG, "fragment is null, create one ");
                     fragment2 = FragmentFactory.getInstanceByIndex(R.id.button);
                 }
-                transaction.add(R.id.content, fragment2, String.valueOf(R.id.button));
+                switchFragment(current,fragment2,String.valueOf(R.id.button));
+            } else {
+
+                switchFragment(current,fragment,String.valueOf(checkedId));
             }
-            transaction.commit();
+
 
         }
     };
+
+    public void switchFragment(Fragment current, Fragment next, String myFragmentTAG){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Log.d(TAG,"Current" + current.getTag());
+        if(next.isAdded()){
+            // switch
+            Log.d(TAG,"is added, show " + next.getTag());
+            transaction.hide(current).show(next).commit();
+
+        }else {
+            // create new fragment
+            Log.d(TAG,"add new, show " + next.getTag());
+            transaction.hide(current).add(R.id.content, next, myFragmentTAG).commit();
+        }
+        currentFragementTAG = next.getTag();
+    }
 
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
@@ -284,8 +317,17 @@ public class FragmentActivity extends AppCompatActivity {
         return intentFilter;
     }
 
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.e(TAG,"Restore " + savedInstanceState.getString(CurrentFragementTAG_KEY));
+        this.currentFragementTAG = savedInstanceState.getString(CurrentFragementTAG_KEY);
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putString(CurrentFragementTAG_KEY,this.currentFragementTAG);
     }
 }

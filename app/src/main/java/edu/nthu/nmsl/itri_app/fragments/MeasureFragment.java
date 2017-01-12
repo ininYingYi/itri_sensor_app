@@ -197,12 +197,15 @@ public class MeasureFragment extends Fragment {
     }
 
 
+
+
     Button.OnClickListener clickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
             // jump to measure2 fragment
             if ( v.equals(confirm)) {
                 if(partID != null && partSerialID !=null && workID != null) {
+
                     FragmentManager fragmentManager = getActivity().getFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     Bundle data = new Bundle();
@@ -212,8 +215,11 @@ public class MeasureFragment extends Fragment {
                     data.putStringArrayList("workIDs", mWorkIds);
                     Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
                     fragment.setArguments(data);
-                    transaction.add(R.id.content, fragment, String.valueOf(R.id.button));
+                    transaction.hide(MeasureFragment.this).add(R.id.content, fragment, String.valueOf(R.id.button));
+                    FragmentActivity.currentFragementTAG = String.valueOf(R.id.button);
                     transaction.commit();
+
+
                 }else{
                     Toast.makeText(getActivity(),"尚有未選擇選項!",Toast.LENGTH_SHORT).show();
                 }
@@ -224,6 +230,8 @@ public class MeasureFragment extends Fragment {
     public void onPause() {
         super.onPause();
     }
+
+
 
     // save the value prevent the value is missing after rotation
     @Override

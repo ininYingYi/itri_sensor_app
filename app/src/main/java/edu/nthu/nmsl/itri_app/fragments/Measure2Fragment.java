@@ -30,6 +30,7 @@ import java.util.TimerTask;
 
 import edu.nthu.nmsl.itri_app.Background;
 import edu.nthu.nmsl.itri_app.DatabaseHandler;
+import edu.nthu.nmsl.itri_app.FragmentActivity;
 import edu.nthu.nmsl.itri_app.FragmentFactory;
 import edu.nthu.nmsl.itri_app.MeasData;
 import edu.nthu.nmsl.itri_app.R;
@@ -168,14 +169,17 @@ public class Measure2Fragment extends Fragment {
                 case DatabaseHandler.sendData:
                     String result = msg.obj.toString();
                     Log.d(TAG, result);
-                    if (result.equals("Successfully")) {
+                    if (result.contains("Successfully")) {
                         Toast.makeText(getActivity(), "成功上傳", Toast.LENGTH_SHORT).show();
                         if (measIndex < measNumber - 1){
                             measIndex += 1;
                             updateUI();
                         }
-                    }else
-                        Toast.makeText(getActivity(), "伺服器錯誤", Toast.LENGTH_SHORT).show();
+                    }else if(result.contains("Failed")){
+                        Toast.makeText(getActivity(), "資料庫錯誤", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "伺服器連線錯誤", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 default:
                     Log.d(TAG,"Error");
@@ -301,8 +305,9 @@ public class Measure2Fragment extends Fragment {
                 measIndex = 0;
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.remove(Measure2Fragment.this);
-                transaction.commit();
+                FragmentActivity.currentFragementTAG = String.valueOf(R.id.radioButton2);
+                transaction.remove(Measure2Fragment.this).show(fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton2))).commit();
+
             }
         }
     };
