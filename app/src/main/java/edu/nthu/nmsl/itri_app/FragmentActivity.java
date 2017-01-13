@@ -261,14 +261,16 @@ public class FragmentActivity extends AppCompatActivity {
             Log.e(TAG, "CheckId = " + checkedId);
 
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.content, fragment,String.valueOf(checkedId));
+
             if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
                 Fragment fragment2 = fragmentManager.findFragmentByTag(String.valueOf(R.id.button));
                 if (fragment2 == null) {
                     Log.i(TAG, "fragment is null, create one ");
                     fragment2 = FragmentFactory.getInstanceByIndex(R.id.button);
                 }
-                transaction.add(R.id.content, fragment2, String.valueOf(R.id.button));
+                transaction.replace(R.id.content, fragment2, String.valueOf(R.id.button));
+            }else {
+                transaction.replace(R.id.content, fragment,String.valueOf(checkedId));
             }
             transaction.commit();
 

@@ -168,14 +168,17 @@ public class Measure2Fragment extends Fragment {
                 case DatabaseHandler.sendData:
                     String result = msg.obj.toString();
                     Log.d(TAG, result);
-                    if (result.equals("Successfully")) {
+                    if (result.contains("Successfully")) {
                         Toast.makeText(getActivity(), "成功上傳", Toast.LENGTH_SHORT).show();
                         if (measIndex < measNumber - 1){
                             measIndex += 1;
                             updateUI();
                         }
-                    }else
+                    }else if (result.contains("failed")){
                         Toast.makeText(getActivity(), "伺服器錯誤", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "未知錯誤", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 default:
                     Log.d(TAG,"Error");
