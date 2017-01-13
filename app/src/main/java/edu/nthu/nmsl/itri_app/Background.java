@@ -10,6 +10,8 @@ import java.util.TimerTask;
 
 import edu.nthu.nmsl.itri_app.settings.Devices;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by InIn on 2016/9/19.
  */
@@ -52,6 +54,7 @@ public class Background {
     // keep update the sensor value
     public void recieveData(String data) {
         if (data != null) {
+            Log.d(TAG, data);
             final String[] tmp = data.split(",");
             try {
                 this.readingValue = Double.parseDouble(tmp[1]);
@@ -59,10 +62,16 @@ public class Background {
                 this.angle2 = Integer.parseInt(tmp[5]);
                 this.angle3 = Integer.parseInt(tmp[6]);
                 this.battery_voltage = Double.parseDouble(tmp[7].substring(0, 2));
-                this.unit = Integer.parseInt(tmp[2]);
-                unit_label = unitLabel[unit];
+                //this.unit = Integer.parseInt(tmp[2]);
+                if (tmp[2].contains("0")) {
+                    unit_label = unitLabel[0];
+                    this.unit = 0;
+                }
+                else {
+                    unit_label = unitLabel[1];
+                    this.unit = 1;
+                }
                 //Log.d(TAG,"Unit:"+tmp[2]);
-                unit_label = unitLabel[unit];
                 keepRecieve = true;
                 ms = 0;
             } catch (Exception e){
