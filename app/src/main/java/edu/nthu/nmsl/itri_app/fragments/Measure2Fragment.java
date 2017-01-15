@@ -11,15 +11,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,8 +31,6 @@ import edu.nthu.nmsl.itri_app.FragmentActivity;
 import edu.nthu.nmsl.itri_app.FragmentFactory;
 import edu.nthu.nmsl.itri_app.MeasData;
 import edu.nthu.nmsl.itri_app.R;
-
-import static edu.nthu.nmsl.itri_app.R.id.button;
 
 /**
  * Created by YingYi on 2016/9/22.
@@ -89,7 +84,6 @@ public class Measure2Fragment extends Fragment {
 
         //connect to the server
         dbHandler = new DatabaseHandler(UIHandler);
-
 
         //start a timer to get sensor's data
         timer = new Timer();
@@ -301,12 +295,20 @@ public class Measure2Fragment extends Fragment {
                     Log.e(TAG, "NO data");
             }
             else if (v.equals(reset)) {
+                Log.e(TAG, "reset clicked!");
                 FragmentFactory.inMeasure2 = false;
                 measIndex = 0;
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 FragmentActivity.currentFragementIndex = R.id.radioButton2;
-                transaction.remove(Measure2Fragment.this).show(fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton2))).commit();
+                Fragment meas1 = fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton2));
+                if(meas1 == null){
+                    meas1 = FragmentFactory.getInstanceByIndex(R.id.radioButton2);
+                    transaction.replace(R.id.content,meas1,String.valueOf(R.id.radioButton2)).commit();
+                }else{
+                    transaction.remove(Measure2Fragment.this).show(meas1).commit();
+                }
+
 
             }
         }

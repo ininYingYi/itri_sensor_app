@@ -87,7 +87,7 @@ public class MeasureFragment extends Fragment {
                     //Log.d(TAG,"Receive:"+msg.obj.toString());
                     mPartDatas = (ArrayList<PartData>)msg.obj;
                     if(mPartDatas.size() <= 0){
-                        Toast.makeText(getActivity(),"此任務無此工件",Toast.LENGTH_SHORT).show();
+                        if(!MeasureFragment.this.isHidden())Toast.makeText(getActivity(),"此任務無此工件",Toast.LENGTH_SHORT).show();
                         break;
                     }
                     PartDataAdapter adapter = new PartDataAdapter(getActivity(), mPartDatas);
@@ -97,7 +97,7 @@ public class MeasureFragment extends Fragment {
                 case DatabaseHandler.statePartSerialId:
                     mPartSerialIds = (ArrayList<String>)msg.obj;
                     if(mPartSerialIds.size() <= 0){
-                        Toast.makeText(getActivity(),"此任務無待測工單號",Toast.LENGTH_SHORT).show();
+                        if(!MeasureFragment.this.isHidden())Toast.makeText(getActivity(),"此任務無待測工單號",Toast.LENGTH_SHORT).show();
                         break;
                     }
                     ArrayAdapter<String> partSerialAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mPartSerialIds);
@@ -108,7 +108,7 @@ public class MeasureFragment extends Fragment {
                     Log.d(TAG,"Receive:"+msg.obj.toString());
                     mWorkIds = (ArrayList<String>)msg.obj;
                     if(mWorkIds.size() <= 0){
-                        Toast.makeText(getActivity(),"此任務無待測程序號",Toast.LENGTH_SHORT).show();
+                        if(!MeasureFragment.this.isHidden())Toast.makeText(getActivity(),"此任務無待測程序號",Toast.LENGTH_SHORT).show();
                         break;
                     }
                     ArrayAdapter<String> workAdapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mWorkIds);
@@ -123,7 +123,7 @@ public class MeasureFragment extends Fragment {
                         String imagePath = msg.obj.toString();
                         dbHandler.imageTask(imagePath);
                     }else {
-                        Toast.makeText(getActivity(),"無法取得圖片",Toast.LENGTH_SHORT).show();
+                        if(!MeasureFragment.this.isHidden())Toast.makeText(getActivity(),"無法取得圖片",Toast.LENGTH_SHORT).show();
                         imageView.setImageResource(R.drawable.noimage);
                     }
                     break;
@@ -132,7 +132,7 @@ public class MeasureFragment extends Fragment {
                         imageView.setImageBitmap((Bitmap) msg.obj);
                         imageView.invalidate();
                     }else {
-                        Toast.makeText(getActivity(),"無法取得圖片",Toast.LENGTH_SHORT).show();
+                        if(!MeasureFragment.this.isHidden())Toast.makeText(getActivity(),"無法取得圖片",Toast.LENGTH_SHORT).show();
                         imageView.setImageResource(R.drawable.noimage);
                     }
                     break;
@@ -152,8 +152,7 @@ public class MeasureFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("MeasureFragment", "onResume isHidden? " + String.valueOf(MeasureFragment.this.isHidden()));
-        Log.d("MeasureFragment", "onResume isHidden? " + String.valueOf(MeasureFragment.this.isVisible()));
+        Log.d("MeasureFragment", "onResume");
         adapterListener = new AdapterListener();
     }
 

@@ -222,6 +222,16 @@ public class SettingFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            //update info
+            connected_device_name.setText(Background.getInstance().getSensorName());
+            dbHandler.isServerAlive();
+        }
+    }
+
     public Handler UIHandler = new Handler(Looper.getMainLooper()){
         @Override
         public void handleMessage(Message msg) {

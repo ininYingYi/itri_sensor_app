@@ -53,13 +53,12 @@ public class FragmentActivity extends AppCompatActivity {
             //do something
             Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
             this.currentFragementIndex = savedInstanceState.getInt(this.CurrentFragementTAG_KEY);
-            //// TODO: 1/15/2017  
-            //need to restore the previous fragment
+            //// TODO: 1/15/2017
             for(int tag:fragmentsTAGs){
                 if(currentFragementIndex != tag){
                     Fragment f = fragmentManager.findFragmentByTag(String.valueOf(tag));
                     if(f != null){
-                        fragmentManager.beginTransaction().hide(f).commit();
+                        fragmentManager.beginTransaction().remove(f).commit();
                     }
                 }
             }
@@ -103,6 +102,8 @@ public class FragmentActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mGattUpdateReceiver);
+        //remove unused fragments
+
     }
 
     @Override
@@ -244,8 +245,6 @@ public class FragmentActivity extends AppCompatActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             //change fragment when the radio group checked item changed
-
-
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(checkedId));
             Fragment current = fragmentManager.findFragmentByTag(String.valueOf(currentFragementIndex));
 
@@ -254,9 +253,8 @@ public class FragmentActivity extends AppCompatActivity {
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);
             }
 
-            Log.e(TAG,"getCheckedRadioButtonId:" + radioGroup.getCheckedRadioButtonId());
+            //etCheckedRadioButtonId:" + radioGroup.getCheckedRadioButtonId());
             Log.e(TAG, "CheckId = " + checkedId);
-
 
             if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
 
