@@ -192,6 +192,7 @@ public class FragmentActivity extends AppCompatActivity {
     };
 
     private boolean mConnected = false;
+    private String sensor_name;
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -200,15 +201,23 @@ public class FragmentActivity extends AppCompatActivity {
                 //Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
                 mConnected = true;
                 //updateConnectionState(R.string.connected);
-                Toast.makeText(context, "裝置連線成功", Toast.LENGTH_SHORT).show();
                 Background.getInstance().setConnectionState(true);
+                sensor_name = Background.getInstance().getSensorName();
+                Toast.makeText(context, sensor_name+"已連線", Toast.LENGTH_SHORT).show();
+
+
                 invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 //Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
                 mConnected = false;
                 //updateConnectionState(R.string.disconnected);
                 invalidateOptionsMenu();
-                Toast.makeText(context, "裝置離線",Toast.LENGTH_SHORT).show();
+                if (sensor_name == null){
+                    Toast.makeText(context, "無連線中裝置，請手動連接",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context, sensor_name+"已斷開連線",Toast.LENGTH_LONG).show();
+                    sensor_name = null;
+                }
                 Background.getInstance().setConnectionState(false);
                 //clearUI();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {

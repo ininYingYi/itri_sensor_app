@@ -61,7 +61,7 @@ public class DatabaseHandler {
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d(TAG,"URL error");
+            //Log.d(TAG,"URL error");
         }
     }
 
@@ -75,7 +75,7 @@ public class DatabaseHandler {
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d(TAG,"URL error");
+            //Log.d(TAG,"URL error");
         }
     }
 
@@ -89,7 +89,7 @@ public class DatabaseHandler {
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d(TAG,"URL error");
+            //Log.d(TAG,"URL error");
         }
     }
 
@@ -104,7 +104,7 @@ public class DatabaseHandler {
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d(TAG,"URL error");
+            //Log.d(TAG,"URL error");
         }
     }
 
@@ -112,7 +112,7 @@ public class DatabaseHandler {
         String mURL = Settings.serverURL
                 + "appGetMeasData.php?partId=" + selectedPartId + "&workId="
                 + selectedWorkId + "&partSerialId=" + selectedPartSerial;
-        Log.d(TAG,mURL);
+        //Log.d(TAG,mURL);
         URL url;
         try {
             url = new URL(mURL);
@@ -121,7 +121,7 @@ public class DatabaseHandler {
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d(TAG,"URL error");
+            //Log.d(TAG,"URL error");
         }
     }
 
@@ -129,7 +129,7 @@ public class DatabaseHandler {
         String mURL = Settings.serverURL
                 + "appGetMeasImage.php?partId=" + selectedPartId + "&workId="
                 + selectedWorkId;
-        Log.d(TAG,mURL);
+        //Log.d(TAG,mURL);
         URL url;
         try {
             url = new URL(mURL);
@@ -138,7 +138,7 @@ public class DatabaseHandler {
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d(TAG,"URL error");
+            //Log.d(TAG,"URL error");
         }
     }
 
@@ -154,7 +154,7 @@ public class DatabaseHandler {
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d(TAG,"URL error");
+            //Log.d(TAG,"URL error");
         }
     }
 
@@ -168,7 +168,7 @@ public class DatabaseHandler {
             getThread.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d(TAG,"URL error");
+            //Log.d(TAG,"URL error");
         }
     }
 
@@ -202,7 +202,7 @@ public class DatabaseHandler {
 
             } catch (Exception e) {
                 // Handle your exceptions
-                Log.d(TAG,"Server unreachable.");
+                //Log.d(TAG,"Server unreachable.");
                 this.alive = false;
             }
             message = ResponseHandler.obtainMessage(this.state,this.alive);
@@ -239,7 +239,7 @@ public class DatabaseHandler {
                     Bitmap image = null;
                     Message message = ResponseHandler.obtainMessage(this.state,image);
                     message.sendToTarget();
-                    Log.d(TAG, " Http connection error with code:" + urlConnection.getResponseCode());
+                    //Log.d(TAG, " Http connection error with code:" + urlConnection.getResponseCode());
                 }
                 urlConnection.disconnect();
 
@@ -285,7 +285,7 @@ public class DatabaseHandler {
                     message.sendToTarget();
 
                 } else {
-                    Log.d(TAG, " Http connection error with code:" + urlConnection.getResponseCode());
+                    //Log.d(TAG, " Http connection error with code:" + urlConnection.getResponseCode());
                 }
                 urlConnection.disconnect();
 
@@ -319,7 +319,7 @@ public class DatabaseHandler {
                     message.sendToTarget();
 
 
-                    Log.d(TAG,"Receive:"+mPartIdArray.toString());
+                    //Log.d(TAG,"Receive:"+mPartIdArray.toString());
                     break;
                 case statePartSerialId:
 
@@ -337,7 +337,7 @@ public class DatabaseHandler {
                     message = ActivityUIHandler.obtainMessage(msg.what,mPartSerialIdArray);
                     message.sendToTarget();
 
-                    Log.d(TAG,"Receive:"+mPartSerialIdArray.toString());
+                    //Log.d(TAG,"Receive:"+mPartSerialIdArray.toString());
                     break;
                 case stateWorkId:
 
@@ -356,7 +356,7 @@ public class DatabaseHandler {
                     message = ActivityUIHandler.obtainMessage(msg.what,mWorkIdArray);
                     message.sendToTarget();
 
-                    Log.d(TAG,"mWorkIdArray Receive:"+mWorkIdArray.toString());
+                    //Log.d(TAG,"mWorkIdArray Receive:"+mWorkIdArray.toString());
                     break;
                 case stateMeasId:
 
@@ -376,7 +376,7 @@ public class DatabaseHandler {
 
                     message = ActivityUIHandler.obtainMessage(msg.what,mMeasIdArray);
                     message.sendToTarget();
-                    Log.d(TAG,"mMeasIdArray Receive:"+mMeasIdArray.toString());
+                    //Log.d(TAG,"mMeasIdArray Receive:"+mMeasIdArray.toString());
                     break;
                 case measImagePath:
 
@@ -385,7 +385,7 @@ public class DatabaseHandler {
 
                     message = ActivityUIHandler.obtainMessage(msg.what,imagePath);
                     message.sendToTarget();
-                    Log.d(TAG,"measImagePath Receive:"+imagePath);
+                    //Log.d(TAG,"measImagePath Receive:"+imagePath);
                     break;
                 case stateGetAllMeasData:
                     ArrayList<MeasData> mMeasDataArray = new ArrayList<MeasData>();
@@ -405,7 +405,7 @@ public class DatabaseHandler {
                     message = ActivityUIHandler.obtainMessage(msg.what,mMeasDataArray);
                     message.sendToTarget();
 
-                    Log.d(TAG,"Receive:"+mMeasDataArray.toString());
+                    //Log.d(TAG,"Receive:"+mMeasDataArray.toString());
                     break;
                 case sendData:
                     message = ActivityUIHandler.obtainMessage(msg.what,msg.obj);
@@ -418,10 +418,10 @@ public class DatabaseHandler {
                 case check_alive:
                     message = ActivityUIHandler.obtainMessage(msg.what,msg.obj);
                     message.sendToTarget();
-                    Log.d(TAG,"Check alive.");
+                    //Log.d(TAG,"Check alive.");
                     break;
                 default:
-                    Log.d(TAG,"Http Error");
+                    //Log.d(TAG,"Http Error");
                     break;
             }
         }

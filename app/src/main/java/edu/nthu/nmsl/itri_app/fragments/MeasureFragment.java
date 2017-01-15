@@ -206,6 +206,7 @@ public class MeasureFragment extends Fragment {
                     workID = (String) parent.getItemAtPosition(position);
                     //request image url
                     //cps/Content/Picture/HD-25-033/020-0.png
+                    if(!MeasureFragment.this.isHidden())Toast.makeText(getActivity(),"下載圖片...",Toast.LENGTH_SHORT).show();
                     if(partID != null && workID != null)dbHandler.requestMeasImagePath(partID,workID);
                 }
 
