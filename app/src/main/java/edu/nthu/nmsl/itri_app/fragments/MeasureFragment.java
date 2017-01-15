@@ -216,7 +216,7 @@ public class MeasureFragment extends Fragment {
                     Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
                     fragment.setArguments(data);
                     transaction.hide(MeasureFragment.this).add(R.id.content, fragment, String.valueOf(R.id.button));
-                    FragmentActivity.currentFragementTAG = String.valueOf(R.id.button);
+                    FragmentActivity.currentFragementTAG = R.id.button;
                     transaction.commit();
 
 

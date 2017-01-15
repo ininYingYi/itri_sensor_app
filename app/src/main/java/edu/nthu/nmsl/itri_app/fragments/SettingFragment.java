@@ -109,9 +109,9 @@ public class SettingFragment extends Fragment {
         scan_new_BLE_device.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mScanning){
-                    scanLeDevice(true);
-                }
+            if(!mScanning){
+                scanLeDevice(true);
+            }
 
             }
         });

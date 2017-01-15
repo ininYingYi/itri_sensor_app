@@ -11,39 +11,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-
-import android.view.Menu;
-import android.view.MenuItem;
-
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
-
-import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
 import edu.nthu.nmsl.itri_app.settings.Devices;
-
-import static android.content.Context.BIND_AUTO_CREATE;
 
 /**
  * Created by InIn on 2016/9/19.
@@ -57,7 +35,7 @@ public class FragmentActivity extends AppCompatActivity {
     private static final int menu_device_group_id = 2;
     private Intent gattServiceIntent;
     private final String CurrentFragementTAG_KEY = "currentFragementTAG";
-    public static String currentFragementTAG = "";
+    public static int currentFragementTAG;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,25 +46,22 @@ public class FragmentActivity extends AppCompatActivity {
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         fragmentManager = getFragmentManager();
 
-
-
         if(savedInstanceState != null){
             //do something
-            Log.e(TAG,"Restore " + savedInstanceState.getString(CurrentFragementTAG_KEY));
-            this.currentFragementTAG = savedInstanceState.getString(this.CurrentFragementTAG_KEY);
-
-            Fragment fragment = fragmentManager.findFragmentByTag(currentFragementTAG);
-
-
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.show(fragment);
-            transaction.commit();
+            Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
+            this.currentFragementTAG = savedInstanceState.getInt(this.CurrentFragementTAG_KEY);
+            if(currentFragementTAG == R.id.button){
+                radioGroup.check(radioGroup.getChildAt(1).getId());
+            }else {
+                radioGroup.check(currentFragementTAG);
+            }
 
         }else {
             Log.e(TAG,"click 0");
             radioGroup.check(radioGroup.getChildAt(0).getId());
+
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton1));
-            currentFragementTAG = String.valueOf(R.id.radioButton1);
+            currentFragementTAG = R.id.radioButton1;
             if (fragment == null) {
                 Log.i(TAG, "fragment is null, create one ");
                 fragment = FragmentFactory.getInstanceByIndex(R.id.radioButton1);
@@ -260,11 +235,9 @@ public class FragmentActivity extends AppCompatActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             //change fragment when the radio group checked item changed
 
-            /*if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
-                checkedId = R.id.button;
-            }*/
+
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(checkedId));
-            Fragment current = fragmentManager.findFragmentByTag(currentFragementTAG);
+            Fragment current = fragmentManager.findFragmentByTag(String.valueOf(currentFragementTAG));
 
             if (fragment == null) {
                 Log.i(TAG, "fragment is null, create one " + checkedId);
@@ -282,17 +255,16 @@ public class FragmentActivity extends AppCompatActivity {
                     Log.i(TAG, "fragment is null, create one ");
                     fragment2 = FragmentFactory.getInstanceByIndex(R.id.button);
                 }
-                switchFragment(current,fragment2,String.valueOf(R.id.button));
+                switchFragment(current,fragment2,R.id.button);
             } else {
-
-                switchFragment(current,fragment,String.valueOf(checkedId));
+                switchFragment(current,fragment,checkedId);
             }
 
 
         }
     };
 
-    public void switchFragment(Fragment current, Fragment next, String myFragmentTAG){
+    public void switchFragment(Fragment current, Fragment next, int myFragmentTAG){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         Log.d(TAG,"Current" + current.getTag());
         if(next.isAdded()){
@@ -303,9 +275,9 @@ public class FragmentActivity extends AppCompatActivity {
         }else {
             // create new fragment
             Log.d(TAG,"add new, show " + next.getTag());
-            transaction.hide(current).add(R.id.content, next, myFragmentTAG).commit();
+            transaction.hide(current).add(R.id.content, next, String.valueOf(myFragmentTAG)).commit();
         }
-        currentFragementTAG = next.getTag();
+        currentFragementTAG = myFragmentTAG;
     }
 
     private static IntentFilter makeGattUpdateIntentFilter() {
@@ -321,13 +293,13 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.e(TAG,"Restore " + savedInstanceState.getString(CurrentFragementTAG_KEY));
-        this.currentFragementTAG = savedInstanceState.getString(CurrentFragementTAG_KEY);
+        Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
+        this.currentFragementTAG = savedInstanceState.getInt(CurrentFragementTAG_KEY);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(CurrentFragementTAG_KEY,this.currentFragementTAG);
+        outState.putInt(CurrentFragementTAG_KEY,this.currentFragementTAG);
     }
 }
