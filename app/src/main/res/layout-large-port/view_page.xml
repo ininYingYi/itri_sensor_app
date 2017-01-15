@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/measure_select_help"
-                android:textSize="18dp"
+                android:textSize="24dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_gravity="center"
                 android:paddingBottom="5dp"/>

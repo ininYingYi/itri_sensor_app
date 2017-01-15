@@ -59,7 +59,14 @@ public class Background {
                 this.angle2 = Integer.parseInt(tmp[5]);
                 this.angle3 = Integer.parseInt(tmp[6]);
                 this.battery_voltage = Double.parseDouble(tmp[7].substring(0, 2));
-                this.unit = Integer.parseInt(tmp[2]);
+                if(tmp[2].contains("0")){
+                    this.unit = 0;
+                }else if(tmp[2].contains("1")){
+                    this.unit = 1;
+                }else{
+                    this.unit = 0;
+                }
+
                 unit_label = unitLabel[unit];
                 //Log.d(TAG,"Unit:"+tmp[2]);
                 unit_label = unitLabel[unit];
@@ -77,6 +84,15 @@ public class Background {
     public String getSensorValue() {
         if (keepRecieve) {
             return String.valueOf(readingValue);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String getSensorUnit() {
+        if (keepRecieve) {
+            return unit_label;
         }
         else {
             return null;

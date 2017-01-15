@@ -51,7 +51,7 @@ public class FragmentActivity extends AppCompatActivity {
 
         if(savedInstanceState != null){
             //do something
-            Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
+            //Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
             this.currentFragementIndex = savedInstanceState.getInt(this.CurrentFragementTAG_KEY);
             //// TODO: 1/15/2017
             for(int tag:fragmentsTAGs){
@@ -64,23 +64,23 @@ public class FragmentActivity extends AppCompatActivity {
             }
 
         }else {
-            Log.e(TAG,"click 0");
+            //Log.e(TAG,"click 0");
             radioGroup.check(radioGroup.getChildAt(0).getId());
 
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton1));
             currentFragementIndex = R.id.radioButton1;
             if (fragment == null) {
-                Log.i(TAG, "fragment is null, create one ");
+                //Log.i(TAG, "fragment is null, create one ");
                 fragment = FragmentFactory.getInstanceByIndex(R.id.radioButton1);
             }
 
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(R.id.content, fragment, String.valueOf(R.id.radioButton1));
             transaction.commit();
-            Log.i(TAG, "finish onCreate");
+            //Log.i(TAG, "finish onCreate");
         }
 
-        Log.d(TAG,"getCheckedRadioButtonId:"+radioGroup.getCheckedRadioButtonId());
+        //Log.d(TAG,"getCheckedRadioButtonId:"+radioGroup.getCheckedRadioButtonId());
 
         //BLE service
         gattServiceIntent = new Intent(this, BluetoothLeService.class);
@@ -93,7 +93,7 @@ public class FragmentActivity extends AppCompatActivity {
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         if (mBluetoothLeService != null) {
             final boolean result = mBluetoothLeService.connect(Devices.getInstance().getDeviceAddress(Background.getInstance().getUsingSensorID()));
-            Log.d(TAG, "Connect request result=" + result);
+            //Log.d(TAG, "Connect request result=" + result);
         }
         radioGroup.setOnCheckedChangeListener(radioGroupListener);
     }
@@ -154,7 +154,7 @@ public class FragmentActivity extends AppCompatActivity {
             default:
                 //check if device
                 if(item.getGroupId() == menu_device_group_id){
-                    Log.d(TAG,"device id " + item.getItemId() + " selected.");
+                    //Log.d(TAG,"device id " + item.getItemId() + " selected.");
                     Background.getInstance().selectSensor(item.getItemId());
                     mBluetoothLeService.disconnect();
                     mConnected = false;
@@ -173,10 +173,10 @@ public class FragmentActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBound = true;
-            Log.e(TAG, "onServiceConnected");
+            //Log.e(TAG, "onServiceConnected");
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             if (!mBluetoothLeService.initialize()) {
-                Log.e(TAG, "Unable to initialize Bluetooth");
+                //Log.e(TAG, "Unable to initialize Bluetooth");
                 finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
@@ -185,7 +185,7 @@ public class FragmentActivity extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            Log.e(TAG, "onServiceDisconnected");
+            //Log.e(TAG, "onServiceDisconnected");
             mBluetoothLeService = null;
             mBound = false;
         }
@@ -197,14 +197,14 @@ public class FragmentActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
+                //Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
                 mConnected = true;
                 //updateConnectionState(R.string.connected);
                 Toast.makeText(context, "裝置連線成功", Toast.LENGTH_SHORT).show();
                 Background.getInstance().setConnectionState(true);
                 invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
+                //Log.d("BluetoothLeService","ACTION_GATT_CONNECTED");
                 mConnected = false;
                 //updateConnectionState(R.string.disconnected);
                 invalidateOptionsMenu();
@@ -212,11 +212,11 @@ public class FragmentActivity extends AppCompatActivity {
                 Background.getInstance().setConnectionState(false);
                 //clearUI();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                Log.d("BluetoothLeService","ACTION_GATT_SERVICES_DISCOVERED");
+                //Log.d("BluetoothLeService","ACTION_GATT_SERVICES_DISCOVERED");
                 // Show all the supported services and characteristics on the user interface.
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-                Log.d("BluetoothLeService","ACTION_DATA_AVAILABLE");
+                //Log.d("BluetoothLeService","ACTION_DATA_AVAILABLE");
                 Background.getInstance().recieveData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
             }
         }
@@ -249,18 +249,18 @@ public class FragmentActivity extends AppCompatActivity {
             Fragment current = fragmentManager.findFragmentByTag(String.valueOf(currentFragementIndex));
 
             if (fragment == null) {
-                Log.i(TAG, "fragment is null, create one " + checkedId);
+                //Log.i(TAG, "fragment is null, create one " + checkedId);
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);
             }
 
             //etCheckedRadioButtonId:" + radioGroup.getCheckedRadioButtonId());
-            Log.e(TAG, "CheckId = " + checkedId);
+            //Log.e(TAG, "CheckId = " + checkedId);
 
             if (FragmentFactory.inMeasure2 == true && checkedId == R.id.radioButton2) {
 
                 Fragment fragment2 = fragmentManager.findFragmentByTag(String.valueOf(R.id.button));
                 if (fragment2 == null) {
-                    Log.i(TAG, "fragment is null, create one ");
+                    //Log.i(TAG, "fragment is null, create one ");
                     fragment2 = FragmentFactory.getInstanceByIndex(R.id.button);
                 }
                 switchFragment(current,fragment2,R.id.button);
@@ -274,15 +274,15 @@ public class FragmentActivity extends AppCompatActivity {
 
     public void switchFragment(Fragment current, Fragment next, int myFragmentTAG){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Log.d(TAG,"Current" + current.getTag());
+        //Log.d(TAG,"Current" + current.getTag());
         if(next.isAdded()){
             // switch
-            Log.d(TAG,"is added, show " + next.getTag());
+            //Log.d(TAG,"is added, show " + next.getTag());
             transaction.hide(current).show(next).commit();
 
         }else {
             // create new fragment
-            Log.d(TAG,"add new, show " + next.getTag());
+            //Log.d(TAG,"add new, show " + next.getTag());
             transaction.hide(current).add(R.id.content, next, String.valueOf(myFragmentTAG)).commit();
         }
         currentFragementIndex = myFragmentTAG;
@@ -301,7 +301,7 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
+        //Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
         this.currentFragementIndex = savedInstanceState.getInt(CurrentFragementTAG_KEY);
     }
 

@@ -131,6 +131,16 @@ public class ViewFragment extends Fragment {
     };
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            if(partID!=null && partSerialID != null && workID != null){
+                dbHandler.requestMeasData(partID, partSerialID, workID);
+            }
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         Log.d("MeasureFragment", "onResume");

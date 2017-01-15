@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +36,6 @@ import edu.nthu.nmsl.itri_app.R;
 
 public class Measure2Fragment extends Fragment {
     private static final String TAG = "Measure2Fragment";
-    private TextSwitcher textSwitcher;
     private String partID, partSerialID, workID;
     private ArrayList<String> workIDs;
     private DatabaseHandler dbHandler;
@@ -52,6 +49,7 @@ public class Measure2Fragment extends Fragment {
 
     private int measIndex = 0, measNumber = 0;
 
+    private String sensorValue, sensorName, unit;
 
     private Timer timer = new Timer();
     private Resources res;
@@ -95,12 +93,13 @@ public class Measure2Fragment extends Fragment {
                     {
                         sensorValue = Background.getInstance().getSensorValue();
                         sensorName = Background.getInstance().getSensorName();
-                        deviceName.setText(sensorName);
+                        unit = Background.getInstance().getSensorUnit();
+                        if(!deviceName.getText().equals(sensorName))deviceName.setText(sensorName);
                         if (sensorValue != null) {
-                            valueText.setText(sensorValue);
+                            valueText.setText(sensorValue + " " + unit);
                         }
                         else {
-                            valueText.setText("NO DATA");
+                            valueText.setText("等待設備...");
                         }
                     }
                 });
@@ -110,6 +109,8 @@ public class Measure2Fragment extends Fragment {
 
         return view;
     }
+
+
 
     @Override
     public void onStart() {
@@ -215,7 +216,7 @@ public class Measure2Fragment extends Fragment {
         }
     }
     private Handler mHandler = new Handler();
-    private String sensorValue, sensorName;
+
     private TimerTask updateValue = new TimerTask() {
         @Override
         public void run() {

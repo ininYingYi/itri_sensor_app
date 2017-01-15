@@ -80,6 +80,7 @@
                 android:background="@color/bg" />
 
         </LinearLayout>
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
@@ -87,14 +88,14 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_weight="6"
+            android:layout_weight="6.5"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_gravity="center"
                 android:text="@string/meas_data_title"/>
@@ -137,7 +138,7 @@
                         android:layout_width="match_parent"
                         android:textColor="@color/colorPrimaryDark"
                         android:background="@drawable/border_bottom"
-                        android:textSize="18dp"
+                        android:textSize="24dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView3"
                         android:textAlignment="center" />
@@ -145,28 +146,33 @@
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_gravity="bottom"
+                    android:weightSum="1"
                     android:layout_height="wrap_content">
 
                     <Button
                         android:text="重新選擇"
+                        android:layout_weight="0.6"
+                        android:layout_margin="5dp"
+                        android:textSize="16dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_success"
+                        android:background="@drawable/btn_warning"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:id="@+id/reset"
-                        android:layout_width="100dp" />
+                        android:layout_width="match_parent" />
 
                     <Button
+                        android:layout_weight="0.4"
                         android:text="上傳資料"
+                        android:textSize="16dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/btn_success"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:id="@+id/upload"
-                        android:layout_width="100dp" />
+                        android:layout_width="match_parent" />
 
                 </LinearLayout>
             </LinearLayout>

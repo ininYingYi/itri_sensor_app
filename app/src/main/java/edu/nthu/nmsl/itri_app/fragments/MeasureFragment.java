@@ -72,7 +72,7 @@ public class MeasureFragment extends Fragment {
         confirm = (Button) view.findViewById(R.id.button);
         confirm.setOnClickListener(clickListener);
         dbHandler = new DatabaseHandler(UIHandler);
-
+        adapterListener = new AdapterListener();
 
         return view;
     }
@@ -153,7 +153,7 @@ public class MeasureFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("MeasureFragment", "onResume");
-        adapterListener = new AdapterListener();
+
     }
 
     @Override
@@ -284,6 +284,13 @@ public class MeasureFragment extends Fragment {
                 this.selectedPartDate = savedInstanceState.getInt(this.saveSelectedPart, 0);
                 partID = this.mPartDatas.get(this.selectedPartDate).getPartId();
                 if (this.selectedPartDate != 0) selectPartSpinner.setSelection(this.selectedPartDate);
+            }else{
+                Log.d(TAG,"requestPartId");
+                dbHandler.requestPartId();
+                firstSetPart = false;
+                firstSetPartSerial = false;
+                firstSetWork = false;
+                return;
             }
 
 
@@ -309,19 +316,20 @@ public class MeasureFragment extends Fragment {
                 workID = this.mWorkIds.get(selectedWorkId);
                 this.selectedWorkId = savedInstanceState.getInt(this.saveSelevtedWorkId, 0);
                 if (this.selectedWorkId != 0) selectWorkSpinner.setSelection(this.selectedWorkId);
-                Handler mHandler = new Handler();
-                mHandler.postDelayed(new Runnable() {
-                    public void run()
-                    {
-                        firstSetPart = false;
-                        firstSetPartSerial = false;
-                        firstSetWork = false;
-                    }
-                }, 1000);
+
 
             }
 
-            if(partID != null && workID != null)dbHandler.imageTask(partID+"/"+workID+"-0.png");
+            if(partID != null && workID != null)dbHandler.requestMeasImagePath(partID,workID);
+            Handler mHandler = new Handler();
+            mHandler.postDelayed(new Runnable() {
+                public void run()
+                {
+                    firstSetPart = false;
+                    firstSetPartSerial = false;
+                    firstSetWork = false;
+                }
+            }, 1000);
         }else {
             Log.d(TAG,"requestPartId");
             dbHandler.requestPartId();

@@ -50,7 +50,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="3.5"
             android:layout_height="match_parent">
             <TextView
                 android:layout_width="wrap_content"
@@ -155,7 +155,7 @@
 
                     <Button
                         android:text="重新選擇"
-                        android:layout_weight="0.2"
+                        android:layout_weight="0.6"
                         android:layout_margin="10dp"
                         android:textSize="24dp"
                         android:layout_height="wrap_content"
@@ -163,19 +163,19 @@
                         android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:id="@+id/reset"
-                        android:layout_width="100dp" />
+                        android:layout_width="match_parent" />
 
                     <Button
                         android:text="上傳資料"
                         android:layout_margin="10dp"
-                        android:layout_weight="0.8"
+                        android:layout_weight="0.4"
                         android:textSize="24dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/btn_success"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:id="@+id/upload"
-                        android:layout_width="100dp" />
+                        android:layout_width="match_parent" />
 
                 </LinearLayout>
             </LinearLayout>

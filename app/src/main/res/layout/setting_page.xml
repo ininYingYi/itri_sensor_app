@@ -2,19 +2,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
     android:orientation="vertical" >
 
     <ScrollView
-        android:padding="20dp"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="match_parent">
-    
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -95,7 +94,6 @@
 
                 <Button
                     android:paddingLeft="12dp"
-                    android:layout_marginBottom="5dp"
                     android:textSize="18dp"
                     android:textColor="@android:color/tertiary_text_light"
                     android:background="@color/white"
@@ -103,11 +101,11 @@
                     android:textAlignment="textStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/setting_set_db" />
+                    android:id="@+id/setting_set_db"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
 
                 <Button
                     android:paddingLeft="12dp"
-                    android:layout_marginBottom="5dp"
                     android:textSize="18dp"
                     android:textColor="@android:color/tertiary_text_light"
                     android:background="@color/white"
@@ -115,11 +113,11 @@
                     android:textAlignment="textStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/setting_set_db_default" />
+                    android:id="@+id/setting_set_db_default"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
 
                 <Button
                     android:paddingLeft="12dp"
-                    android:layout_marginBottom="5dp"
                     android:textSize="18dp"
                     android:textColor="@android:color/tertiary_text_light"
                     android:background="@color/white"
@@ -127,32 +125,38 @@
                     android:textAlignment="textStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/setting_set_sensor_default" />
+                    android:id="@+id/setting_set_sensor_default"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:weightSum="10"
-                    android:layout_marginBottom="5dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:weightSum="10">
 
-
-                    <Button
-                        android:layout_weight="1.5"
-                        android:paddingLeft="12dp"
-                        android:textSize="18dp"
-                        android:textColor="@android:color/tertiary_text_light"
-                        android:text="@string/scan_btn"
-                        android:background="@color/white"
-                        android:textAlignment="textStart"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/setting_scan_new_ble" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="2">
+                        <Button
+                            android:paddingLeft="12dp"
+                            android:textSize="18dp"
+                            android:textColor="@android:color/tertiary_text_light"
+                            android:text="@string/scan_btn"
+                            android:background="@color/white"
+                            android:textAlignment="textStart"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/setting_scan_new_ble"
+                            style="@style/Widget.AppCompat.Button.Borderless" />
+                    </LinearLayout>
+
+
                     <LinearLayout
                         android:orientation="vertical"
                         android:id="@+id/progressBarView"
                         android:layout_width="match_parent"
-                        android:layout_weight="0.85"
+                        android:layout_weight="8"
                         android:layout_height="match_parent"></LinearLayout>
 
                 </LinearLayout>
@@ -166,7 +170,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp">
+                >
 
                 <View
                     android:layout_width="fill_parent"
