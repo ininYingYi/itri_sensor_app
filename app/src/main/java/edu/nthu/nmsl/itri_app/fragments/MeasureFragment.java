@@ -72,7 +72,7 @@ public class MeasureFragment extends Fragment {
         confirm = (Button) view.findViewById(R.id.button);
         confirm.setOnClickListener(clickListener);
         dbHandler = new DatabaseHandler(UIHandler);
-        adapterListener = new AdapterListener();
+
 
         return view;
     }
@@ -144,14 +144,37 @@ public class MeasureFragment extends Fragment {
     };
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        Log.d("MeasureFragment", "onResume");
+        Log.d("MeasureFragment", "onResume isHidden? " + String.valueOf(MeasureFragment.this.isHidden()));
+        Log.d("MeasureFragment", "onResume isHidden? " + String.valueOf(MeasureFragment.this.isVisible()));
+        adapterListener = new AdapterListener();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("MeasureFragment", "onDestroyView");
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("MeasureFragment", "onDestroy");
+    }
+
     private String partID, partSerialID, workID;
     private boolean firstSetPart = true;
     private boolean firstSetPartSerial = true;
     private boolean firstSetWork = true;
+
     public class AdapterListener implements AdapterView.OnItemSelectedListener {
 
         @Override
@@ -216,7 +239,7 @@ public class MeasureFragment extends Fragment {
                     Fragment fragment = FragmentFactory.getInstanceByIndex(R.id.button);
                     fragment.setArguments(data);
                     transaction.hide(MeasureFragment.this).add(R.id.content, fragment, String.valueOf(R.id.button));
-                    FragmentActivity.currentFragementTAG = R.id.button;
+                    FragmentActivity.currentFragementIndex = R.id.button;
                     transaction.commit();
 
 
@@ -229,6 +252,7 @@ public class MeasureFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause");
     }
 
 

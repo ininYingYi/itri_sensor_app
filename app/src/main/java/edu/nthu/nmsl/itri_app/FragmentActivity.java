@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.List;
 import edu.nthu.nmsl.itri_app.settings.Devices;
 
@@ -35,25 +37,31 @@ public class FragmentActivity extends AppCompatActivity {
     private static final int menu_device_group_id = 2;
     private Intent gattServiceIntent;
     private final String CurrentFragementTAG_KEY = "currentFragementTAG";
-    public static int currentFragementTAG;
+    public static int currentFragementIndex;
+    private int[] fragmentsTAGs = {R.id.radioButton1, R.id.radioButton2, R.id.button, R.id.radioButton3, R.id.radioButton4};
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Hide the window title.
-
         setContentView(R.layout.activity_fragment);
 
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         fragmentManager = getFragmentManager();
 
+
         if(savedInstanceState != null){
             //do something
             Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
-            this.currentFragementTAG = savedInstanceState.getInt(this.CurrentFragementTAG_KEY);
-            if(currentFragementTAG == R.id.button){
-                radioGroup.check(radioGroup.getChildAt(1).getId());
-            }else {
-                radioGroup.check(currentFragementTAG);
+            this.currentFragementIndex = savedInstanceState.getInt(this.CurrentFragementTAG_KEY);
+            //// TODO: 1/15/2017  
+            //need to restore the previous fragment
+            for(int tag:fragmentsTAGs){
+                if(currentFragementIndex != tag){
+                    Fragment f = fragmentManager.findFragmentByTag(String.valueOf(tag));
+                    if(f != null){
+                        fragmentManager.beginTransaction().hide(f).commit();
+                    }
+                }
             }
 
         }else {
@@ -61,7 +69,7 @@ public class FragmentActivity extends AppCompatActivity {
             radioGroup.check(radioGroup.getChildAt(0).getId());
 
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton1));
-            currentFragementTAG = R.id.radioButton1;
+            currentFragementIndex = R.id.radioButton1;
             if (fragment == null) {
                 Log.i(TAG, "fragment is null, create one ");
                 fragment = FragmentFactory.getInstanceByIndex(R.id.radioButton1);
@@ -70,11 +78,12 @@ public class FragmentActivity extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(R.id.content, fragment, String.valueOf(R.id.radioButton1));
             transaction.commit();
+            Log.i(TAG, "finish onCreate");
         }
-
 
         Log.d(TAG,"getCheckedRadioButtonId:"+radioGroup.getCheckedRadioButtonId());
 
+        //BLE service
         gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }
@@ -103,6 +112,7 @@ public class FragmentActivity extends AppCompatActivity {
             unbindService(mServiceConnection);
             mBound = false;
         }
+
     }
 
 
@@ -237,7 +247,7 @@ public class FragmentActivity extends AppCompatActivity {
 
 
             Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(checkedId));
-            Fragment current = fragmentManager.findFragmentByTag(String.valueOf(currentFragementTAG));
+            Fragment current = fragmentManager.findFragmentByTag(String.valueOf(currentFragementIndex));
 
             if (fragment == null) {
                 Log.i(TAG, "fragment is null, create one " + checkedId);
@@ -277,7 +287,7 @@ public class FragmentActivity extends AppCompatActivity {
             Log.d(TAG,"add new, show " + next.getTag());
             transaction.hide(current).add(R.id.content, next, String.valueOf(myFragmentTAG)).commit();
         }
-        currentFragementTAG = myFragmentTAG;
+        currentFragementIndex = myFragmentTAG;
     }
 
     private static IntentFilter makeGattUpdateIntentFilter() {
@@ -294,12 +304,12 @@ public class FragmentActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Log.e(TAG,"Restore " + savedInstanceState.getInt(CurrentFragementTAG_KEY));
-        this.currentFragementTAG = savedInstanceState.getInt(CurrentFragementTAG_KEY);
+        this.currentFragementIndex = savedInstanceState.getInt(CurrentFragementTAG_KEY);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(CurrentFragementTAG_KEY,this.currentFragementTAG);
+        outState.putInt(CurrentFragementTAG_KEY,this.currentFragementIndex);
     }
 }

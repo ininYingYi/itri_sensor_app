@@ -305,7 +305,7 @@ public class Measure2Fragment extends Fragment {
                 measIndex = 0;
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                FragmentActivity.currentFragementTAG = R.id.radioButton2;
+                FragmentActivity.currentFragementIndex = R.id.radioButton2;
                 transaction.remove(Measure2Fragment.this).show(fragmentManager.findFragmentByTag(String.valueOf(R.id.radioButton2))).commit();
 
             }

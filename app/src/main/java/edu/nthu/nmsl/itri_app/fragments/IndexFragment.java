@@ -15,7 +15,7 @@ import edu.nthu.nmsl.itri_app.R;
 public class IndexFragment extends Fragment {
     public static String TAG = "IndexFragment";
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG,"onCreate");
+        Log.e(TAG,"onCreate");
         View view = inflater.inflate(R.layout.index_page, null);
         return view;
     }
